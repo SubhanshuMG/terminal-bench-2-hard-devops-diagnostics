@@ -1,0 +1,10 @@
+{
+  "analysis": "The auth-service on port 8081 is not responding. Let me check if the mock services are actually running by checking all the ports.",
+  "plan": "I'll check if the mock services are running by looking for the process and testing all the service ports. If they're not running, I'll need to start them.",
+  "commands": [
+    {
+      "keystrokes": "ps aux | grep mock\n",
+      "duration": 0.1
+    }
+  ]
+}

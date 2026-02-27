@@ -1,0 +1,15 @@
+New Terminal Output:
+
+root@2c18ab8ab423:/app# grep -A 10 "def compute_startup_order" /app/validator.py
+ndef compute_startup_order(services: list) -> list:
+    """
+    Return a topologically sorted startup order using Kahn's algorithm.
+    Dependencies must start before the services that depend on them.
+    """
+    names = [s["name"] for s in services]
+    deps_map = {s["name"]: s.get("dependencies", []) for s in services}
+
+    graph     = {n: [] for n in names}
+    in_degree = {n: 0 for n in names}
+
+root@2c18ab8ab423:/app#

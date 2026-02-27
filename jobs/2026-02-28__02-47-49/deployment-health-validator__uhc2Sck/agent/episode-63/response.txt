@@ -1,0 +1,6 @@
+{
+  "analysis": "I have successfully fixed all the bugs in the deployment health validator. The validator now correctly: 1) Reads the authoritative service definitions from config['deployment']['services'] instead of the legacy monitoring section, 2) Uses correct readiness score weights (high=3, medium=2, low=1), 3) Only checks high-criticality services for the critical_services_healthy flag, 4) Implements correct topological sorting for startup order. The output shows all services healthy with a readiness score of 1.0, overall status 'healthy', and the correct startup order: auth-service -> cache-service -> api-gateway -> worker-service -> notification-service. The deployment_report.json file contains all required fields in the correct format.",
+  "plan": "The task is complete. All bugs have been fixed and the validator is producing the correct deployment report.",
+  "commands": [],
+  "task_complete": true
+}

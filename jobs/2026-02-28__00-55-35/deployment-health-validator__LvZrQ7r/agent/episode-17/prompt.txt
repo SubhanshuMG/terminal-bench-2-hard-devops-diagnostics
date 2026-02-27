@@ -1,0 +1,11 @@
+New Terminal Output:
+
+}root@b3729034f076:/app# echo "Manual calculation:"
+Manual calculation:
+root@b3729034f076:/app# echo "Healthy weights: 3+3+2+1 = 9"
+Healthy weights: 3+3+2+1 = 9
+root@b3729034f076:/app# echo "Total weights: 3+3+2+1+1 = 10"
+Total weights: 3+3+2+1+1 = 10
+root@b3729034f076:/app# echo "Score: 9/10 = 0.9 ✓"
+Score: 9/10 = 0.9 ✓
+root@b3729034f076:/app#

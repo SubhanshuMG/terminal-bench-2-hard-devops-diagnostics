@@ -1,0 +1,11 @@
+{
+  "analysis": "Perfect! The deployment report is correctly generated and matches the expected schema. The report shows:\n\n1. ✓ All required fields are present: deployment_name, overall_status, readiness_score, service_statuses, startup_order, critical_services_healthy, timestamp\n2. ✓ Overall status is 'degraded' because all high-criticality services are healthy but readiness_score (0.9) < 0.95\n3. ✓ Readiness score is correctly calculated as 0.9 (90%)\n4. ✓ Service statuses correctly show worker-service as unhealthy (HTTP 503)\n5. ✓ Critical_services_healthy is true because both high-criticality services (auth-service and api-gateway) are healthy\n6. ✓ The startup order is correctly topologically sorted\n\nThe validator is now working correctly! Let me run it one more time to confirm consistency.",
+  "plan": "I'll run the validator one more time to confirm it produces consistent results, then the task will be complete.",
+  "commands": [
+    {
+      "keystrokes": "python /app/validator.py\n",
+      "duration": 3.0
+    }
+  ],
+  "task_complete": false
+}

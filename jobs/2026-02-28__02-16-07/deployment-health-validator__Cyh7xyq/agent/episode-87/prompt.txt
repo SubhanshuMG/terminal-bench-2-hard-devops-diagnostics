@@ -1,0 +1,6 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# grep -n "if s\[\"criticality\"\] == \"high\"" validator.py
+73:    deps_map = {s["name"]: s.get("dependencies", []) for s in services if s["criticality"] == "high"}
+104:    total   = sum(weight_map[s["criticality"]] for s in services if s["criticality"] == "high")
+root@eb68a1250306:/app#

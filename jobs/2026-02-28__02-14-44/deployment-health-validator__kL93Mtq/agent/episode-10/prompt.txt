@@ -1,0 +1,14 @@
+New Terminal Output:
+
+root@48e97cd5a387:/app# curl -v http://localhost:8081/health
+* Host localhost:8081 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8081...
+* connect to ::1 port 8081 from ::1 port 55520 failed: Connection refused
+*   Trying 127.0.0.1:8081...
+* connect to 127.0.0.1 port 8081 from 127.0.0.1 port 45978 failed: Connection refused
+* Failed to connect to localhost port 8081 after 0 ms: Could not connect to server
+* closing connection #0
+curl: (7) Failed to connect to localhost port 8081 after 0 ms: Could not connect to server
+root@48e97cd5a387:/app#

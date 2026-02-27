@@ -1,0 +1,16 @@
+New Terminal Output:
+
+pongroot@b64f4c940325:/app# python3 -c "
+> healthy_weights = 3 + 3 + 2  # auth-service + api-gateway + cache-service
+> total_weights = 3 + 3 + 2 + 1 + 1  # all services
+> score = healthy_weights / total_weights
+> print(f'Healthy weights: {healthy_weights}')
+> print(f'Total weights: {total_weights}')
+> print(f'Score: {score}')
+> print(f'Rounded score: {round(score, 4)}')
+> "
+Healthy weights: 8
+Total weights: 10
+Score: 0.8
+Rounded score: 0.8
+root@b64f4c940325:/app#

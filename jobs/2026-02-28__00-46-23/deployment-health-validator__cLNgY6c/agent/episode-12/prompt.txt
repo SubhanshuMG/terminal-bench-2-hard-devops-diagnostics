@@ -1,0 +1,15 @@
+New Terminal Output:
+
+root@a5f76d8b05e3:/app# python3 validator.py
+Loading deployment manifest ...
+Traceback (most recent call last):
+  File "/app/validator.py", line 169, in <module>
+    main()
+  File "/app/validator.py", line 131, in main
+    services = load_services(manifest_path)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/validator.py", line 23, in load_services
+    return config["services"]
+           ~~~~~~^^^^^^^^^^^^
+KeyError: 'services'
+root@a5f76d8b05e3:/app#

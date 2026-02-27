@@ -1,0 +1,28 @@
+Ign:1 http://deb.debian.org/debian trixie InRelease
+Ign:2 http://deb.debian.org/debian trixie-updates InRelease
+Ign:3 http://deb.debian.org/debian-security trixie-security InRelease
+Ign:3 http://deb.debian.org/debian-security trixie-security InRelease
+Ign:2 http://deb.debian.org/debian trixie-updates InRelease
+Ign:1 http://deb.debian.org/debian trixie InRelease
+Ign:1 http://deb.debian.org/debian trixie InRelease
+Ign:2 http://deb.debian.org/debian trixie-updates InRelease
+Ign:3 http://deb.debian.org/debian-security trixie-security InRelease
+Err:3 http://deb.debian.org/debian-security trixie-security InRelease
+  Temporary failure resolving 'deb.debian.org'
+Err:2 http://deb.debian.org/debian trixie-updates InRelease
+  Temporary failure resolving 'deb.debian.org'
+Err:1 http://deb.debian.org/debian trixie InRelease
+  Temporary failure resolving 'deb.debian.org'
+Reading package lists...
+W: Failed to fetch http://deb.debian.org/debian/dists/trixie/InRelease  Temporary failure resolving 'deb.debian.org'
+W: Failed to fetch http://deb.debian.org/debian/dists/trixie-updates/InRelease  Temporary failure resolving 'deb.debian.org'
+W: Failed to fetch http://deb.debian.org/debian-security/dists/trixie-security/InRelease  Temporary failure resolving 'deb.debian.org'
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+curl is already the newest version (8.14.1-2+deb13u2).
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+curl: (6) Could not resolve host: astral.sh
+/tests/test.sh: line 11: /root/.local/bin/env: No such file or directory
+/tests/test.sh: line 15: uvx: command not found

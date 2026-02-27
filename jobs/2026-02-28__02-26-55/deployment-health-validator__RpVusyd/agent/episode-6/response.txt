@@ -1,0 +1,10 @@
+{
+  "analysis": "ps is not available, let me try a different approach to check if services are running. I'll test the health endpoints directly and see what's responding.",
+  "plan": "I'll test each service port to see which ones are responding, then check if the mock_services.py is actually running by looking at netstat or similar tools.",
+  "commands": [
+    {
+      "keystrokes": "netstat -tlnp 2>/dev/null | head -20\n",
+      "duration": 0.1
+    }
+  ]
+}

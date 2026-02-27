@@ -1,0 +1,97 @@
+Installing: tmux, asciinema
+Detected system: {'os': 'debian-based', 'package_manager': 'apt-get', 'update_command': None}
+Installing tools using apt-get: DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y tmux asciinema
+Starting recording.
+Sending keys: ['asciinema rec --stdin /logs/agent/recording.cast', 'Enter'] min_timeout_sec: 1.0 max_timeout_sec: 180.0
+Sending keys: ['clear', 'Enter'] min_timeout_sec: 0.0 max_timeout_sec: 180.0
+Sending keys: ['ls -la\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['cat deployment_manifest.yaml\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['curl http://localhost:8081/health\n'] min_timeout_sec: 1.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['python /app/mock_services.py &\n'] min_timeout_sec: 2.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['curl http://localhost:8081/health\n'] min_timeout_sec: 1.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['curl http://localhost:8083/ping\n'] min_timeout_sec: 1.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['cat validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['python /app/validator.py\n'] min_timeout_sec: 2.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['cp /app/validator.py /app/validator.py.backup\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['sed -i "/return config\\[\\"services\\"\\]/c\\    return config[\\"deployment\\"][\\"services\\"]" /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['grep -A 2 -B 2 "return config" /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['python /app/validator.py\n'] min_timeout_sec: 2.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['cat /app/deployment_report.json\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['sed -i \'s/weight_map = {"high": 1, "medium": 1, "low": 1}/weight_map = {"high": 3, "medium": 2, "low": 1}/\' /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['grep -A 15 "def compute_startup_order" /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['cat > /tmp/fix.py << \'EOF\'\n# Create a new version of the compute_startup_order function\ndef compute_startup_order(services: list) -> list:\n    """\n    Return a topologically sorted startup order using Kahn\'s algorithm.\n    Dependencies must start before the services that depend on them.\n    """\n    names = [s["name"] for s in services]\n    deps_map = {s["name"]: s.get("dependencies", []) for s in services}\n\n    graph     = {n: [] for n in names}\n    in_degree = {n: 0 for n in names}\n\n    for svc, deps in deps_map.items():\n        for dep in deps:\n            graph[dep].append(svc)  # dep -> svc (dependency points to service)\n            in_degree[svc] += 1     # service depends on dependency\n\n    queue = deque(n for n in names if in_degree[n] == 0)\n    order = []\n    while queue:\n        node = queue.popleft()\n        order.append(node)\n        for neighbor in graph[node]:\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n                queue.append(neighbor)\n    return order\nEOF\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['sed -i \'/def compute_startup_order/,/^    return order$/c\\ndef compute_startup_order(services: list) -> list:\\n    """\\n    Return a topologically sorted startup order using Kahn\'\\\'\'s algorithm.\\n    Dependencies must start before the services that depend on them.\\n    """\\n    names = [s["name"] for s in services]\\n    deps_map = {s["name"]: s.get("dependencies", []) for s in services}\\n\\n    graph     = {n: [] for n in names}\\n    in_degree = {n: 0 for n in names}\\n\\n    for svc, deps in deps_map.items():\\n        for dep in deps:\\n            graph[dep].append(svc)  # dep -> svc (dependency points to service)\\n            in_degree[svc] += 1     # service depends on dependency\\n\\n    queue = deque(n for n in names if in_degree[n] == 0)\\n    order = []\\n    while queue:\\n        node = queue.popleft()\\n        order.append(node)\\n        for neighbor in graph[node]:\\n            in_degree[neighbor] -= 1\\n            if in_degree[neighbor] == 0:\\n                queue.append(neighbor)\\n    return order\' /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['grep -A 10 "def compute_startup_order" /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ["sed -i 's/ndef compute_startup_order/def compute_startup_order/' /app/validator.py\n"] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['grep -A 5 "def compute_startup_order" /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['python /app/validator.py\n'] min_timeout_sec: 2.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['cat /app/deployment_report.json\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['grep -A 15 "def determine_status" /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ["sed -i 's/critical_ok = all(/critical_ok = all(/' /app/validator.py\n"] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['sed -i \'s/for s in services/for s in services if s["criticality"] == "high"/\' /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['grep -A 5 "critical_ok = all" /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['python /app/validator.py\n'] min_timeout_sec: 2.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['grep -A 20 "def compute_startup_order" /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['sed -i \'s/names = \\[s\\["name"\\] for s in services if s\\["criticality"\\] == "high"\\]/names = [s["name"] for s in services]/\' /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['sed -i \'s/deps_map = {s\\["name"\\]: s.get("dependencies", \\[\\]) for s in services if s\\["criticality"\\] == "high"}/deps_map = {s["name"]: s.get("dependencies", []) for s in services}/\' /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['grep -A 5 "def compute_startup_order" /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['python /app/validator.py\n'] min_timeout_sec: 2.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['cat /app/deployment_report.json\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['pkill -f mock_services\n'] min_timeout_sec: 1.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['ps aux | grep mock\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['python /app/validator.py\n'] min_timeout_sec: 2.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['grep -A 10 "def compute_readiness_score" /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['sed -i \'s/for s in services if s\\["criticality"\\] == "high"$/for s in services/\' /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['grep -A 12 "def compute_readiness_score" /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['sed -i \'s/total   = sum(weight_map\\[s\\["criticality"\\]\\] for s in services if s\\["criticality"\\] == "high")/total   = sum(weight_map[s["criticality"]] for s in services)/\' /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['grep -A 12 "def compute_readiness_score" /app/validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['python /app/validator.py\n'] min_timeout_sec: 2.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Sending keys: ['cat /app/deployment_report.json | python -m json.tool\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__02-46-02/deployment-health-validator__nPtNxQb/agent/trajectory.json

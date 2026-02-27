@@ -1,0 +1,27 @@
+New Terminal Output:
+
+root@9f873286d75f:/app# cat >> /tmp/fix1.py << 'EOF'
+>
+> # ── 2. Health check ────────────────────────────────────────────────────────────
+>
+> def check_health(service: dict) -> dict:
+>     """
+>     Probe a single service and return its health record.
+>     HTTP 200 -> healthy; anything else -> unhealthy.
+>     """
+>     url = f"http://127.0.0.1:{service['port']}{service['health_endpoint']}"
+>     try:
+>         resp = requests.get(url, timeout=5)
+>         return {
+>             "status": "healthy" if resp.status_code == 200 else "unhealthy",
+>             "http_status": resp.status_code,
+>             "criticality": service["criticality"],
+>         }
+>     except requests.exceptions.RequestException:
+>         return {
+>             "status": "unhealthy",
+>             "http_status": 0,
+>             "criticality": service["criticality"],
+>         }
+> EOF
+root@9f873286d75f:/app#

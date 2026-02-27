@@ -1,0 +1,8 @@
+New Terminal Output:
+
+root@348642d1420a:/app# curl -s http://localhost:8084/status | python3 -m json.tool
+{
+    "queue_depth": 1482,
+    "status": "degraded"
+}
+root@348642d1420a:/app#

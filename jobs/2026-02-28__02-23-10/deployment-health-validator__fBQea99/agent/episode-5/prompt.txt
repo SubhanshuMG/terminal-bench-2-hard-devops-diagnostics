@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@09c642a4f519:/app# ls -la mock_services.py
+-rw-r--r-- 1 root root 3183 Feb 27 20:15 mock_services.py
+root@09c642a4f519:/app#

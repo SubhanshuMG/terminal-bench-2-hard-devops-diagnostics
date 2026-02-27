@@ -1,0 +1,10 @@
+{
+  "analysis": "Excellent! The validator is now working correctly. I can see: 1) It's checking all 5 deployment services (not just the legacy one), 2) The worker-service is correctly identified as unhealthy (HTTP 200 but status='degraded'), 3) The startup order is correct with dependencies first, 4) The readiness score is 0.9 (which makes sense: 4 healthy services out of 5, with weights: high=3, medium=2, low=1), 5) Overall status is 'degraded' because all high-criticality services are healthy but score < 0.95. Let me check the generated report to confirm it matches the expected schema.",
+  "plan": "I'll examine the generated deployment_report.json to verify it matches the expected schema and contains all the required fields with correct values.",
+  "commands": [
+    {
+      "keystrokes": "cat /app/deployment_report.json\n",
+      "duration": 0.1
+    }
+  ]
+}

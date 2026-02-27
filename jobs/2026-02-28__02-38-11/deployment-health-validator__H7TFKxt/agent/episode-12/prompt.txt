@@ -1,0 +1,22 @@
+New Terminal Output:
+
+root@c7949bce9f95:/app# cat >> validator.py << 'EOF'
+>
+> def check_health(service: dict) -> dict:
+>     url = f"http://127.0.0.1:{service['port']}{service['health_endpoint']}"
+>     try:
+>         resp = requests.get(url, timeout=5)
+>         healthy = resp.status_code == 200
+>         return {
+>             "status": "healthy" if healthy else "unhealthy",
+>             "http_status": resp.status_code,
+>             "criticality": service["criticality"],
+>         }
+>     except requests.exceptions.RequestException:
+>         return {
+>             "status": "unhealthy",
+>             "http_status": 0,
+>             "criticality": service["criticality"],
+>         }
+> EOF
+root@c7949bce9f95:/app#

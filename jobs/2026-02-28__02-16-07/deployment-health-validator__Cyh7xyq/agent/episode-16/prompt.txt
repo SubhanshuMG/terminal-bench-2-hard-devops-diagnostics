@@ -1,0 +1,42 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# cat > /tmp/new_check_health.py << 'EOF'
+> def check_health(service: dict) -> dict:
+>     """Probe a single service and return its health record."""
+>     url = f"http://127.0.0.1:{service['port']}{service['health_endpoint']}"
+>     try:
+>         resp = requests.get(url, timeout=5)
+>
+>         # For non-200 responses, service is unhealthy
+>         if resp.status_code != 200:
+>             return {
+>                 "status": "unhealthy",
+>                 "http_status": resp.status_code,
+>                 "criticality": service["criticality"],
+>             }
+>
+>         # Try to parse as JSON
+>         try:
+>             data = resp.json()
+>             # For JSON responses, check if status indicates operational state
+>             # Common operational states: 'ok', 'healthy', 'up', 'running'
+>             operational_states = ['ok', 'healthy', 'up', 'running']
+>             json_status = data.get('status', '').lower()
+>             healthy = json_status in operational_states
+>         except (ValueError, json.JSONDecodeError):
+>             # For non-JSON responses, HTTP 200 is sufficient
+>             healthy = True
+>
+>         return {
+>             "status": "healthy" if healthy else "unhealthy",
+>             "http_status": resp.status_code,
+>             "criticality": service["criticality"],
+>         }
+>     except requests.exceptions.RequestException:
+>         return {
+>             "status": "unhealthy",
+>             "http_status": 0,
+>             "criticality": service["criticality"],
+>         }
+> EOF
+root@eb68a1250306:/app#

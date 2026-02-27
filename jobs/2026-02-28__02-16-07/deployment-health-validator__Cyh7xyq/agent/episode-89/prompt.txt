@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# sed -i '104s/if s\["criticality"\] == "high"//' validator.py
+root@eb68a1250306:/app#

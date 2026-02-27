@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@b3729034f076:/app# curl http://localhost:8081/health
+curl: (7) Failed to connect to localhost port 8081 after 0 ms: Could not connect to server
+root@b3729034f076:/app#

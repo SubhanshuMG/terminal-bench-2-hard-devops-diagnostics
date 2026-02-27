@@ -1,0 +1,10 @@
+{
+  "analysis": "Excellent! The validator is now working correctly. I can see that:\n\n1. All services are being checked with their correct health endpoints\n2. The worker-service correctly shows as unhealthy (HTTP 503) \n3. The readiness score is 0.9000 (90%) which makes sense:\n   - Total weights: auth(3) + api(3) + cache(2) + worker(1) + notification(1) = 10\n   - Healthy weights: auth(3) + api(3) + cache(2) + notification(1) = 9\n   - Score: 9/10 = 0.9\n4. The status is 'degraded' because all high-criticality services (auth-service and api-gateway) are healthy, but the score is < 0.95\n5. The startup order looks correct based on dependencies\n\nNow let me check the generated report to ensure it matches the expected schema.",
+  "plan": "I'll examine the generated deployment_report.json file to verify it matches the expected schema and contains all the required fields.",
+  "commands": [
+    {
+      "keystrokes": "cat /app/deployment_report.json\n",
+      "duration": 0.1
+    }
+  ]
+}

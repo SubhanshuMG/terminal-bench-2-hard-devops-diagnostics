@@ -1,0 +1,11 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# sed -n '30,50p' validator.py | grep -n "return\|def \|^[[:space:]]*$" | head -10
+1:def check_health(service: dict) -> dict:
+2:    """Probe a single service and return its health record."""
+7:        return {
+13:        return {
+18:
+19:
+21:
+root@eb68a1250306:/app#

@@ -1,0 +1,5 @@
+New Terminal Output:
+
+pongroot@cc33336dcd28:/app# curl -s http://localhost:8084/status
+{"queue_depth":1482,"status":"degraded"}
+root@cc33336dcd28:/app#

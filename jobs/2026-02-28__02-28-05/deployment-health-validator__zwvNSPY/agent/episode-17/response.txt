@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! The validator is now working correctly and generating the proper report. Let me verify the calculation manually to make sure the readiness score is correct:\n\nServices:\n- auth-service: healthy, high (weight 3)\n- api-gateway: healthy, high (weight 3) \n- cache-service: healthy, medium (weight 2)\n- worker-service: unhealthy, low (weight 1)\n- notification-service: healthy, low (weight 1)\n\nTotal weight: 3+3+2+1+1 = 10\nHealthy weight: 3+3+2+1 = 9\nScore: 9/10 = 0.9 ✓\n\nThe report is correctly formatted and contains all required fields.",
+  "plan": "Let me test one more scenario by checking what happens when a high-criticality service fails to ensure the critical detection works properly.",
+  "commands": [
+    {
+      "keystrokes": "curl http://localhost:8081/health\n",
+      "duration": 1.0
+    }
+  ]
+}

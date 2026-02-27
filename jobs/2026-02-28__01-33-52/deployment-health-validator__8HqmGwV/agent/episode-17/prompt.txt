@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@f07828e7747d:/app# sed -i 's/status_ok = body.get("status", "ok") in ("ok", "up")/status_ok = body.get("status", "ok") in ("ok", "up", "healthy")/' validat
+or.py
+root@f07828e7747d:/app#

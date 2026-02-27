@@ -1,0 +1,60 @@
+New Terminal Output:
+
+root@c08cc3f8e638:/app# cat > /app/validator.py << 'EOF'
+> #!/usr/bin/env python3
+> """
+> Deployment Health Validator
+> ===========================
+> Reads deployment_manifest.yaml, probes each service's health endpoint,
+> computes a weighted readiness score, determines a valid startup ordering,
+> and writes a deployment readiness report to /app/deployment_report.json.
+> """
+>
+> import json
+> import yaml
+> import requests
+> from datetime import datetime, timezone
+> from collections import deque
+>
+>
+> # ── 1. Load manifest ──────────────────────────────────────────────────────────
+>
+> def load_services(manifest_path: str) -> list:
+>     """Return the list of service definitions from the manifest."""
+>     with open(manifest_path) as f:
+>         config = yaml.safe_load(f)
+>     # Returns the deployment services list from the manifest.
+>     return config["deployment"]["services"]
+>
+>
+> # ── 2. Health check ───────────────────────────────────────────────────────────
+>
+> def check_health(service: dict) -> dict:
+>     """Probe a single service and return its health record."""
+>     url = f"http://127.0.0.1:{service['port']}{service['health_endpoint']}"
+>     try:
+>         resp = requests.get(url, timeout=5)
+>         healthy = False
+>         if resp.status_code == 200:
+>             # Check if it's JSON and has status field
+>             try:
+>                 json_data = resp.json()
+>                 # Check for accepted operational values
+>                 if 'status' in json_data and json_data['status'] in ['ok', 'up', 'healthy']:
+>                     healthy = True
+>             except ValueError:
+>                 # Not JSON, so just check HTTP status
+>                 healthy = True
+>         return {
+>             "status": "healthy" if healthy else "unhealthy",
+>             "http_status": resp.status_code,
+>             "criticality": service["criticality"],
+>         }
+>     except requests.exceptions.RequestException:
+>         return {
+>             "status": "unhealthy",
+>             "http_status": 0,
+>             "criticality": service["criticality"],
+>         }
+> EOF
+root@c08cc3f8e638:/app#

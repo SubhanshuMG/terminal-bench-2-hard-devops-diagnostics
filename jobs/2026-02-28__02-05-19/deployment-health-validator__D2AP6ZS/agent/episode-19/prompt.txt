@@ -1,0 +1,27 @@
+Current terminal state:
+New Terminal Output:
+
+root@66ec621d2703:/app# echo "✅ DEPLOYMENT HEALTH VALIDATOR FIXED SUCCESSFULLY!"
+✅ DEPLOYMENT HEALTH VALIDATOR FIXED SUCCESSFULLY!
+root@66ec621d2703:/app# echo ""
+
+root@66ec621d2703:/app# echo "Summary of fixes applied:"
+Summary of fixes applied:
+root@66ec621d2703:/app# echo "1. Fixed service loading to use deployment.services instead of legacy services"
+1. Fixed service loading to use deployment.services instead of legacy services
+root@66ec621d2703:/app# echo "2. Corrected weight mapping for readiness score calculation"
+2. Corrected weight mapping for readiness score calculation
+root@66ec621d2703:/app# echo "3. Added JSON response parsing to check status field values"
+3. Added JSON response parsing to check status field values
+root@66ec621d2703:/app# echo "4. Fixed startup order dependency graph construction"
+4. Fixed startup order dependency graph construction
+root@66ec621d2703:/app# echo ""
+
+root@66ec621d2703:/app# echo "Current status: degraded (0.9 readiness score)"
+Current status: degraded (0.9 readiness score)
+root@66ec621d2703:/app# echo "All high-criticality services healthy, but worker-service is unhealthy (status: degraded)"
+All high-criticality services healthy, but worker-service is unhealthy (status: degraded)
+root@66ec621d2703:/app#
+
+
+Are you sure you want to mark the task as complete? This will trigger your solution to be graded and you won't be able to make any further corrections. If so, include "task_complete": true in your JSON response again.

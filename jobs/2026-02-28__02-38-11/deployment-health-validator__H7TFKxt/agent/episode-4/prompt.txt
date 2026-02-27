@@ -1,0 +1,24 @@
+New Terminal Output:
+
+root@c7949bce9f95:/app# head -20 mock_services.py
+#!/usr/bin/env python3
+"""
+Mock service health endpoints for the deployment stack.
+
+Services:
+  auth-service        -> port 8081  /health  -> 200  {"status": "ok"}
+  api-gateway         -> port 8082  /health  -> 200  {"status": "healthy"}
+  cache-service       -> port 8083  /ping    -> 200  "pong"
+  worker-service      -> port 8084  /status  -> 200  {"status": "degraded"}  (overloaded)
+  notification-service-> port 8085  /health  -> 200  {"status": "ok"}
+"""
+
+import threading
+from flask import Flask, jsonify
+
+import logging
+log = logging.getLogger("werkzeug")
+log.setLevel(logging.ERROR)
+
+# ── auth-service ──────────────────────────────────────────────────────────────
+root@c7949bce9f95:/app#

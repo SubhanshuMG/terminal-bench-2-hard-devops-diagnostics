@@ -1,0 +1,13 @@
+New Terminal Output:
+
+}root@cc33336dcd28:/app# echo "Manual verification:"
+Manual verification:
+root@cc33336dcd28:/app# echo "Total weights: auth(3) + api(3) + cache(2) + worker(1) + notification(1) = 10"
+Total weights: auth(3) + api(3) + cache(2) + worker(1) + notification(1) = 10
+root@cc33336dcd28:/app# echo "Healthy weights: auth(3) + api(3) + cache(2) + notification(1) = 9"
+Healthy weights: auth(3) + api(3) + cache(2) + notification(1) = 9
+root@cc33336dcd28:/app# echo "Readiness score: 9/10 = 0.9"
+Readiness score: 9/10 = 0.9
+root@cc33336dcd28:/app# echo "Matches calculated score: ✓"
+Matches calculated score: ✓
+root@cc33336dcd28:/app#

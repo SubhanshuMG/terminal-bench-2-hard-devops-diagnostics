@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@c08cc3f8e638:/app# echo "Let's check the dependencies from the manifest:"
+Let's check the dependencies from the manifest:
+root@c08cc3f8e638:/app#

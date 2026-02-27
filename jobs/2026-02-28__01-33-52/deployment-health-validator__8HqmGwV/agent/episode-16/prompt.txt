@@ -1,0 +1,5 @@
+New Terminal Output:
+
+}root@f07828e7747d:/app# curl http://localhost:8082/health
+{"status":"healthy","uptime_seconds":3601}
+root@f07828e7747d:/app#

@@ -1,0 +1,52 @@
+New Terminal Output:
+
+root@cc33336dcd28:/app# cat >> /app/validator.py << 'EOF'
+>
+> # ── main ──────────────────────────────────────────────────────────────────────
+>
+> def main():
+>     manifest_path = "/app/deployment_manifest.yaml"
+>     output_path   = "/app/deployment_report.json"
+>
+>     print("Loading deployment manifest ...")
+>     services = load_services(manifest_path)
+>
+>     print("Checking service health ...")
+>     statuses = {}
+>     for svc in services:
+>         result = check_health(svc)
+>         statuses[svc["name"]] = result
+>         print(f"  {svc['name']:25s} {result['status']:10s} (HTTP {result['http_status']})")
+>
+>     print("Computing startup order ...")
+>     startup_order = compute_startup_order(services)
+>     print(f"  {' -> '.join(startup_order)}")
+>
+>     print("Computing readiness score ...")
+>     score = compute_readiness_score(services, statuses)
+>     print(f"  score = {score:.4f}")
+>
+>     overall_status, critical_ok = determine_status(services, statuses, score)
+>
+>     report = {
+>         "deployment_name":           "production-stack",
+>         "overall_status":            overall_status,
+>         "readiness_score":           score,
+>         "service_statuses":          statuses,
+>         "startup_order":             startup_order,
+>         "critical_services_healthy": critical_ok,
+>         "timestamp":                 datetime.now(timezone.utc).isoformat(),
+>     }
+>
+>     with open(output_path, "w") as f:
+>         json.dump(report, f, indent=2)
+>
+>     print(f"\nReport written to {output_path}")
+>     print(f"Overall status : {overall_status}")
+>     print(f"Readiness score: {score}")
+>
+>
+> if __name__ == "__main__":
+>     main()
+> EOF
+root@cc33336dcd28:/app#

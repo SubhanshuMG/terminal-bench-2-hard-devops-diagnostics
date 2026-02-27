@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@cc33336dcd28:/app# curl -s http://localhost:8083/ping
+pongroot@cc33336dcd28:/app#

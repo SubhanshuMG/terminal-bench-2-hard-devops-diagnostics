@@ -1,0 +1,10 @@
+{
+  "analysis": "Great! Now I need to add the compute_readiness_score function with the correct weight mapping (high=3, medium=2, low=1) and the determine_status function that only checks high-criticality services for the critical_ok calculation.",
+  "plan": "I'll add the compute_readiness_score function with correct weights, then the determine_status function with the proper logic for checking only high-criticality services, and finally the main function.",
+  "commands": [
+    {
+      "keystrokes": "cat >> validator.py << 'EOF'\n\ndef compute_readiness_score(services: list, statuses: dict) -> float:\n    weight_map = {\"high\": 3, \"medium\": 2, \"low\": 1}\n    total = sum(weight_map[s[\"criticality\"]] for s in services)\n    healthy = sum(\n        weight_map[s[\"criticality\"]]\n        for s in services\n        if statuses[s[\"name\"]][\"status\"] == \"healthy\"\n    )\n    return round(healthy / total, 4) if total else 0.0\n\ndef determine_status(services: list, statuses: dict, score: float):\n    high_criticality_services = [s for s in services if s[\"criticality\"] == \"high\"]\n    critical_ok = all(\n        statuses[s[\"name\"]][\"status\"] == \"healthy\"\n        for s in high_criticality_services\n    )\n    if not critical_ok:\n        return \"critical\", critical_ok\n    if score >= 0.95:\n        return \"healthy\", critical_ok\n    if score >= 0.70:\n        return \"degraded\", critical_ok\n    return \"not_ready\", critical_ok\nEOF\n",
+      "duration": 0.1
+    }
+  ]
+}

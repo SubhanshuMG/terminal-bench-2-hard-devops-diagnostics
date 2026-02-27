@@ -1,0 +1,132 @@
+Traceback (most recent call last):
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/llms/custom_httpx/llm_http_handler.py", line 175, in _make_common_async_call
+    response = await async_httpx_client.post(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_utils.py", line 297, in async_wrapper
+    result = await func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/llms/custom_httpx/http_handler.py", line 511, in post
+    raise e
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/llms/custom_httpx/http_handler.py", line 467, in post
+    response.raise_for_status()
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '429 Too Many Requests' for url 'https://api.groq.com/openai/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/main.py", line 613, in acompletion
+    response = await init_response
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/llms/custom_httpx/llm_http_handler.py", line 307, in async_completion
+    response = await self._make_common_async_call(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/llms/custom_httpx/llm_http_handler.py", line 200, in _make_common_async_call
+    raise self._handle_error(e=e, provider_config=provider_config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/llms/custom_httpx/llm_http_handler.py", line 4645, in _handle_error
+    raise provider_config.get_error_class(
+litellm.llms.openai.common_utils.OpenAIError: {"error":{"message":"Rate limit reached for model `moonshotai/kimi-k2-instruct-0905` in organization `org_01kjg6je54ee6r9k3b3pepswss` service tier `on_demand` on tokens per minute (TPM): Limit 10000, Used 3043, Requested 8826. Please try again in 11.214s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/trial/trial.py", line 483, in run
+    await self._execute_agent()
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/trial/trial.py", line 259, in _execute_agent
+    await asyncio.wait_for(
+  File "/Users/subhanshumohangupta/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py", line 1504, in run
+    await self._run_agent_loop(
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py", line 1216, in _run_agent_loop
+    ) = await self._handle_llm_interaction(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py", line 1091, in _handle_llm_interaction
+    llm_response = await self._query_llm(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 193, in async_wrapped
+    return await copy(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 112, in __call__
+    do = await self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 157, in iter
+    result = await action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/_utils.py", line 111, in inner
+    return call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 116, in __call__
+    result = await fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py", line 1081, in _query_llm
+    raise e
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py", line 914, in _query_llm
+    llm_response = await chat.chat(
+                   ^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/llms/chat.py", line 78, in chat
+    llm_response: LLMResponse = await self._model.call(
+                                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 193, in async_wrapped
+    return await copy(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 112, in __call__
+    do = await self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 157, in iter
+    result = await action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/_utils.py", line 111, in inner
+    return call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 116, in __call__
+    result = await fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/llms/lite_llm.py", line 396, in call
+    self._handle_litellm_error(e)
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/llms/lite_llm.py", line 594, in _handle_litellm_error
+    raise e
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/llms/lite_llm.py", line 360, in call
+    response = await litellm.acompletion(**completion_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/utils.py", line 2041, in wrapper_async
+    raise e
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/utils.py", line 1862, in wrapper_async
+    result = await original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/main.py", line 632, in acompletion
+    raise exception_type(
+          ^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2398, in exception_type
+    raise e
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 389, in exception_type
+    raise RateLimitError(
+litellm.exceptions.RateLimitError: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `moonshotai/kimi-k2-instruct-0905` in organization `org_01kjg6je54ee6r9k3b3pepswss` service tier `on_demand` on tokens per minute (TPM): Limit 10000, Used 3043, Requested 8826. Please try again in 11.214s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+

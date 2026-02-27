@@ -1,0 +1,22 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# python validator.py
+Loading deployment manifest ...
+Checking service health ...
+  auth-service              healthy    (HTTP 200)
+  api-gateway               healthy    (HTTP 200)
+  cache-service             healthy    (HTTP 200)
+  worker-service            unhealthy  (HTTP 200)
+  notification-service      healthy    (HTTP 200)
+Computing startup order ...
+  api-gateway -> worker-service -> notification-service -> auth-service -> cache-service
+Computing readiness score ...
+  score = 1.5000
+Traceback (most recent call last):
+  File "/app/validator.py", line 183, in <module>
+    main()
+  File "/app/validator.py", line 175, in main
+    json.dump(report, f, indent=2)
+    ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+root@eb68a1250306:/app#

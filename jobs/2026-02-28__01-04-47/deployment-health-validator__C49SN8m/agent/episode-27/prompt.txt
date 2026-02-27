@@ -1,0 +1,10 @@
+New Terminal Output:
+
+root@517c6a54f599:/app# grep -A 5 "critical_ok = all(" validator.py
+    critical_ok = all(
+        statuses[s["name"]]["status"] == "healthy"
+        for s in services
+    )
+
+    if not critical_ok:
+root@517c6a54f599:/app#

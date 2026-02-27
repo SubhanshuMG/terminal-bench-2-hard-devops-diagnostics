@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@c08cc3f8e638:/app# curl -s http://localhost:8081/health || echo "Service 8081 not responding"
+Service 8081 not responding
+root@c08cc3f8e638:/app#

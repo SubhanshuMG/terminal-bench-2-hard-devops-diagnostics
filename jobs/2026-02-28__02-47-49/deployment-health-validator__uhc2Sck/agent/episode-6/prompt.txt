@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@d796365c4a34:/app# pgrep python
+bash: pgrep: command not found
+root@d796365c4a34:/app#

@@ -1,0 +1,15 @@
+New Terminal Output:
+
+root@1969c273b758:/app# grep -A 10 "def determine_status" validator.py
+def determine_status(services: list, statuses: dict, score: float):
+    """
+    Returns (overall_status, critical_services_healthy).
+
+    Status rules:
+      'healthy'   -- critical_services_healthy AND score >= 0.95
+      'degraded'  -- critical_services_healthy AND score < 0.95
+      'critical'  -- any high-criticality service is unhealthy
+      'not_ready' -- score < 0.70
+    """
+    critical_ok = all(
+root@1969c273b758:/app#

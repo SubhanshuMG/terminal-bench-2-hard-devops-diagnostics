@@ -1,0 +1,22 @@
+New Terminal Output:
+
+root@b3729034f076:/app# echo "Verifying topological sort correctness..."
+Verifying topological sort correctness...
+root@b3729034f076:/app# echo "From manifest: api-gateway depends on auth-service and cache-service"
+From manifest: api-gateway depends on auth-service and cache-service
+root@b3729034f076:/app# echo "Startup order shows: auth-service -> cache-service -> api-gateway ✓"
+Startup order shows: auth-service -> cache-service -> api-gateway ✓
+root@b3729034f076:/app# echo "This is correct - dependencies start before dependents"
+This is correct - dependencies start before dependents
+root@b3729034f076:/app# echo ""
+
+root@b3729034f076:/app# echo "Checking service_statuses structure:"
+Checking service_statuses structure:
+root@b3729034f076:/app# python3 -c "import json; report = json.load(open('/app/deployment_report.json')); [print(f'{k}: {v}') for k,v in report['service_statuse
+s'].items()]"
+auth-service: {'status': 'healthy', 'http_status': 200, 'criticality': 'high'}
+api-gateway: {'status': 'healthy', 'http_status': 200, 'criticality': 'high'}
+cache-service: {'status': 'healthy', 'http_status': 200, 'criticality': 'medium'}
+worker-service: {'status': 'unhealthy', 'http_status': 503, 'criticality': 'low'}
+notification-service: {'status': 'healthy', 'http_status': 200, 'criticality': 'low'}
+root@b3729034f076:/app#

@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# sed -i 's/except (ValueError, json.JSONDecodeError):/except (ValueError, json.decoder.JSONDecodeError):/' validator.py
+root@eb68a1250306:/app#

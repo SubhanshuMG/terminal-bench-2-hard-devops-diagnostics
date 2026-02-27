@@ -1,0 +1,10 @@
+New Terminal Output:
+
+root@f07828e7747d:/app# grep -A 5 'def load_services' validator.py
+def load_services(manifest_path: str) -> list:
+    """Return the list of service definitions from the manifest."""
+    with open(manifest_path) as f:
+        config = yaml.safe_load(f)
+    # Returns the top-level 'services' list from the manifest.
+    return config["deployment"]["services"]
+root@f07828e7747d:/app#

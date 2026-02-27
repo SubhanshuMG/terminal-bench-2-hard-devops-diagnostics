@@ -1,0 +1,23 @@
+New Terminal Output:
+
+}root@ef2cbd2744f1:/app# echo "Verification:"
+Verification:
+root@ef2cbd2744f1:/app# echo "High services (weight 3): auth-service, api-gateway = 2 services × 3 = 6 weight"
+High services (weight 3): auth-service, api-gateway = 2 services × 3 = 6 weight
+root@ef2cbd2744f1:/app# echo "Medium services (weight 2): cache-service = 1 service × 2 = 2 weight"
+Medium services (weight 2): cache-service = 1 service × 2 = 2 weight
+root@ef2cbd2744f1:/app# echo "Low services (weight 1): worker-service, notification-service = 2 services × 1 = 2 weight"
+Low services (weight 1): worker-service, notification-service = 2 services × 1 = 2 weight
+root@ef2cbd2744f1:/app# echo "Total weight = 6 + 2 + 2 = 10"
+Total weight = 6 + 2 + 2 = 10
+root@ef2cbd2744f1:/app# echo "Healthy weight = 3×2 + 2×1 + 1×1 = 9"
+Healthy weight = 3×2 + 2×1 + 1×1 = 9
+root@ef2cbd2744f1:/app# echo "Readiness score = 9/10 = 0.9 ✓"
+Readiness score = 9/10 = 0.9 ✓
+root@ef2cbd2744f1:/app# echo ""
+
+root@ef2cbd2744f1:/app# echo "All high-criticality services healthy: TRUE ✓"
+All high-criticality services healthy: TRUE ✓
+root@ef2cbd2744f1:/app# echo "Score < 0.95: TRUE, so status = degraded ✓"
+Score < 0.95: TRUE, so status = degraded ✓
+root@ef2cbd2744f1:/app#

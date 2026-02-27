@@ -1,0 +1,63 @@
+New Terminal Output:
+
+root@8fdd3f7c5e66:/app# cat deployment_manifest.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# deployment_manifest.yaml
+#
+# Deployment descriptor for the production stack.
+#
+# Schema notes:
+#   • The top-level 'services' block is a legacy v1 monitoring registry read
+#     by the external health-dashboard and alert-manager sidecar.  It is NOT
+#     the authoritative list for deployment ordering or health validation.
+#   • The authoritative service definitions live under 'deployment.services'.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Legacy monitoring-registry endpoint  (consumed by alert-manager, not by the validator)
+services:
+  - name: "metrics-collector"
+    port: 9091
+    health_endpoint: "/metrics"
+    dependencies: []
+    criticality: "low"
+
+# ── Authoritative deployment configuration ────────────────────────────────────
+deployment:
+  name: "production-stack"
+
+  services:
+    - name: "auth-service"
+      port: 8081
+      health_endpoint: "/health"
+      dependencies: []
+      criticality: "high"
+
+    - name: "api-gateway"
+      port: 8082
+      health_endpoint: "/health"
+      dependencies:
+        - "auth-service"
+        - "cache-service"
+      criticality: "high"
+
+    - name: "cache-service"
+      port: 8083
+      health_endpoint: "/ping"
+      dependencies: []
+      criticality: "medium"
+
+    - name: "worker-service"
+      port: 8084
+      health_endpoint: "/status"
+      dependencies:
+        - "api-gateway"
+        - "cache-service"
+      criticality: "low"
+
+    - name: "notification-service"
+      port: 8085
+      health_endpoint: "/health"
+      dependencies:
+        - "worker-service"
+      criticality: "low"
+root@8fdd3f7c5e66:/app#

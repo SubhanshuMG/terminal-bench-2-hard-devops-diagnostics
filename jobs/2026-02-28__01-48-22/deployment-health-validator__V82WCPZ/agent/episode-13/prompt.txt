@@ -1,0 +1,7 @@
+New Terminal Output:
+
+Port 8084 is in use by another program. Either identify and stop that program, or start the server with a different port.
+pkill -f mock_services
+bash: pkill: command not found
+[2]+  Done                    python3 /app/mock_services.py
+root@d0dc2aafe180:/app#

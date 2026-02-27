@@ -1,0 +1,194 @@
+{
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "8.4.1"
+        },
+        "summary": {
+            "tests": 18,
+            "passed": 14,
+            "failed": 4,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1772224160.7957497,
+            "stop": 1772224160.8185966
+        },
+        "tests": [
+            {
+                "name": "test_outputs.py::test_report_file_exists",
+                "status": "passed",
+                "duration": 0.00027479099935590057,
+                "start": 1772224160.8043895,
+                "stop": 1772224160.804834,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_report_top_level_keys",
+                "status": "passed",
+                "duration": 0.0001857920005932101,
+                "start": 1772224160.804934,
+                "stop": 1772224160.805215,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_deployment_name",
+                "status": "passed",
+                "duration": 0.00012354199952824274,
+                "start": 1772224160.8052862,
+                "stop": 1772224160.8055236,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_all_five_services_present",
+                "status": "passed",
+                "duration": 0.00010245800149277784,
+                "start": 1772224160.8055816,
+                "stop": 1772224160.805765,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_auth_service_healthy",
+                "status": "passed",
+                "duration": 0.00011083300069003599,
+                "start": 1772224160.8058603,
+                "stop": 1772224160.8060691,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_api_gateway_healthy",
+                "status": "passed",
+                "duration": 8.837499899527756e-05,
+                "start": 1772224160.8061237,
+                "stop": 1772224160.8062944,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_cache_service_healthy",
+                "status": "passed",
+                "duration": 9.10420003492618e-05,
+                "start": 1772224160.8063452,
+                "stop": 1772224160.80652,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_worker_service_unhealthy",
+                "status": "passed",
+                "duration": 8.66250011313241e-05,
+                "start": 1772224160.8065703,
+                "stop": 1772224160.8067367,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_notification_service_healthy",
+                "status": "passed",
+                "duration": 9.187600062432466e-05,
+                "start": 1772224160.8068006,
+                "stop": 1772224160.8069696,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_service_criticality_values",
+                "status": "passed",
+                "duration": 9.366600079374621e-05,
+                "start": 1772224160.8070247,
+                "stop": 1772224160.8071964,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_readiness_score",
+                "status": "passed",
+                "duration": 0.00011008500041498337,
+                "start": 1772224160.807246,
+                "stop": 1772224160.8074412,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_critical_services_healthy",
+                "status": "passed",
+                "duration": 0.00010579199897620128,
+                "start": 1772224160.8075213,
+                "stop": 1772224160.8077154,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_overall_status_degraded",
+                "status": "passed",
+                "duration": 0.00012149900067015551,
+                "start": 1772224160.8077695,
+                "stop": 1772224160.8079789,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_has_all_services",
+                "status": "passed",
+                "duration": 0.00010733300041465554,
+                "start": 1772224160.8080413,
+                "stop": 1772224160.808261,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_auth_before_gateway",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 0.000286832999336184,
+                "start": 1772224160.8083465,
+                "stop": 1772224160.8139713,
+                "retries": 0,
+                "file_path": "test_outputs.py",
+                "trace": "report = {'critical_services_healthy': True, 'deployment_name': 'production-stack', 'overall_status': 'degraded', 'readiness_score': 0.9, ...}\n\n    def test_startup_order_auth_before_gateway(report):\n        \"\"\"auth-service is a dependency of api-gateway, so it must start first.\"\"\"\n        order = report[\"startup_order\"]\n>       assert order.index(\"auth-service\") < order.index(\"api-gateway\"), (\n            \"auth-service must appear before api-gateway in startup_order.\"\n        )\nE       AssertionError: auth-service must appear before api-gateway in startup_order.\nE       assert 3 < 2\nE        +  where 3 = <built-in method index of list object at 0xffffa8a7a6c0>('auth-service')\nE        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index\nE        +  and   2 = <built-in method index of list object at 0xffffa8a7a6c0>('api-gateway')\nE        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index\n\n/tests/test_outputs.py:180: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_cache_before_gateway",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 0.0002054999995380058,
+                "start": 1772224160.814046,
+                "stop": 1772224160.8154814,
+                "retries": 0,
+                "file_path": "test_outputs.py",
+                "trace": "report = {'critical_services_healthy': True, 'deployment_name': 'production-stack', 'overall_status': 'degraded', 'readiness_score': 0.9, ...}\n\n    def test_startup_order_cache_before_gateway(report):\n        \"\"\"cache-service is a dependency of api-gateway, so it must start first.\"\"\"\n        order = report[\"startup_order\"]\n>       assert order.index(\"cache-service\") < order.index(\"api-gateway\"), (\n            \"cache-service must appear before api-gateway in startup_order.\"\n        )\nE       AssertionError: cache-service must appear before api-gateway in startup_order.\nE       assert 4 < 2\nE        +  where 4 = <built-in method index of list object at 0xffffa8a7a6c0>('cache-service')\nE        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index\nE        +  and   2 = <built-in method index of list object at 0xffffa8a7a6c0>('api-gateway')\nE        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index\n\n/tests/test_outputs.py:188: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_gateway_before_worker",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 0.00017758300054993015,
+                "start": 1772224160.8155756,
+                "stop": 1772224160.816999,
+                "retries": 0,
+                "file_path": "test_outputs.py",
+                "trace": "report = {'critical_services_healthy': True, 'deployment_name': 'production-stack', 'overall_status': 'degraded', 'readiness_score': 0.9, ...}\n\n    def test_startup_order_gateway_before_worker(report):\n        \"\"\"api-gateway is a dependency of worker-service, so it must start first.\"\"\"\n        order = report[\"startup_order\"]\n>       assert order.index(\"api-gateway\") < order.index(\"worker-service\"), (\n            \"api-gateway must appear before worker-service in startup_order.\"\n        )\nE       AssertionError: api-gateway must appear before worker-service in startup_order.\nE       assert 2 < 1\nE        +  where 2 = <built-in method index of list object at 0xffffa8a7a6c0>('api-gateway')\nE        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index\nE        +  and   1 = <built-in method index of list object at 0xffffa8a7a6c0>('worker-service')\nE        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index\n\n/tests/test_outputs.py:196: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_worker_before_notification",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 0.00016858300023159245,
+                "start": 1772224160.8170567,
+                "stop": 1772224160.8184679,
+                "retries": 0,
+                "file_path": "test_outputs.py",
+                "trace": "report = {'critical_services_healthy': True, 'deployment_name': 'production-stack', 'overall_status': 'degraded', 'readiness_score': 0.9, ...}\n\n    def test_startup_order_worker_before_notification(report):\n        \"\"\"worker-service is a dependency of notification-service, so it must start first.\"\"\"\n        order = report[\"startup_order\"]\n>       assert order.index(\"worker-service\") < order.index(\"notification-service\"), (\n            \"worker-service must appear before notification-service in startup_order.\"\n        )\nE       AssertionError: worker-service must appear before notification-service in startup_order.\nE       assert 1 < 0\nE        +  where 1 = <built-in method index of list object at 0xffffa8a7a6c0>('worker-service')\nE        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index\nE        +  and   0 = <built-in method index of list object at 0xffffa8a7a6c0>('notification-service')\nE        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index\n\n/tests/test_outputs.py:204: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

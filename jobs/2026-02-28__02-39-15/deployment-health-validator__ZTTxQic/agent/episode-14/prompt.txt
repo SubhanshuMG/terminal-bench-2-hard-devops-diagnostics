@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@9681c98c04e7:/app# sed -i 's/weight_map = {"high": 1, "medium": 1, "low": 1}/weight_map = {"high": 3, "medium": 2, "low": 1}/' /app/validator.py
+root@9681c98c04e7:/app#

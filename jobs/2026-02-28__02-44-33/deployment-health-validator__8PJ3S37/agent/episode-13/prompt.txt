@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@b4674ba3220e:/app# sed -i '/critical_ok = all(/,/critical_ok/a\    critical_ok = all(\n        statuses[s["name"]]["status"] == "healthy"\n        for s in
+ services\n        if s["criticality"] == "high"\n    )' validator.py
+root@b4674ba3220e:/app#

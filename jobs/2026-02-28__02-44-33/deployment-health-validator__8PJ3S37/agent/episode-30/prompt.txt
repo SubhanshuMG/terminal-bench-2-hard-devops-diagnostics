@@ -1,0 +1,5 @@
+New Terminal Output:
+
+}root@b4674ba3220e:/app# pkill -f mock_services
+bash: pkill: command not found
+root@b4674ba3220e:/app#

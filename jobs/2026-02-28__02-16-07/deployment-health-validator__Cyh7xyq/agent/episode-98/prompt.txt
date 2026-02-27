@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# sed -i 's/graph\[svc\].append(dep)/graph[dep].append(svc)/' validator.py
+root@eb68a1250306:/app#

@@ -1,0 +1,20 @@
+New Terminal Output:
+
+root@7f535f315d6d:/app# python3 -c "
+> with open('/app/validator.py', 'r') as f:
+>     content = f.read()
+>
+> # Fix the critical_ok line
+> old_line = '    critical_ok = all(\n        statuses[s[\"name\"]][\"status\"] == \"healthy\"\n        for s in services\n    )'
+> new_line = '    critical_ok = all(\n        statuses[s[\"name\"]][\"status\"] == \"healthy\"\n        for s in services if s[\"criticality\"] == \"high\"\n
+ )'
+>
+> content = content.replace(old_line, new_line)
+>
+> with open('/app/validator.py', 'w') as f:
+>     f.write(content)
+>
+> print('Fixed critical services check')
+> "
+Fixed critical services check
+root@7f535f315d6d:/app#

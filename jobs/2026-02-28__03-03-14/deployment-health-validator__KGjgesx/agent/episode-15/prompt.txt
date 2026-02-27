@@ -1,0 +1,6 @@
+New Terminal Output:
+
+root@348642d1420a:/app# python3 /app/validator.py | grep worker-service
+  worker-service            healthy    (HTTP 200)
+  auth-service -> cache-service -> api-gateway -> worker-service -> notification-service
+root@348642d1420a:/app#

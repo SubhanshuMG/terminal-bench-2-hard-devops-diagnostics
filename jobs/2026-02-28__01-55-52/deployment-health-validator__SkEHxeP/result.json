@@ -1,0 +1,119 @@
+{
+    "id": "bbfee08f-c723-4961-b9b0-4d9d4de213ec",
+    "task_name": "deployment-health-validator",
+    "trial_name": "deployment-health-validator__SkEHxeP",
+    "trial_uri": "file:///Users/subhanshumohangupta/Desktop/git/github/terminal-bench-2-hard-devops-diagnostics/jobs/2026-02-28__01-55-52/deployment-health-validator__SkEHxeP",
+    "task_id": {
+        "path": "deployment-health-validator"
+    },
+    "source": null,
+    "task_checksum": "a95fde3f5dd0a7e390f03cc570b1c45f2b7e3259b215980c3e920ebd856cca47",
+    "config": {
+        "task": {
+            "path": "deployment-health-validator",
+            "git_url": null,
+            "git_commit_id": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": null
+        },
+        "trial_name": "deployment-health-validator__SkEHxeP",
+        "trials_dir": "jobs/2026-02-28__01-55-52",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "terminus-2",
+            "import_path": null,
+            "model_name": "groq/moonshotai/kimi-k2-instruct-0905",
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {}
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "disable": false
+        },
+        "artifacts": [],
+        "job_id": "1e28f447-12b9-44c9-8876-703ba2e87302"
+    },
+    "agent_info": {
+        "name": "terminus-2",
+        "version": "2.0.0",
+        "model_info": {
+            "name": "moonshotai/kimi-k2-instruct-0905",
+            "provider": "groq"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 94639,
+        "n_cache_tokens": 79104,
+        "n_output_tokens": 4501,
+        "cost_usd": 0.06859,
+        "rollout_details": [],
+        "metadata": {
+            "n_episodes": 17,
+            "api_request_times_msec": [
+                1038.994312286377,
+                809.8950386047363,
+                962.5580310821533,
+                1685.8539581298828,
+                768.3651447296143,
+                742.1650886535645,
+                1339.169979095459,
+                752.1440982818604,
+                791.903018951416,
+                882.7247619628906,
+                815.2260780334473,
+                867.4311637878418,
+                4374.044895172119,
+                967.3311710357666,
+                1520.153284072876,
+                1643.9580917358398,
+                1559.7059726715088
+            ],
+            "summarization_count": 0
+        }
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 1.0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-02-27T20:25:52.911407Z",
+    "finished_at": "2026-02-27T20:26:51.733728Z",
+    "environment_setup": {
+        "started_at": "2026-02-27T20:25:52.912827Z",
+        "finished_at": "2026-02-27T20:25:56.621477Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-02-27T20:25:56.621558Z",
+        "finished_at": "2026-02-27T20:26:13.591089Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-02-27T20:26:13.591299Z",
+        "finished_at": "2026-02-27T20:26:46.350744Z"
+    },
+    "verifier": {
+        "started_at": "2026-02-27T20:26:46.350900Z",
+        "finished_at": "2026-02-27T20:26:50.188753Z"
+    }
+}

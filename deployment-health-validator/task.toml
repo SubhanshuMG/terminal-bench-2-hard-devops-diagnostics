@@ -1,0 +1,33 @@
+version = "1.0"
+
+[metadata]
+name = "deployment-health-validator"
+description = "Debug a broken deployment health validation system that checks service readiness in a microservices stack"
+difficulty = "hard"
+domain = "devops"
+tags = ["debugging", "python", "microservices", "graph-algorithms", "yaml", "http"]
+author = "subhanshu@bespokelabs.ai"
+time_estimate_expert_min = 25
+time_estimate_junior_min = 90
+
+[verifier]
+timeout_sec = 120.0
+
+[agent]
+timeout_sec = 600.0
+
+[environment]
+build_timeout_sec = 600.0
+cpus = 1
+memory_mb = 2048
+storage_mb = 10240
+gpus = 0
+allow_internet = true
+mcp_servers = []
+
+[environment.runtime]
+python = "3.12"
+
+[verifier.env]
+
+[solution.env]

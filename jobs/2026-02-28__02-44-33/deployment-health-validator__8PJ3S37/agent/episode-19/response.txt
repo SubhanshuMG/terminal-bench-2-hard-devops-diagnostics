@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! I can see the current logic checks if ALL services are healthy, but it should only check if all HIGH-criticality services are healthy. I need to add a condition to filter only high-criticality services.",
+  "plan": "I'll replace the critical_ok logic to only check services with high criticality by adding a condition to the generator expression.",
+  "commands": [
+    {
+      "keystrokes": "sed -i '108,110s/for s in services/for s in services if s[\"criticality\"] == \"high\"/' validator.py\n",
+      "duration": 0.1
+    }
+  ]
+}

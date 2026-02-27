@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! The deployment report is correct and matches the expected schema. Let me verify the key elements: 1) The overall_status is 'degraded' which is correct since readiness_score is 0.9 (< 0.95) and all high-criticality services are healthy, 2) readiness_score is 0.9 which is calculated correctly: (3+3+2+0+1)/(3+3+2+1+1) = 9/10 = 0.9, 3) All high-criticality services (auth-service, api-gateway) are healthy, so critical_services_healthy is true, 4) The startup order is topologically correct, 5) All required fields are present. Let me also test that the validator handles different health endpoints correctly by testing them manually.",
+  "plan": "I'll test a few individual service endpoints to verify that the validator is using the correct health endpoints (not just /health) - specifically testing cache-service at /ping and worker-service at /status.",
+  "commands": [
+    {
+      "keystrokes": "curl http://localhost:8083/ping\n",
+      "duration": 1.0
+    }
+  ]
+}

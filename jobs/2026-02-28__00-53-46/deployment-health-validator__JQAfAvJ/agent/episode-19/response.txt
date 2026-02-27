@@ -1,0 +1,10 @@
+{
+  "analysis": "Good! Now I need to fix the compute_readiness_score function. The current implementation has all weights set to 1, but according to the requirements, they should be high=3, medium=2, low=1.",
+  "plan": "I'll add the corrected compute_readiness_score function with the proper weight mapping: high=3, medium=2, low=1.",
+  "commands": [
+    {
+      "keystrokes": "cat >> /tmp/fix1.py << 'EOF'\n\n# ── 4. Readiness score ────────────────────────────────────────────────────────\n\ndef compute_readiness_score(services: list, statuses: dict) -> float:\n    \"\"\"\n    Compute the weighted fraction of healthy services.\n    Criticality weights: high=3, medium=2, low=1.\n    \"\"\"\n    weight_map = {\"high\": 3, \"medium\": 2, \"low\": 1}\n\n    total   = sum(weight_map[s[\"criticality\"]] for s in services)\n    healthy = sum(\n        weight_map[s[\"criticality\"]]\n        for s in services\n        if statuses[s[\"name\"]][\"status\"] == \"healthy\"\n    )\n    return round(healthy / total, 4) if total else 0.0\nEOF\n",
+      "duration": 0.1
+    }
+  ]
+}

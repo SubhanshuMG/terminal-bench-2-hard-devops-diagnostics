@@ -1,0 +1,17 @@
+Installing: tmux, asciinema
+Detected system: {'os': 'debian-based', 'package_manager': 'apt-get', 'update_command': None}
+Installing tools using apt-get: DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y tmux asciinema
+Starting recording.
+Sending keys: ['asciinema rec --stdin /logs/agent/recording.cast', 'Enter'] min_timeout_sec: 1.0 max_timeout_sec: 180.0
+Sending keys: ['clear', 'Enter'] min_timeout_sec: 0.0 max_timeout_sec: 180.0
+Failed to retrieve model info for 'moonshotai/kimi-k2-instruct-0905': This model isn't mapped yet. model=moonshotai/kimi-k2-instruct-0905, custom_llm_provider=None. Add it here - https://github.com/BerriAI/litellm/blob/main/model_prices_and_context_window.json.. Using fallback context limit: 1000000
+Unknown Error in LLM interaction: litellm.BadRequestError: LLM Provider NOT provided. Pass in the LLM provider you are trying to call. You passed model=moonshotai/kimi-k2-instruct-0905
+ Pass model as E.g. For 'Huggingface' inference endpoints pass in `completion(model='huggingface/starcoder',..)` Learn more: https://docs.litellm.ai/docs/providers
+Unknown Error in LLM interaction: litellm.BadRequestError: LLM Provider NOT provided. Pass in the LLM provider you are trying to call. You passed model=moonshotai/kimi-k2-instruct-0905
+ Pass model as E.g. For 'Huggingface' inference endpoints pass in `completion(model='huggingface/starcoder',..)` Learn more: https://docs.litellm.ai/docs/providers
+Unknown Error in LLM interaction: litellm.BadRequestError: LLM Provider NOT provided. Pass in the LLM provider you are trying to call. You passed model=moonshotai/kimi-k2-instruct-0905
+ Pass model as E.g. For 'Huggingface' inference endpoints pass in `completion(model='huggingface/starcoder',..)` Learn more: https://docs.litellm.ai/docs/providers
+Trajectory dumped to jobs/2026-02-28__01-24-12/deployment-health-validator__uYMJ4Uj/agent/trajectory.json
+Trial deployment-health-validator__uYMJ4Uj failed: litellm.BadRequestError: LLM Provider NOT provided. Pass in the LLM provider you are trying to call. You passed model=moonshotai/kimi-k2-instruct-0905
+ Pass model as E.g. For 'Huggingface' inference endpoints pass in `completion(model='huggingface/starcoder',..)` Learn more: https://docs.litellm.ai/docs/providers
+Not retrying trial because the maximum number of retries has been reached

@@ -1,0 +1,22 @@
+New Terminal Output:
+
+root@2c18ab8ab423:/app# python /app/validator.py
+Loading deployment manifest ...
+Checking service health ...
+  auth-service              healthy    (HTTP 200)
+  api-gateway               healthy    (HTTP 200)
+  cache-service             healthy    (HTTP 200)
+  worker-service            healthy    (HTTP 200)
+  notification-service      healthy    (HTTP 200)
+Computing startup order ...
+Traceback (most recent call last):
+  File "/app/validator.py", line 167, in <module>
+    main()
+  File "/app/validator.py", line 139, in main
+    startup_order = compute_startup_order(services)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/validator.py", line 63, in compute_startup_order
+    graph[dep].append(svc)  # dep -> svc (dependency points to service)
+    ~~~~~^^^^^
+KeyError: 'cache-service'
+root@2c18ab8ab423:/app#

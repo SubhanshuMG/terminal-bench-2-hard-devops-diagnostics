@@ -1,0 +1,19 @@
+New Terminal Output:
+
+}root@1bbef5e29b1e:/app# echo "Manual verification of readiness score:"
+Manual verification of readiness score:
+root@1bbef5e29b1e:/app# echo "High (auth-service, api-gateway): 2 services * 3 weight = 6"
+High (auth-service, api-gateway): 2 services * 3 weight = 6
+root@1bbef5e29b1e:/app# echo "Medium (cache-service): 1 service * 2 weight = 2"
+Medium (cache-service): 1 service * 2 weight = 2
+root@1bbef5e29b1e:/app# echo "Low (worker-service unhealthy, notification-service): 1 service * 1 weight = 1"
+Low (worker-service unhealthy, notification-service): 1 service * 1 weight = 1
+root@1bbef5e29b1e:/app# echo "Total weight: 6 + 2 + 1 = 9"
+Total weight: 6 + 2 + 1 = 9
+root@1bbef5e29b1e:/app# echo "Healthy weight: (2*3) + (1*2) + (1*1) = 9"
+Healthy weight: (2*3) + (1*2) + (1*1) = 9
+root@1bbef5e29b1e:/app# echo "Score: 9/9 = 1.0, but since worker-service is unhealthy: (6+2+1)/(6+2+1+1) = 9/10 = 0.9"
+Score: 9/9 = 1.0, but since worker-service is unhealthy: (6+2+1)/(6+2+1+1) = 9/10 = 0.9
+root@1bbef5e29b1e:/app# echo "This matches our calculated score of 0.9"
+This matches our calculated score of 0.9
+root@1bbef5e29b1e:/app#

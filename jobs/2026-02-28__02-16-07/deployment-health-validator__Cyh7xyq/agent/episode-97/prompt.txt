@@ -1,0 +1,20 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# grep -A 15 "for svc, deps in deps_map.items" validator.py
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    return order
+
+root@eb68a1250306:/app#

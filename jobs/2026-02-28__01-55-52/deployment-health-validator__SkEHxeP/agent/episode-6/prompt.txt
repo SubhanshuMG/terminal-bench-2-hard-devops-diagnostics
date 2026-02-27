@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@60b69aa314e3:/app# which netstat ss lsof
+root@60b69aa314e3:/app#

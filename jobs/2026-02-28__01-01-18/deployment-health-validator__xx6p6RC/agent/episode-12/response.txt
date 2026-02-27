@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! The validator is now working correctly. The startup order is now properly topologically sorted:\n- auth-service and cache-service (no dependencies) come first\n- api-gateway (depends on auth-service and cache-service) comes next\n- worker-service (depends on api-gateway and cache-service) comes after api-gateway\n- notification-service (depends on worker-service) comes last\n\nThe report shows:\n- All high-criticality services (auth-service, api-gateway) are healthy\n- Readiness score is 0.9 (90% of weighted services are healthy)\n- Overall status is 'degraded' since all critical services are healthy but score < 0.95\n- worker-service is unhealthy (HTTP 503) which is expected since it's marked as low criticality\n\nLet me verify the final report structure matches the expected schema.",
+  "plan": "I'll examine the final deployment report to ensure it matches the expected schema and all fields are correctly populated.",
+  "commands": [
+    {
+      "keystrokes": "cat /app/deployment_report.json\n",
+      "duration": 0.1
+    }
+  ]
+}

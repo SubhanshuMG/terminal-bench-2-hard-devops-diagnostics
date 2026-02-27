@@ -1,0 +1,29 @@
+{
+    "id": "3a244bc5-128c-4d79-a182-433568abaaa9",
+    "started_at": "2026-02-28T01:20:08.272166",
+    "finished_at": "2026-02-28T01:20:22.645337",
+    "n_total_trials": 1,
+    "stats": {
+        "n_trials": 1,
+        "n_errors": 0,
+        "evals": {
+            "oracle__adhoc": {
+                "n_trials": 1,
+                "n_errors": 0,
+                "metrics": [
+                    {
+                        "mean": 1.0
+                    }
+                ],
+                "reward_stats": {
+                    "reward": {
+                        "1.0": [
+                            "deployment-health-validator__fKUorgT"
+                        ]
+                    }
+                },
+                "exception_stats": {}
+            }
+        }
+    }
+}

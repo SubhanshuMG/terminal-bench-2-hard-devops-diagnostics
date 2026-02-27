@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@09c642a4f519:/app# sed -i "41s/json_data\['status'\] != 'healthy'/json_data['status'] not in ['healthy', 'ok']/" validator.py
+root@09c642a4f519:/app#

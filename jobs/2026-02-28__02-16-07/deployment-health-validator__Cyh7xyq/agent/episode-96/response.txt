@@ -1,0 +1,10 @@
+{
+  "analysis": "The startup order is still the same, which suggests there might be an issue with my fix or the topological sorting is still not working correctly. Let me examine the current state of the compute_startup_order function and check what the actual dependencies are according to the manifest.",
+  "plan": "I'll check the current state of the compute_startup_order function and then examine the deployment manifest to understand what the correct dependencies should be, then test the topological sorting logic step by step.",
+  "commands": [
+    {
+      "keystrokes": "grep -A 15 \"for svc, deps in deps_map.items\" validator.py\n",
+      "duration": 0.1
+    }
+  ]
+}

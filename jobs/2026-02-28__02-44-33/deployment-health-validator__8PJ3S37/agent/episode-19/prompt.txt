@@ -1,0 +1,15 @@
+New Terminal Output:
+
+root@b4674ba3220e:/app# sed -n '105,115p' validator.py
+      'critical'  -- any high-criticality service is unhealthy
+      'not_ready' -- score < 0.70
+    """
+    critical_ok = all(
+        statuses[s["name"]]["status"] == "healthy"
+        for s in services
+    )
+
+    if not critical_ok:
+        return "critical", critical_ok
+    if score >= 0.95:
+root@b4674ba3220e:/app#

@@ -1,0 +1,10 @@
+{
+  "analysis": "Let me verify that the dependency graph logic is now correct by checking the compute_startup_order function again.",
+  "plan": "I'll check the lines around 65-66 to see if the dependency graph logic has been correctly updated to implement proper topological sorting.",
+  "commands": [
+    {
+      "keystrokes": "sed -n '60,70p' /app/validator.py\n",
+      "duration": 0.1
+    }
+  ]
+}

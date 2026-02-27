@@ -1,0 +1,8 @@
+New Terminal Output:
+
+root@c08cc3f8e638:/app# sed -i '60s/.*/        healthy = False\n        if resp.status_code == 200:\n            # Check if it\'s JSON and has status field\n
+         try:\n                json_data = resp.json()\n                # Check for accepted operational values\n                if \'status\' in json_data and
+json_data[\'status\'] in [\'ok\', \'up\', \'healthy\']:\n                    healthy = True\n            except ValueError:\n                # Not JSON, so just
+ check HTTP status\n                healthy = True/' /app/validator.py
+bash: syntax error near unexpected token `('
+root@c08cc3f8e638:/app#

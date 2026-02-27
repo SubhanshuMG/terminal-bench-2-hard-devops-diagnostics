@@ -1,0 +1,29 @@
+Current terminal state:
+New Terminal Output:
+
+root@99c1b9ab4ece:/app# ls -la /app/deployment_report.json && python -m json.tool /app/deployment_report.json | head -20
+-rw-r--r-- 1 root root 914 Feb 27 20:52 /app/deployment_report.json
+{
+    "deployment_name": "production-stack",
+    "overall_status": "degraded",
+    "readiness_score": 0.9,
+    "service_statuses": {
+        "auth-service": {
+            "status": "healthy",
+            "http_status": 200,
+            "criticality": "high"
+        },
+        "api-gateway": {
+            "status": "healthy",
+            "http_status": 200,
+            "criticality": "high"
+        },
+        "cache-service": {
+            "status": "healthy",
+            "http_status": 200,
+            "criticality": "medium"
+        },
+root@99c1b9ab4ece:/app#
+
+
+Are you sure you want to mark the task as complete? This will trigger your solution to be graded and you won't be able to make any further corrections. If so, include "task_complete": true in your JSON response again.

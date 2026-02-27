@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@7f535f315d6d:/app# ps aux | grep -E '(python|mock)'
+bash: ps: command not found
+root@7f535f315d6d:/app#

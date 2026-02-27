@@ -1,0 +1,10 @@
+{
+  "analysis": "Good, I've added the corrected check_health function that properly handles JSON responses and checks for accepted operational values. Now I need to add the fixed startup order function that corrects the dependency graph direction.",
+  "plan": "I'll continue adding the corrected compute_startup_order function that fixes the dependency graph direction issue.",
+  "commands": [
+    {
+      "keystrokes": "cat >> /app/validator.py << 'EOF'\n\n# ── 3. Startup ordering ───────────────────────────────────────────────────────\n\ndef compute_startup_order(services: list) -> list:\n    \"\"\"\n    Return a topologically sorted startup order using Kahn's algorithm.\n    Dependencies must start before the services that depend on them.\n    \"\"\"\n    names = [s[\"name\"] for s in services]\n    deps_map = {s[\"name\"]: s.get(\"dependencies\", []) for s in services}\n\n    graph     = {n: [] for n in names}\n    in_degree = {n: 0 for n in names}\n\n    # Fix: dependencies should appear BEFORE their dependents\n    for svc, deps in deps_map.items():\n        for dep in deps:\n            graph[dep].append(svc)  # dep -> svc (dep must start before svc)\n            in_degree[svc] += 1    # svc depends on dep\n\n    queue = deque(n for n in names if in_degree[n] == 0)\n    order = []\n    while queue:\n        node = queue.popleft()\n        order.append(node)\n        for neighbor in graph[node]:\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n                queue.append(neighbor)\n    return order\n\nEOF\n",
+      "duration": 0.1
+    }
+  ]
+}

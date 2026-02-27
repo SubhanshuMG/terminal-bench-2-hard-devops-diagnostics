@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@91437e632e62:/app# ps aux | grep mock
+bash: ps: command not found
+root@91437e632e62:/app#

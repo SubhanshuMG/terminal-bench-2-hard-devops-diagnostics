@@ -1,0 +1,44 @@
+Previous response had warnings:
+WARNINGS: - Extra text detected before JSON object
+
+New Terminal Output:
+root@a5f76d8b05e3:/app# ls -la
+total 32
+drwxr-xr-x 1 root root 4096 Feb 27 19:11 .
+drwxr-xr-x 1 root root 4096 Feb 27 19:16 ..
+-rw-r--r-- 1 root root  698 Feb 27 19:10 Dockerfile
+-rw-r--r-- 1 root root  812 Feb 27 18:52 deployment_manifest.yaml
+-rw-r--r-- 1 root root 3096 Feb 27 18:52 mock_services.py
+-rw-r--r-- 1 root root   44 Feb 27 18:53 requirements.txt
+-rw-r--r-- 1 root root 6072 Feb 27 19:05 validator.py
+root@a5f76d8b05e3:/app#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,10 @@
+{
+  "analysis": "The ps command is not available. Let me try starting the mock services manually and then check if they're working. I'll also look at the mock_services.py to understand how it works.",
+  "plan": "I'll examine the mock_services.py to understand how it works, then start it in the background and verify it's running by testing the endpoints.",
+  "commands": [
+    {
+      "keystrokes": "python3 mock_services.py &\n",
+      "duration": 2.0
+    }
+  ]
+}

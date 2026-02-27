@@ -1,0 +1,8 @@
+New Terminal Output:
+
+root@517c6a54f599:/app# grep -A 3 "for svc, deps in deps_map.items():" validator.py
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[dep].append(svc)
+            in_degree[dep] += 1
+root@517c6a54f599:/app#

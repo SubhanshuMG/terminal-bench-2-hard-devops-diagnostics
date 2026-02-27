@@ -1,0 +1,48 @@
+New Terminal Output:
+
+root@a5f76d8b05e3:/app# python3 -c "
+> import re
+>
+> # Read the current file
+> with open('validator.py', 'r') as f:
+>     content = f.read()
+>
+> # Fix 1: Use correct health endpoint
+> content = re.sub(
+>     r\"url = f\"http://127\.0\.0\.1:\{service\['port'\]\}/health\"\",
+>     r\"url = f\"http://127.0.0.1:\{service['port']\}\{service['health_endpoint']}\"\",
+>     content
+> )
+>
+> # Fix 2: Fix weight mapping
+> content = re.sub(
+>     r\"weight_map = \{\"high\": 1, \"medium\": 1, \"low\": 1\}\",
+>     r\"weight_map = {\"high\": 3, \"medium\": 2, \"low\": 1}\",
+>     content
+> )
+>
+> # Fix 3: Fix topological sort (swap the dependency direction)
+> content = re.sub(
+>     r\"for svc, deps in deps_map\.items\(\):\s+for dep in deps:\s+graph\[svc\]\.append\(dep\)\s+in_degree\[dep\] \+= 1\",
+>     r\"for svc, deps in deps_map.items():\n        for dep in deps:\n            graph[dep].append(svc)\n            in_degree[svc] += 1\",
+>     content,
+>     flags=re.MULTILINE | re.DOTALL
+> )
+>
+> # Fix 4: Fix critical services check
+> content = re.sub(
+>     r\"critical_ok = all\(\s*statuses\[s\[\"name\"\]\]\[\"status\"\] == \"healthy\"\s+for s in services\s*\)\",
+>     r\"critical_ok = all(\n        statuses[s[\"name\"]][\"status\"] == \"healthy\"\n        for s in services\n        if s[\"criticality\"] == \"high\"\n
+ )\",
+>     content
+> )
+>
+> # Write the fixed content
+> with open('validator.py', 'w') as f:
+>     f.write(content)
+> "
+  File "<string>", line 9
+    content = re.sub(
+                    ^
+SyntaxError: '(' was never closed
+root@a5f76d8b05e3:/app#

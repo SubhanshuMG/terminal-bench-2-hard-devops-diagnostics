@@ -1,0 +1,20 @@
+New Terminal Output:
+
+root@d796365c4a34:/app# grep -A 15 'critical_ok = all(' /app/validator.py
+    critical_ok = all(
+        statuses[s["name"]]["status"] == "healthy"
+        for s in services if s["criticality"] == "high"
+    )
+
+    if not critical_ok:
+        return "critical", critical_ok
+    if score >= 0.95:
+        return "healthy", critical_ok
+    if score >= 0.70:
+        return "degraded", critical_ok
+    return "not_ready", critical_ok
+
+
+# ── main ──────────────────────────────────────────────────────────────────────
+
+root@d796365c4a34:/app#

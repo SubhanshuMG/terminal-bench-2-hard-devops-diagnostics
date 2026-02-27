@@ -1,0 +1,5 @@
+New Terminal Output:
+
+}root@7f89f043af0c:/app# pkill -f 'auth-service.*8081'
+bash: pkill: command not found
+root@7f89f043af0c:/app#

@@ -1,0 +1,23 @@
+Current terminal state:
+New Terminal Output:
+
+}root@e5c473fa195b:/app# python /app/validator.py
+Loading deployment manifest ...
+Checking service health ...
+  auth-service              healthy    (HTTP 200)
+  api-gateway               healthy    (HTTP 200)
+  cache-service             healthy    (HTTP 200)
+  worker-service            healthy    (HTTP 200)
+  notification-service      healthy    (HTTP 200)
+Computing startup order ...
+  auth-service -> cache-service -> api-gateway -> worker-service -> notification-service
+Computing readiness score ...
+  score = 1.0000
+
+Report written to /app/deployment_report.json
+Overall status : healthy
+Readiness score: 1.0
+root@e5c473fa195b:/app#
+
+
+Are you sure you want to mark the task as complete? This will trigger your solution to be graded and you won't be able to make any further corrections. If so, include "task_complete": true in your JSON response again.

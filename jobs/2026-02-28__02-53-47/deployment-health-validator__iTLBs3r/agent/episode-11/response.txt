@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! The deployment report is correctly generated and matches the expected schema exactly. The report includes all required fields: deployment_name, overall_status, readiness_score, service_statuses with correct health information, startup_order with proper topological sorting, critical_services_healthy set to true, and a proper timestamp. Let me also test a failure scenario to ensure the validator handles unhealthy services correctly.",
+  "plan": "I'll test the validator's error handling by stopping one of the mock services and running the validator again to ensure it properly detects unhealthy services and updates the overall_status and readiness_score accordingly.",
+  "commands": [
+    {
+      "keystrokes": "pkill -f auth-service\n",
+      "duration": 1.0
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+New Terminal Output:
+
+}root@f2aeb2d60bea:/app# echo "Manual verification:"
+Manual verification:
+root@f2aeb2d60bea:/app# echo "High criticality: auth-service + api-gateway = 2 * 3 = 6"
+High criticality: auth-service + api-gateway = 2 * 3 = 6
+root@f2aeb2d60bea:/app# echo "Medium criticality: cache-service = 2"
+Medium criticality: cache-service = 2
+root@f2aeb2d60bea:/app# echo "Low criticality: worker-service + notification-service = 2 * 1 = 2"
+Low criticality: worker-service + notification-service = 2 * 1 = 2
+root@f2aeb2d60bea:/app# echo "Total weight: 6 + 2 + 2 = 10"
+Total weight: 6 + 2 + 2 = 10
+root@f2aeb2d60bea:/app# echo "Healthy weight: 10 (all services healthy)"
+Healthy weight: 10 (all services healthy)
+root@f2aeb2d60bea:/app# echo "Readiness score: 10/10 = 1.0 ✓"
+Readiness score: 10/10 = 1.0 ✓
+root@f2aeb2d60bea:/app#

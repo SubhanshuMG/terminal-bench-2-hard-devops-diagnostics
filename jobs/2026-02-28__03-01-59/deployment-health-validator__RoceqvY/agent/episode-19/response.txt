@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! The deployment report is correctly generated and matches the expected schema. All services are healthy, the readiness score is 1.0 (100%), the overall_status is 'healthy', the startup_order is correct (dependencies first), and critical_services_healthy is true. The validator is now working correctly.",
+  "plan": "Let me test one more scenario to make sure the validator handles different health states correctly. I'll stop one of the high-criticality services and run the validator again to verify it properly detects the critical state.",
+  "commands": [
+    {
+      "keystrokes": "pkill -f 'auth-service.*8081'\n",
+      "duration": 1.0
+    }
+  ]
+}

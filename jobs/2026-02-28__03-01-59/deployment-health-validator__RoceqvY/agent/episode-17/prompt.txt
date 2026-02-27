@@ -1,0 +1,32 @@
+New Terminal Output:
+
+root@7f89f043af0c:/app# python3 -c "
+> import re
+> with open('/app/validator.py', 'r') as f:
+>     content = f.read()
+>
+> # Fix critical services check
+> content = re.sub(
+>     r'critical_ok = all\(\s*statuses\[s\[\"name\"\]\]\[\"status\"\] == \"healthy\"\s*for s in services\s*\)',
+>     'critical_ok = all(\n        statuses[s[\"name\"]][\"status\"] == \"healthy\"\n        for s in services\n        if s[\"criticality\"] == \"high\"\n    )
+',
+>     content,
+>     flags=re.MULTILINE | re.DOTALL
+> )
+>
+> # Fix dependency graph direction
+> content = re.sub(
+>     r'for svc, deps in deps_map\.items\(\):\s*for dep in deps:\s*graph\[svc\]\.append\(dep\)\s*in_degree\[dep\] \+= 1',
+>     'for svc, deps in deps_map.items():\n        for dep in deps:\n            graph[dep].append(svc)  # dep must come before svc\n            in_degree[svc]
++= 1',
+>     content,
+>     flags=re.MULTILINE | re.DOTALL
+> )
+>
+> with open('/app/validator.py', 'w') as f:
+>     f.write(content)
+>
+> print('Fixed critical issues')
+> "
+Fixed critical issues
+root@7f89f043af0c:/app#

@@ -1,0 +1,54 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# head -50 validator.py
+#!/usr/bin/env python3
+"""
+Deployment Health Validator
+===========================
+Reads deployment_manifest.yaml, probes each service's health endpoint,
+computes a weighted readiness score, determines a valid startup ordering,
+and writes a deployment readiness report to /app/deployment_report.json.
+"""
+
+import json
+import json
+import yaml
+import requests
+from datetime import datetime, timezone
+from collections import deque
+
+
+# ── 1. Load manifest ──────────────────────────────────────────────────────────
+
+def load_services(manifest_path: str) -> list:
+    """Return the list of service definitions from the manifest."""
+    with open(manifest_path) as f:
+        config = yaml.safe_load(f)
+    # Returns the top-level 'services' list from the manifest.
+    return config["deployment"]["services"]
+
+
+# ── 2. Health check ───────────────────────────────────────────────────────────
+
+def check_health(service: dict) -> dict:
+    """Probe a single service and return its health record."""
+    url = f"http://127.0.0.1:{service['port']}{service['health_endpoint']}"
+    try:
+        resp = requests.get(url, timeout=5)
+        healthy = resp.status_code == 200
+        return {
+            "status": "healthy" if healthy else "unhealthy",
+            "http_status": resp.status_code,
+            "criticality": service["criticality"],
+        }
+    except requests.exceptions.RequestException:
+        return {
+            "status": "unhealthy",
+            "http_status": 0,
+            "criticality": service["criticality"],
+        }
+
+
+# ── 3. Startup ordering ───────────────────────────────────────────────────────
+
+root@eb68a1250306:/app#

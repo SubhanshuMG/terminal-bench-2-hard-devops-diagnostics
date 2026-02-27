@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! The deployment report is now correctly generated and matches the expected schema. All 5 services are properly checked and included, the startup order is correct (with dependencies like cache-service coming before api-gateway), the readiness score is 1.0 (since all services are healthy), the overall status is 'healthy' (because all high-criticality services are healthy and score >= 0.95), and critical_services_healthy is true. Let me verify the readiness score calculation manually to ensure it's correct.",
+  "plan": "I'll manually verify the readiness score calculation to confirm it's working correctly. With all 5 services healthy, we should have:\n- Total weight: 2 high (3 each) + 1 medium (2) + 2 low (1 each) = 2*3 + 1*2 + 2*1 = 10\n- Healthy weight: same as total since all are healthy = 10\n- Score: 10/10 = 1.0\n\nThis matches what we see in the report.",
+  "commands": [
+    {
+      "keystrokes": "echo \"Manual verification:\"\necho \"High criticality: auth-service + api-gateway = 2 * 3 = 6\"\necho \"Medium criticality: cache-service = 2\"\necho \"Low criticality: worker-service + notification-service = 2 * 1 = 2\"\necho \"Total weight: 6 + 2 + 2 = 10\"\necho \"Healthy weight: 10 (all services healthy)\"\necho \"Readiness score: 10/10 = 1.0 ✓\"\n",
+      "duration": 0.1
+    }
+  ]
+}

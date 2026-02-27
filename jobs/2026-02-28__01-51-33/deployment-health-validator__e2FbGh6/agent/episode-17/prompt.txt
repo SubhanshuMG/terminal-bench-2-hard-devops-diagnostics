@@ -1,0 +1,40 @@
+New Terminal Output:
+
+root@0b746025887e:/app# python3 -c "
+> import json
+> with open('/app/deployment_report.json') as f:
+>     report = json.load(f)
+>
+> required_fields = ['deployment_name', 'overall_status', 'readiness_score',
+>                 'service_statuses', 'startup_order', 'critical_services_healthy', 'timestamp']
+>
+> print('Verifying required fields:')
+> for field in required_fields:
+>     if field in report:
+>         print(f'✓ {field}: present')
+>     else:
+>         print(f'✗ {field}: missing')
+>
+> print(f'\\n✓ All required fields are present')
+> print(f'✓ Overall status: {report[\"overall_status\"]} (valid: healthy|degraded|critical|not_ready)')
+> print(f'✓ Readiness score: {report[\"readiness_score\"]} (float between 0.0-1.0)')
+> print(f'✓ Critical services healthy: {report[\"critical_services_healthy\"]}')
+> print(f'✓ Startup order length: {len(report[\"startup_order\"])} services')
+> print(f'✓ Service statuses count: {len(report[\"service_statuses\"])} services')
+> "
+Verifying required fields:
+✓ deployment_name: present
+✓ overall_status: present
+✓ readiness_score: present
+✓ service_statuses: present
+✓ startup_order: present
+✓ critical_services_healthy: present
+✓ timestamp: present
+
+✓ All required fields are present
+✓ Overall status: healthy (valid: healthy|degraded|critical|not_ready)
+✓ Readiness score: 1.0 (float between 0.0-1.0)
+✓ Critical services healthy: True
+✓ Startup order length: 5 services
+✓ Service statuses count: 5 services
+root@0b746025887e:/app#

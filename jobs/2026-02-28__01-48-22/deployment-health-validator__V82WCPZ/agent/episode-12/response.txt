@@ -1,0 +1,10 @@
+{
+  "analysis": "There are some port conflicts from the previous services that are still running. Let me check what processes are using these ports and clean them up, then restart the services properly.",
+  "plan": "I'll find and kill the processes using the ports, then restart the mock services cleanly and test the validator to ensure it handles different scenarios correctly.",
+  "commands": [
+    {
+      "keystrokes": "pkill -f mock_services\n",
+      "duration": 1.0
+    }
+  ]
+}

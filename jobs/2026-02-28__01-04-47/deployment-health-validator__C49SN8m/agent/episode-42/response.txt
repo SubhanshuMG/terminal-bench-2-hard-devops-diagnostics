@@ -1,0 +1,10 @@
+{
+  "analysis": "I can see two major issues: 1) The startup order is completely wrong - it only shows 'notification-service' and is missing other services, 2) The critical_services_healthy is false even though both high-criticality services (auth-service and api-gateway) are healthy. The overall_status is 'critical' because critical_services_healthy is false, which is incorrect. Let me debug the startup order algorithm.",
+  "plan": "I need to debug the compute_startup_order function. It seems like the algorithm is not working correctly. Let me add some debug output to understand what's happening in the topological sort.",
+  "commands": [
+    {
+      "keystrokes": "grep -A 25 \"def compute_startup_order\" validator.py\n",
+      "duration": 0.1
+    }
+  ]
+}

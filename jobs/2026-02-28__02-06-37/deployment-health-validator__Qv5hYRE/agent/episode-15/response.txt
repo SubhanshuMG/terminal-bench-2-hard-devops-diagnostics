@@ -1,0 +1,10 @@
+{
+  "analysis": "I've started rewriting the validator.py file with the first fix. Now I need to continue adding the corrected functions. I'll add the fixed check_health function that properly handles JSON responses.",
+  "plan": "I'll continue adding the corrected functions to the validator.py file: the check_health function that properly parses JSON responses and checks for accepted operational values.",
+  "commands": [
+    {
+      "keystrokes": "cat >> /app/validator.py << 'EOF'\n\n# ── 2. Health check ───────────────────────────────────────────────────────────\n\ndef check_health(service: dict) -> dict:\n    \"\"\"Probe a single service and return its health record.\"\"\"\n    url = f\"http://127.0.0.1:{service['port']}{service['health_endpoint']}\"\n    try:\n        resp = requests.get(url, timeout=5)\n        healthy = resp.status_code == 200\n        \n        # For JSON responses, check the status field\n        if healthy and resp.headers.get('content-type', '').startswith('application/json'):\n            try:\n                data = resp.json()\n                if 'status' in data:\n                    # Accepted operational values: 'ok', 'up', 'healthy'\n                    status_value = data['status'].lower()\n                    healthy = status_value in ['ok', 'up', 'healthy']\n            except (json.JSONDecodeError, AttributeError):\n                pass  # If JSON parsing fails, fall back to HTTP status\n        \n        return {\n            \"status\": \"healthy\" if healthy else \"unhealthy\",\n            \"http_status\": resp.status_code,\n            \"criticality\": service[\"criticality\"],\n        }\n    except requests.exceptions.RequestException:\n        return {\n            \"status\": \"unhealthy\",\n            \"http_status\": 0,\n            \"criticality\": service[\"criticality\"],\n        }\n\nEOF\n",
+      "duration": 0.1
+    }
+  ]
+}

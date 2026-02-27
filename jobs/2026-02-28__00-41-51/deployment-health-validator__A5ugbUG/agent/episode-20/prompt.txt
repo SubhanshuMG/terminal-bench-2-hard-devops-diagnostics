@@ -1,0 +1,37 @@
+New Terminal Output:
+
+}root@7f535f315d6d:/app# grep -A 10 -B 5 "critical_ok =" /app/validator.py
+      'healthy'   -- critical_services_healthy AND score >= 0.95
+      'degraded'  -- critical_services_healthy AND score < 0.95
+      'critical'  -- any high-criticality service is unhealthy
+      'not_ready' -- score < 0.70
+    """
+    critical_ok = all(
+        statuses[s["name"]]["status"] == "healthy"
+        for s in services
+    )
+
+    if not critical_ok:
+        return "critical", critical_ok
+    if score >= 0.95:
+        return "healthy", critical_ok
+    if score >= 0.70:
+        return "degraded", critical_ok
+--
+
+    print("Computing readiness score ...")
+    score = compute_readiness_score(services, statuses)
+    print(f"  score = {score:.4f}")
+
+    overall_status, critical_ok = determine_status(services, statuses, score)
+
+    report = {
+        "deployment_name":           "production-stack",
+        "overall_status":            overall_status,
+        "readiness_score":           score,
+        "service_statuses":          statuses,
+        "startup_order":             startup_order,
+        "critical_services_healthy": critical_ok,
+        "timestamp":                 datetime.now(timezone.utc).isoformat(),
+    }
+root@7f535f315d6d:/app#

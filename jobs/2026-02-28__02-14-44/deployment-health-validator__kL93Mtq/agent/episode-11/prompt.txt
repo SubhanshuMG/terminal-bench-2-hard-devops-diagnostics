@@ -1,0 +1,21 @@
+New Terminal Output:
+
+root@48e97cd5a387:/app# python /app/mock_services.py &
+[1] 720
+root@48e97cd5a387:/app#   started  auth-service         /health  -> http://0.0.0.0:8081
+ * Serving Flask app 'auth-service'
+ * Debug mode: off
+  started  api-gateway          /health  -> http://0.0.0.0:8082
+  started  cache-service        /ping    -> http://0.0.0.0:8083
+ * Serving Flask app 'api-gateway'
+  started  worker-service       /status  -> http://0.0.0.0:8084
+ * Serving Flask app 'worker-service'
+ * Serving Flask app 'cache-service'
+ * Serving Flask app 'notification-service'
+  started  notification-service /health  -> http://0.0.0.0:8085
+All mock services running. Ctrl-C to stop.
+ * Debug mode: off
+ * Debug mode: off
+ * Debug mode: off
+ * Debug mode: off
+

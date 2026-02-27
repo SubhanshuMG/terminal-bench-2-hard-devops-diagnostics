@@ -1,0 +1,239 @@
+New Terminal Output:
+
+> cat > /app/validator_fixed.py << 'EOF'
+> #!/usr/bin/env python3
+bash: !/usr/bin/env: event not found
+> """
+ >= 0.70:
+        return "degraded", critical_ok
+    return "not_rsed: -e expression #1, char 1497: unknown command: `C'
+root@eb68a1250306:/app# Deployment Health Validator
+eady", critical_ok
+
+
+def maibash: Deployment: command not found
+root@eb68a1250306:/app# ===========================
+bash: ===========================: command not found
+root@eb68a1250306:/app# Reads deployment_manifest.yaml, probes each service's health endpoint,
+> computes a weighted readiness score, determines a valid startup ordering,
+> and writes a deployment readiness report to /app/deployment_report.json.
+a> """
+>
+> import json
+> import yaml
+> import requests
+> from datetime import datetime, timezone
+> from collections import deque
+  >
+ >
+ > def load_services(manifest_path: str) -> list:
+>     """Return the list of service definitions from the manifest."""
+p >     with open(manifest_path) as f:
+m>         config = yaml.safe_load(f)
+>     return config["deployment"]["services"]
+>
+>
+> def check_health(service: dict) -> dict:
+core ...")
+    >     """Probe a single service and return its health record."""
+>     url = f"http://127.0.0.1:{service['port']}{service['health_endpoint']}"
+>     try:
+>         resp = requests.get(url, timeout=5)
+>
+>         # For non-200 responses, service is unhealthy
+>         if resp.status_code != 200:
+>             return {
+>                 "status": "unhealthy",
+>                 "http_status": resp.status_code,
+>                 "criticality": service["criticality"],
+cal_s>             }
+>
+>         # Try to parse as JSON
+>         try:
+>             data = resp.json()
+ datetime.now(timezone.utc).iso>             # For JSON responses, check if status indicates operational state
+    json.dump(repor>             operational_states = ['ok', 'healthy', 'up', 'running']
+
+   >             json_status = data.get('status', '').lower()
+f">             healthy = json_status in operational_states
+_":
+>         except (ValueError, json.JSONDecodeError):
+>             # For non-JSON responses, HTTP 200 is sufficient
+>             healthy = True
+>
+>         return {
+>             "status": "healthy" if healthy else "unhealthy",
+>             "http_status": resp.status_code,
+>             "criticality": service["criticality"],
+>         }
+>     except requests.exceptions.RequestException:
+>         return {
+>             "status": "unhealthy",
+>             "http_status": 0,
+>             "criticality": service["criticality"],
+>         }
+>
+>
+> def compute_startup_order(services: list) -> list:
+>     """
+>     Return a topologically sorted startup order using Kahn's algorithm.
+bash: Reads: command not found
+root@eb68a1250306:/app#     Dependencies must start before the services that depend on them.
+bash: Dependencies: command not found
+root@eb68a1250306:/app#     """
+>     names = [s["name"] for s in services]
+>     deps_map = {s["name"]: s.get("dependencies", []) for s in services}
+>
+>     graph     = {n: [] for n in names}
+>     in_degree = {n: 0 for n in names}
+>
+>     for svc, deps in deps_map.items():
+>         for dep in deps:
+>             graph[dep].append(svc)
+>             in_degree[svc] += 1
+>
+>     queue = deque(n for n in names if in_degree[n] == 0)
+>     order = []
+>     while queue:
+>         node = queue.popleft()
+>         order.append(node)
+>         for neighbor in graph[node]:
+>             in_degree[neighbor] -= 1
+>             if in_degree[neighbor] == 0:
+>                 queue.append(neighbor)
+>     return order
+>
+>
+> def compute_readiness_score(services: list, statuses: dict) -> float:
+>     """
+bash: $'\n    names = [s[name] for s in services]\n    deps_map = {s[name]: s.get(dependencies, []) for s in services}\n\n    graph     = {n: [] for n in names}
+\n    in_degree = {n: 0 for n in names}\n\n    for svc, deps in deps_map.items():\n        for dep in deps:\n            graph[dep].append(svc)\n            in_
+degree[svc] += 1\n\n    queue = deque(n for n in names if in_degree[n] == 0)\n    order = []\n    while queue:\n        node = queue.popleft()\n        order.ap
+pend(node)\n        for neighbor in graph[node]:\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n                queue.append(n
+eighbor)\n    return order\n\n\ndef compute_readiness_score(services: list, statuses: dict) -> float:\n    ': command not found
+root@eb68a1250306:/app#     Compute the weighted fraction of healthy services.
+bash: Compute: command not found
+root@eb68a1250306:/app#     Criticality weights: high=3, medium=2, low=1.
+bash: Criticality: command not found
+root@eb68a1250306:/app#     """
+>     weight_map = {"high": 3, "medium": 2, "low": 1}
+>
+>     total   = sum(weight_map[s["criticality"]] for s in services)
+>     healthy = sum(
+>         weight_map[s["criticality"]]
+>         for s in services
+>         if statuses[s["name"]]["status"] == "healthy
+[... output limited to 10000 bytes; 69 interior bytes omitted ...]
+    """
+bash:
+    weight_map = {high: 3, medium: 2, low: 1}
+
+    total   = sum(weight_map[s[criticality]] for s in services)
+    healthy = sum(
+        weight_map[s[criticality]]
+        for s in services
+        if statuses[s[name]][status] == healthy
+    )
+    return round(healthy / total, 4) if total else 0.0
+
+
+def determine_status(services: list, statuses: dict, score: float):
+    : File name too long
+root@eb68a1250306:/app#     Returns (overall_status, critical_services_healthy).
+bash: syntax error near unexpected token `overall_status,'
+root@eb68a1250306:/app#
+root@eb68a1250306:/app#     Status rules:
+bash: Status: command not found
+root@eb68a1250306:/app#       'healthy'   -- critical_services_healthy AND score >= 0.95
+bash: healthy: command not found
+root@eb68a1250306:/app#       'degraded'  -- critical_services_healthy AND score < 0.95
+bash: 0.95: No such file or directory
+root@eb68a1250306:/app#       'critical'  -- any high-criticality service is unhealthy
+bash: critical: command not found
+root@eb68a1250306:/app#       'not_ready' -- score < 0.70
+bash: 0.70: No such file or directory
+root@eb68a1250306:/app#     """
+>     critical_ok = all(
+>         statuses[s["name"]]["status"] == "healthy"
+>         for s in services
+>         if s["criticality"] == "high"
+>     )
+>
+>     if not critical_ok:
+>         return "critical", critical_ok
+>     if score >= 0.95:
+>         return "healthy", critical_ok
+>     if score >= 0.70:
+>         return "degraded", critical_ok
+>     return "not_ready", critical_ok
+>
+>
+> def main():
+>     manifest_path = "/app/deployment_manifest.yaml"
+>     output_path   = "/app/deployment_report.json"
+>
+>     print("Loading deployment manifest ...")
+>     services = load_services(manifest_path)
+>
+>     print("Checking service health ...")
+>     statuses = {}
+>     for svc in services:
+>         result = check_health(svc)
+>         statuses[svc["name"]] = result
+>         print(f"  {svc['name']:25s} {result['status']:10s} (HTTP {result['http_status']})")
+bash: syntax error near unexpected token `('
+root@eb68a1250306:/app#
+root@eb68a1250306:/app#     print("Computing startup order ...")
+bash: syntax error near unexpected token `"Computing startup order ..."'
+root@eb68a1250306:/app#     startup_order = compute_startup_order(services)
+bash: syntax error near unexpected token `('
+root@eb68a1250306:/app#     print(f"  {' -> '.join(startup_order)}")
+bash: syntax error near unexpected token `f"  {' -> '.join(startup_order)}"'
+root@eb68a1250306:/app#
+root@eb68a1250306:/app#     print("Computing readiness score ...")
+bash: syntax error near unexpected token `"Computing readiness score ..."'
+root@eb68a1250306:/app#     score = compute_readiness_score(services, statuses)
+bash: syntax error near unexpected token `('
+root@eb68a1250306:/app#     print(f"  score = {score:.4f}")
+bash: syntax error near unexpected token `f"  score = {score:.4f}"'
+root@eb68a1250306:/app#
+root@eb68a1250306:/app#     overall_status, critical_ok = determine_status(services, statuses, score)
+bash: syntax error near unexpected token `('
+root@eb68a1250306:/app#
+root@eb68a1250306:/app#     report = {
+bash: report: command not found
+root@eb68a1250306:/app#         "deployment_name":           "production-stack",
+bash: deployment_name:: command not found
+root@eb68a1250306:/app#         "overall_status":            overall_status,
+bash: overall_status:: command not found
+root@eb68a1250306:/app#         "readiness_score":           score,
+bash: readiness_score:: command not found
+root@eb68a1250306:/app#         "service_statuses":          statuses,
+bash: service_statuses:: command not found
+root@eb68a1250306:/app#         "startup_order":             startup_order,
+bash: startup_order:: command not found
+root@eb68a1250306:/app#         "critical_services_healthy": critical_ok,
+bash: critical_services_healthy:: command not found
+root@eb68a1250306:/app#         "timestamp":                 datetime.now(timezone.utc).isoformat(),
+bash: syntax error near unexpected token `('
+root@eb68a1250306:/app#     }
+bash: syntax error near unexpected token `}'
+root@eb68a1250306:/app#
+root@eb68a1250306:/app#     with open(output_path, "w") as f:
+bash: syntax error near unexpected token `('
+root@eb68a1250306:/app#         json.dump(report, f, indent=2)
+bash: syntax error near unexpected token `report,'
+root@eb68a1250306:/app#
+root@eb68a1250306:/app#     print(f"\nReport written to {output_path}")
+bash: syntax error near unexpected token `f"\nReport written to {output_path}"'
+root@eb68a1250306:/app#     print(f"Overall status : {overall_status}")
+bash: syntax error near unexpected token `f"Overall status : {overall_status}"'
+root@eb68a1250306:/app#     print(f"Readiness score: {score}")
+bash: syntax error near unexpected token `f"Readiness score: {score}"'
+root@eb68a1250306:/app#
+root@eb68a1250306:/app#
+root@eb68a1250306:/app# if __name__ == "__main__":
+>     main()
+> EOF
+bash: syntax error near unexpected token `EOF'
+root@eb68a1250306:/app#

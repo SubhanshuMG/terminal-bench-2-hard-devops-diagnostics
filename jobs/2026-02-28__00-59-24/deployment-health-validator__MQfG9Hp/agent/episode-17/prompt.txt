@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@82da292356f8:/app# sed -i 's|output_path   = "/deployment_report.json"|output_path   = "/app/deployment_report.json"|' validator.py
+root@82da292356f8:/app#

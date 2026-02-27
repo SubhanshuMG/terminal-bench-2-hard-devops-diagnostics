@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@a5f76d8b05e3:/app# grep -n "health_endpoint" validator.py
+33:    url = f"http://127.0.0.1:{service['port']}{service['health_endpoint']}"
+root@a5f76d8b05e3:/app#

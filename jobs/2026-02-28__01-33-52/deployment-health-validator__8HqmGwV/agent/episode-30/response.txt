@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! The validator is now working correctly and producing the expected output. Let me verify the correctness:\n\n✅ **overall_status: 'degraded'** - Correct because critical_services_healthy=true and readiness_score=0.9 < 0.95\n✅ **readiness_score: 0.9** - Correct calculation: (3+3+2)/(3+3+2+1+1) = 8/10 = 0.8, but let me double-check this\n✅ **service_statuses** - All services correctly reported with proper status, http_status, and criticality\n✅ **startup_order** - Correct topological sort\n✅ **critical_services_healthy: true** - Both high-criticality services (auth-service and api-gateway) are healthy\n\nLet me quickly verify the readiness score calculation to make sure it's correct.",
+  "plan": "I'll verify the readiness score calculation to ensure it's correct with the proper weights.",
+  "commands": [
+    {
+      "keystrokes": "echo 'Healthy services: auth-service(high=3), api-gateway(high=3), cache-service(medium=2)'\necho 'Total weights: 3+3+2+1+1 = 10'\necho 'Healthy weights: 3+3+2 = 8'\necho 'Score: 8/10 = 0.8'\necho 'But we got 0.9, let me check...'\n",
+      "duration": 0.1
+    }
+  ]
+}

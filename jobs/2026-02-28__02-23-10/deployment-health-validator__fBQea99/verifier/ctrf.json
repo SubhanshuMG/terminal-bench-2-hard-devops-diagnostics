@@ -1,0 +1,182 @@
+{
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "8.4.1"
+        },
+        "summary": {
+            "tests": 18,
+            "passed": 18,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1772225666.8366818,
+            "stop": 1772225666.8505223
+        },
+        "tests": [
+            {
+                "name": "test_outputs.py::test_report_file_exists",
+                "status": "passed",
+                "duration": 0.0001830000010158983,
+                "start": 1772225666.8456318,
+                "stop": 1772225666.8459816,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_report_top_level_keys",
+                "status": "passed",
+                "duration": 0.0001649169998927391,
+                "start": 1772225666.8460546,
+                "stop": 1772225666.8463185,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_deployment_name",
+                "status": "passed",
+                "duration": 0.00010149999980058055,
+                "start": 1772225666.8463702,
+                "stop": 1772225666.8465538,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_all_five_services_present",
+                "status": "passed",
+                "duration": 0.00011754099887184566,
+                "start": 1772225666.8466058,
+                "stop": 1772225666.8468075,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_auth_service_healthy",
+                "status": "passed",
+                "duration": 0.00014179299978422932,
+                "start": 1772225666.8468866,
+                "stop": 1772225666.847136,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_api_gateway_healthy",
+                "status": "passed",
+                "duration": 0.00010720800037233857,
+                "start": 1772225666.8472085,
+                "stop": 1772225666.8474073,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_cache_service_healthy",
+                "status": "passed",
+                "duration": 9.441600013815332e-05,
+                "start": 1772225666.8474612,
+                "stop": 1772225666.8476388,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_worker_service_unhealthy",
+                "status": "passed",
+                "duration": 0.00011420899954828201,
+                "start": 1772225666.8476918,
+                "stop": 1772225666.8478966,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_notification_service_healthy",
+                "status": "passed",
+                "duration": 0.00011695900047925534,
+                "start": 1772225666.8479834,
+                "stop": 1772225666.8481977,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_service_criticality_values",
+                "status": "passed",
+                "duration": 0.00011529199946380686,
+                "start": 1772225666.848255,
+                "stop": 1772225666.8484585,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_readiness_score",
+                "status": "passed",
+                "duration": 9.587400109012378e-05,
+                "start": 1772225666.8485117,
+                "stop": 1772225666.8486886,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_critical_services_healthy",
+                "status": "passed",
+                "duration": 0.00011179200009792112,
+                "start": 1772225666.8487475,
+                "stop": 1772225666.8489444,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_overall_status_degraded",
+                "status": "passed",
+                "duration": 0.00010995899992849445,
+                "start": 1772225666.8490293,
+                "stop": 1772225666.8492224,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_has_all_services",
+                "status": "passed",
+                "duration": 9.287500051868847e-05,
+                "start": 1772225666.8492749,
+                "stop": 1772225666.8494427,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_auth_before_gateway",
+                "status": "passed",
+                "duration": 9.31250006033224e-05,
+                "start": 1772225666.8494945,
+                "stop": 1772225666.8496692,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_cache_before_gateway",
+                "status": "passed",
+                "duration": 9.549999958835542e-05,
+                "start": 1772225666.8497207,
+                "stop": 1772225666.849898,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_gateway_before_worker",
+                "status": "passed",
+                "duration": 9.8165999588673e-05,
+                "start": 1772225666.8499632,
+                "stop": 1772225666.8501427,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_worker_before_notification",
+                "status": "passed",
+                "duration": 0.00011758300115616294,
+                "start": 1772225666.850215,
+                "stop": 1772225666.850412,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            }
+        ]
+    }
+}

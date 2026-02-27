@@ -1,0 +1,10 @@
+{
+  "analysis": "I've added the corrected compute_readiness_score function with the proper weights. Now I need to add the corrected determine_status function that only checks high-criticality services for the critical_services_healthy determination.",
+  "plan": "I'll add the corrected determine_status function that only considers high-criticality services when determining if critical_services_healthy is true.",
+  "commands": [
+    {
+      "keystrokes": "cat >> /app/validator.py << 'EOF'\n\n# ── 5. Overall status ─────────────────────────────────────────────────────────\n\ndef determine_status(services: list, statuses: dict, score: float):\n    \"\"\"\n    Returns (overall_status, critical_services_healthy).\n\n    Status rules:\n      'healthy'   -- critical_services_healthy AND score >= 0.95\n      'degraded'  -- critical_services_healthy AND score < 0.95\n      'critical'  -- any high-criticality service is unhealthy\n      'not_ready' -- score < 0.70\n    \"\"\"\n    # Fix: only check high-criticality services\n    critical_ok = all(\n        statuses[s[\"name\"]][\"status\"] == \"healthy\"\n        for s in services\n        if s[\"criticality\"] == \"high\"\n    )\n\n    if not critical_ok:\n        return \"critical\", critical_ok\n    if score >= 0.95:\n        return \"healthy\", critical_ok\n    if score >= 0.70:\n        return \"degraded\", critical_ok\n    return \"not_ready\", critical_ok\n\nEOF\n",
+      "duration": 0.1
+    }
+  ]
+}

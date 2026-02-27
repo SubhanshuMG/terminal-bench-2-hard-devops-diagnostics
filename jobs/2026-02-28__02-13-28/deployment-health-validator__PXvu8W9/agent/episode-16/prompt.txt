@@ -1,0 +1,11 @@
+New Terminal Output:
+
+root@8c35f8f57c60:/app# python -c "import json; data=json.load(open('/app/deployment_report.json')); print('Services count:', len(data['service_statuses'])); pr
+int('Readiness score:', data['readiness_score']); print('Overall status:', data['overall_status']); print('Critical services healthy:', data['critical_services_
+healthy']); print('Services:', list(data['service_statuses'].keys()))"
+Services count: 5
+Readiness score: 0.9
+Overall status: degraded
+Critical services healthy: True
+Services: ['auth-service', 'api-gateway', 'cache-service', 'worker-service', 'notification-service']
+root@8c35f8f57c60:/app#

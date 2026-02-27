@@ -1,0 +1,25 @@
+New Terminal Output:
+
+root@0b746025887e:/app# python3 -c "
+> # Manual verification of readiness score calculation
+> high_weight = 3
+> medium_weight = 2
+> low_weight = 1
+>
+> # Services: auth(high), api(high), cache(medium), worker(low), notification(low)
+> total_weight = (2 * high_weight) + (1 * medium_weight) + (2 * low_weight)
+> print(f'Total weight: {total_weight}')
+>
+> # All services healthy
+> healthy_weight = (2 * high_weight) + (1 * medium_weight) + (2 * low_weight)
+> print(f'Healthy weight: {healthy_weight}')
+>
+> score = healthy_weight / total_weight
+> print(f'Readiness score: {score}')
+> print('✓ Score calculation is correct')
+> "
+Total weight: 10
+Healthy weight: 10
+Readiness score: 1.0
+✓ Score calculation is correct
+root@0b746025887e:/app#

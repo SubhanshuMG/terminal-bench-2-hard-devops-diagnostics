@@ -1,0 +1,17 @@
+New Terminal Output:
+
+root@f2aeb2d60bea:/app# echo "Startup order verification:"
+Startup order verification:
+root@f2aeb2d60bea:/app# echo "auth-service: no dependencies ✓"
+auth-service: no dependencies ✓
+root@f2aeb2d60bea:/app# echo "cache-service: no dependencies ✓"
+cache-service: no dependencies ✓
+root@f2aeb2d60bea:/app# echo "api-gateway: depends on auth-service, cache-service ✓"
+api-gateway: depends on auth-service, cache-service ✓
+root@f2aeb2d60bea:/app# echo "worker-service: depends on api-gateway, cache-service ✓"
+worker-service: depends on api-gateway, cache-service ✓
+root@f2aeb2d60bea:/app# echo "notification-service: depends on worker-service ✓"
+notification-service: depends on worker-service ✓
+root@f2aeb2d60bea:/app# echo "Order: auth-service -> cache-service -> api-gateway -> worker-service -> notification-service ✓"
+Order: auth-service -> cache-service -> api-gateway -> worker-service -> notification-service ✓
+root@f2aeb2d60bea:/app#

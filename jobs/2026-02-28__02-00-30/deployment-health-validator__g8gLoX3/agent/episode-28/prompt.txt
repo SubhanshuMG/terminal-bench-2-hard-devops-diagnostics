@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@c08cc3f8e638:/app# grep -n "healthy = resp.status_code == 200" /app/validator.py
+60:        healthy = resp.status_code == 200
+root@c08cc3f8e638:/app#

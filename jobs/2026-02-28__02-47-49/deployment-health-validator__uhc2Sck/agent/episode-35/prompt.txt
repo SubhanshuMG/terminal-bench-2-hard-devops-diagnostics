@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@d796365c4a34:/app# sed -i 's/deps_map = {s\["name"\]: s.get("dependencies", \[\]) for s in services if s\["criticality"\] == "high"}/deps_map = {s["name"]:
+ s.get("dependencies", []) for s in services}/' /app/validator.py
+root@d796365c4a34:/app#

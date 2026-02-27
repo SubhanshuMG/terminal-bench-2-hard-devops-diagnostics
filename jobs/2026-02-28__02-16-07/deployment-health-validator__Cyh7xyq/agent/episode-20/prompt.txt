@@ -1,0 +1,35 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# sed -n '30,60p' validator.py
+def check_health(service: dict) -> dict:
+    """Probe a single service and return its health record."""
+    url = f"http://127.0.0.1:{service['port']}{service['health_endpoint']}"
+    try:
+        resp = requests.get(url, timeout=5)
+        healthy = resp.status_code == 200
+        return {
+            "status": "healthy" if healthy else "unhealthy",
+            "http_status": resp.status_code,
+            "criticality": service["criticality"],
+        }
+    except requests.exceptions.RequestException:
+        return {
+            "status": "unhealthy",
+            "http_status": 0,
+            "criticality": service["criticality"],
+        }
+
+
+# ── 3. Startup ordering ───────────────────────────────────────────────────────
+
+def compute_startup_order(services: list) -> list:
+    """
+    Return a topologically sorted startup order using Kahn's algorithm.
+    Dependencies must start before the services that depend on them.
+    """
+    names = [s["name"] for s in services if s["criticality"] == "high"]
+    deps_map = {s["name"]: s.get("dependencies", []) for s in services if s["criticality"] == "high"}
+
+    graph     = {n: [] for n in names}
+    in_degree = {n: 0 for n in names}
+root@eb68a1250306:/app#

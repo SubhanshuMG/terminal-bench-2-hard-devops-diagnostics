@@ -1,0 +1,27 @@
+New Terminal Output:
+
+root@f07828e7747d:/app# curl -v http://localhost:8084/status
+* Host localhost:8084 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8084...
+* connect to ::1 port 8084 from ::1 port 33176 failed: Connection refused
+*   Trying 127.0.0.1:8084...
+* Connected to localhost (127.0.0.1) port 8084
+* using HTTP/1.x
+> GET /status HTTP/1.1
+> Host: localhost:8084
+> User-Agent: curl/8.14.1
+> Accept: */*
+>
+* Request completely sent off
+< HTTP/1.1 503 SERVICE UNAVAILABLE
+< Server: Werkzeug/3.1.6 Python/3.12.12
+< Date: Fri, 27 Feb 2026 20:05:16 GMT
+< Content-Type: application/json
+< Content-Length: 41
+< Connection: close
+<
+{"queue_depth":1482,"status":"degraded"}
+* shutting down connection #0
+root@f07828e7747d:/app#

@@ -1,0 +1,29 @@
+New Terminal Output:
+
+root@9f873286d75f:/app# cat > /tmp/fix1.py << 'EOF'
+> #!/usr/bin/env python3
+> """
+> Deployment Health Validator
+> ===========================
+> Reads deployment_manifest.yaml, probes each service's health endpoint,
+> computes a weighted readiness score, determines a valid startup ordering,
+> and writes a deployment readiness report to /app/deployment_report.json.
+> """
+>
+> import json
+> import yaml
+> import requests
+> from datetime import datetime, timezone
+> from collections import deque
+>
+>
+> # ── 1. Load manifest ──────────────────────────────────────────────────────────
+>
+> def load_services(manifest_path: str) -> list:
+>     """Return the list of service definitions from the manifest."""
+>     with open(manifest_path) as f:
+>         config = yaml.safe_load(f)
+>     # Returns the services from deployment.services, not the legacy top-level services
+>     return config["deployment"]["services"]
+> EOF
+root@9f873286d75f:/app#

@@ -1,0 +1,10 @@
+{
+  "analysis": "netstat isn't available. Let me try ss or check if the mock_services.py is running as a background process.",
+  "plan": "I'll check for running processes and try alternative network commands to see what's listening.",
+  "commands": [
+    {
+      "keystrokes": "ps aux | grep mock\n",
+      "duration": 0.1
+    }
+  ]
+}

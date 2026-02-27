@@ -1,0 +1,6 @@
+New Terminal Output:
+
+root@d796365c4a34:/app# python3 /app/validator.py | grep -A 1 'Computing startup order'
+Computing startup order ...
+  auth-service -> cache-service -> api-gateway -> worker-service -> notification-service
+root@d796365c4a34:/app#

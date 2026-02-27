@@ -1,0 +1,6 @@
+{
+  "analysis": "Perfect! The deployment health validator has been successfully fixed and is working correctly. The generated report matches the expected schema exactly:\n\n1. **deployment_name**: \"production-stack\" ✓\n2. **overall_status**: \"healthy\" (all high-criticality services healthy and score >= 0.95) ✓\n3. **readiness_score**: 1.0 (perfect score, all services healthy with correct weights) ✓\n4. **service_statuses**: All services properly listed with correct status, HTTP status, and criticality ✓\n5. **startup_order**: Correct topological sort (dependencies first) ✓\n6. **critical_services_healthy**: true (both high-criticality services auth-service and api-gateway are healthy) ✓\n7. **timestamp**: Valid ISO format ✓\n\nAll the bugs have been fixed:\n- Fixed service loading from deployment.services instead of top-level services\n- Fixed criticality weights (high=3, medium=2, low=1)\n- Fixed topological sort dependency direction\n- Fixed critical_services_healthy to only check high-criticality services",
+  "plan": "The task is complete! The deployment health validator is now working correctly and generating proper reports.",
+  "commands": [],
+  "task_complete": true
+}

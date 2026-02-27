@@ -1,0 +1,14 @@
+New Terminal Output:
+
+root@b3729034f076:/app# echo "Checking JSON schema validation..."
+Checking JSON schema validation...
+root@b3729034f076:/app# python3 -c "import json; report = json.load(open('/app/deployment_report.json')); print('✓ JSON is valid'); print('deployment_name:', re
+port['deployment_name']); print('overall_status:', report['overall_status']); print('readiness_score:', report['readiness_score']); print('startup_order:', repo
+rt['startup_order']); print('critical_services_healthy:', report['critical_services_healthy'])"
+✓ JSON is valid
+deployment_name: production-stack
+overall_status: degraded
+readiness_score: 0.9
+startup_order: ['auth-service', 'cache-service', 'api-gateway', 'worker-service', 'notification-service']
+critical_services_healthy: True
+root@b3729034f076:/app#

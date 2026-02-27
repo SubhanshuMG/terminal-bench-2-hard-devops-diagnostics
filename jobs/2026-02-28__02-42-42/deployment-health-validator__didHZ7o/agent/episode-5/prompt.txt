@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@7490452a299f:/app# netstat -tlnp | grep :808
+bash: netstat: command not found
+root@7490452a299f:/app#

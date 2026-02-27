@@ -1,0 +1,10 @@
+{
+  "analysis": "The pkill command isn't available. Let me try a different approach to stop the auth-service and test the validator's ability to handle unhealthy states. I'll use ps to find the process and kill it directly.",
+  "plan": "I'll find the process ID for the auth-service and kill it to test how the validator handles an unhealthy high-criticality service.",
+  "commands": [
+    {
+      "keystrokes": "ps aux | grep auth-service\n",
+      "duration": 0.1
+    }
+  ]
+}

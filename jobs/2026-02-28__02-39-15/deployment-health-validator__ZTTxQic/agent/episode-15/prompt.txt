@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@9681c98c04e7:/app# sed -i '/critical_ok = all(/,/for s in services/{s/for s in services/for s in high_criticality_services/;}' /app/validator.py
+root@9681c98c04e7:/app#

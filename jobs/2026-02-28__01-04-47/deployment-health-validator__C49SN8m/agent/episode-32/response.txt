@@ -1,0 +1,10 @@
+{
+  "analysis": "I can see the issue! In the compute_startup_order function, the graph construction is backwards. When service A depends on service B, it means B must start before A. But the current code adds the dependency to the graph incorrectly. Let me see the rest of the function and fix it.",
+  "plan": "I need to see the complete function and fix the graph construction. The issue is that when service A depends on B, we should have an edge from B to A (B -> A), not A to B.",
+  "commands": [
+    {
+      "keystrokes": "grep -A 30 \"for svc, deps in deps_map.items():\" validator.py\n",
+      "duration": 0.1
+    }
+  ]
+}

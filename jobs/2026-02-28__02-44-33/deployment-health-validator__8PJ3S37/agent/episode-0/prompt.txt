@@ -1,0 +1,169 @@
+You are an AI assistant tasked with solving command-line tasks in a Linux environment. You will be given a task description and the output from previously executed commands. Your goal is to solve the task by providing batches of shell commands.
+
+Format your response as JSON with the following structure:
+
+{
+  "analysis": "Analyze the current state based on the terminal output provided. What do you see? What has been accomplished? What still needs to be done?",
+  "plan": "Describe your plan for the next steps. What commands will you run and why? Be specific about what you expect each command to accomplish.",
+  "commands": [
+    {
+      "keystrokes": "ls -la\n",
+      "duration": 0.1
+    },
+    {
+      "keystrokes": "cd project\n",
+      "duration": 0.1
+    }
+  ],
+  "task_complete": true
+}
+
+Required fields:
+- "analysis": Your analysis of the current situation
+- "plan": Your plan for the next steps
+- "commands": Array of command objects to execute
+
+Optional fields:
+- "task_complete": Boolean indicating if the task is complete (defaults to false if not present)
+
+Command object structure:
+- "keystrokes": String containing the exact keystrokes to send to the terminal (required)
+- "duration": Number of seconds to wait for the command to complete before the next command will be executed (defaults to 1.0 if not present)
+
+IMPORTANT: The text inside "keystrokes" will be used completely verbatim as keystrokes. Write commands exactly as you want them sent to the terminal:
+- You must end every command with a newline (\n) or it will not execute.
+- For special key sequences, use tmux-style escape sequences:
+  - C-c for Ctrl+C
+  - C-d for Ctrl+D
+
+The "duration" attribute specifies the number of seconds to wait for the command to complete (default: 1.0) before the next command will be executed. On immediate tasks (e.g., cd, ls, echo, cat) set a duration of 0.1 seconds. On commands (e.g., gcc, find, rustc) set a duration of 1.0 seconds. On slow commands (e.g., make, python3 [long running script], wget [file]) set an appropriate duration as you determine necessary.
+
+It is better to set a smaller duration than a longer duration. It is always possible to wait again if the prior output has not finished, by running {"keystrokes": "", "duration": 10.0} on subsequent requests to wait longer. Never wait longer than 60 seconds; prefer to poll to see intermediate result status.
+
+Important notes:
+- Each command's keystrokes are sent exactly as written to the terminal
+- Do not include extra whitespace before or after the keystrokes unless it's part of the intended command
+- Extra text before or after the JSON will generate warnings but be tolerated
+- The JSON must be valid - use proper escaping for quotes and special characters within strings
+- Commands array can be empty if you want to wait without taking action
+
+Task Description:
+# Deployment Health Validator — Debug Task
+
+You are a DevOps engineer onboarding to a microservices team. The previous engineer left behind a deployment health validation tool that is **broken**. Your job is to fix it so the deployment pipeline works correctly.
+
+## Context
+
+The production stack has five services with dependencies between them. Before any deployment, a validator checks all services are healthy and computes a readiness report.
+
+The following files exist in `/app/`:
+
+- **`/app/deployment_manifest.yaml`** — Defines all services, their ports, health endpoints, dependencies, and criticality levels.
+- **`/app/mock_services.py`** — Simulates the five service health endpoints (already running in the background).
+- **`/app/validator.py`** — The main validation script. **It is currently broken and needs to be fixed.**
+
+The mock services are already running. You can verify them manually with `curl`, for example:
+
+```
+curl http://localhost:8081/health
+```
+
+## Objective
+
+Fix `/app/validator.py` so that running:
+
+```
+python /app/validator.py
+```
+
+produces a correct report at `/app/deployment_report.json`.
+
+## Expected Report Schema
+
+```json
+{
+  "deployment_name": "production-stack",
+  "overall_status": "healthy|degraded|critical|not_ready",
+  "readiness_score": 0.0,
+  "service_statuses": {
+    "service-name": {
+      "status": "healthy|unhealthy",
+      "http_status": 200,
+      "criticality": "high|medium|low"
+    }
+  },
+  "startup_order": ["service-name", "..."],
+  "critical_services_healthy": true,
+  "timestamp": "2024-01-01T00:00:00+00:00"
+}
+```
+
+## Definitions
+
+**`overall_status`**:
+- `healthy` — all high-criticality services healthy AND readiness_score >= 0.95
+- `degraded` — all high-criticality services healthy AND readiness_score < 0.95
+- `critical` — one or more **high**-criticality services are unhealthy
+- `not_ready` — readiness_score < 0.70 (regardless of criticality)
+
+**`readiness_score`** — weighted fraction of healthy services:
+- `high` criticality → weight **3**
+- `medium` criticality → weight **2**
+- `low` criticality → weight **1**
+- Formula: `sum(weight for healthy services) / sum(weight for all services)`
+
+**`startup_order`** — topologically sorted service names; every dependency must appear **before** its dependent in the list.
+
+**`critical_services_healthy`** — `true` if and only if every service with criticality `"high"` is currently healthy.
+
+## Notes
+
+- Each service uses its own health endpoint (not always `/health`) — check the manifest.
+- Use `curl` to probe each endpoint and verify the actual responses before assuming they are healthy.
+- Fix only `/app/validator.py`. Do not modify `mock_services.py` or `deployment_manifest.yaml`.
+- The report must be written to `/app/deployment_report.json`.
+
+
+Current terminal state:
+Current Terminal Screen:
+root@b4674ba3220e:/app#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

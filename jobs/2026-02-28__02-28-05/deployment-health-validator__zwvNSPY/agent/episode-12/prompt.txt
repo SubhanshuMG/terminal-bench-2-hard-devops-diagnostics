@@ -1,0 +1,17 @@
+New Terminal Output:
+
+root@1969c273b758:/app# grep -A 5 "load_services" validator.py
+def load_services(manifest_path: str) -> list:
+    """Return the list of service definitions from the manifest."""
+    with open(manifest_path) as f:
+        config = yaml.safe_load(f)
+    # Return the authoritative deployment services list
+    return config["deployment"]["services"]
+--
+    services = load_services(manifest_path)
+
+    print("Checking service health ...")
+    statuses = {}
+    for svc in services:
+        result = check_health(svc)
+root@1969c273b758:/app#

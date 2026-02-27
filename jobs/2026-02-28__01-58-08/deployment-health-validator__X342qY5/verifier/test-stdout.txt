@@ -1,0 +1,125 @@
+Hit:1 http://deb.debian.org/debian trixie InRelease
+Hit:2 http://deb.debian.org/debian trixie-updates InRelease
+Hit:3 http://deb.debian.org/debian-security trixie-security InRelease
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+curl is already the newest version (8.14.1-2+deb13u2).
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+downloading uv 0.9.7 aarch64-unknown-linux-gnu
+no checksums to verify
+installing to /root/.local/bin
+  uv
+  uvx
+everything's installed!
+
+To add $HOME/.local/bin to your PATH, either restart your shell or run:
+
+    source $HOME/.local/bin/env (sh, bash, zsh)
+    source $HOME/.local/bin/env.fish (fish)
+Downloading pygments (1.2MiB)
+ Downloading pygments
+Installed 6 packages in 8ms
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.1, pluggy-1.6.0
+rootdir: /tests
+plugins: json-ctrf-0.3.5
+collected 18 items
+
+../tests/test_outputs.py ..............FFFF                              [100%]
+
+=================================== FAILURES ===================================
+____________________ test_startup_order_auth_before_gateway ____________________
+
+report = {'critical_services_healthy': True, 'deployment_name': 'production-stack', 'overall_status': 'degraded', 'readiness_score': 0.9, ...}
+
+    def test_startup_order_auth_before_gateway(report):
+        """auth-service is a dependency of api-gateway, so it must start first."""
+        order = report["startup_order"]
+>       assert order.index("auth-service") < order.index("api-gateway"), (
+            "auth-service must appear before api-gateway in startup_order."
+        )
+E       AssertionError: auth-service must appear before api-gateway in startup_order.
+E       assert 3 < 2
+E        +  where 3 = <built-in method index of list object at 0xffffa8a7a6c0>('auth-service')
+E        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index
+E        +  and   2 = <built-in method index of list object at 0xffffa8a7a6c0>('api-gateway')
+E        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index
+
+/tests/test_outputs.py:180: AssertionError
+___________________ test_startup_order_cache_before_gateway ____________________
+
+report = {'critical_services_healthy': True, 'deployment_name': 'production-stack', 'overall_status': 'degraded', 'readiness_score': 0.9, ...}
+
+    def test_startup_order_cache_before_gateway(report):
+        """cache-service is a dependency of api-gateway, so it must start first."""
+        order = report["startup_order"]
+>       assert order.index("cache-service") < order.index("api-gateway"), (
+            "cache-service must appear before api-gateway in startup_order."
+        )
+E       AssertionError: cache-service must appear before api-gateway in startup_order.
+E       assert 4 < 2
+E        +  where 4 = <built-in method index of list object at 0xffffa8a7a6c0>('cache-service')
+E        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index
+E        +  and   2 = <built-in method index of list object at 0xffffa8a7a6c0>('api-gateway')
+E        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index
+
+/tests/test_outputs.py:188: AssertionError
+___________________ test_startup_order_gateway_before_worker ___________________
+
+report = {'critical_services_healthy': True, 'deployment_name': 'production-stack', 'overall_status': 'degraded', 'readiness_score': 0.9, ...}
+
+    def test_startup_order_gateway_before_worker(report):
+        """api-gateway is a dependency of worker-service, so it must start first."""
+        order = report["startup_order"]
+>       assert order.index("api-gateway") < order.index("worker-service"), (
+            "api-gateway must appear before worker-service in startup_order."
+        )
+E       AssertionError: api-gateway must appear before worker-service in startup_order.
+E       assert 2 < 1
+E        +  where 2 = <built-in method index of list object at 0xffffa8a7a6c0>('api-gateway')
+E        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index
+E        +  and   1 = <built-in method index of list object at 0xffffa8a7a6c0>('worker-service')
+E        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index
+
+/tests/test_outputs.py:196: AssertionError
+________________ test_startup_order_worker_before_notification _________________
+
+report = {'critical_services_healthy': True, 'deployment_name': 'production-stack', 'overall_status': 'degraded', 'readiness_score': 0.9, ...}
+
+    def test_startup_order_worker_before_notification(report):
+        """worker-service is a dependency of notification-service, so it must start first."""
+        order = report["startup_order"]
+>       assert order.index("worker-service") < order.index("notification-service"), (
+            "worker-service must appear before notification-service in startup_order."
+        )
+E       AssertionError: worker-service must appear before notification-service in startup_order.
+E       assert 1 < 0
+E        +  where 1 = <built-in method index of list object at 0xffffa8a7a6c0>('worker-service')
+E        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index
+E        +  and   0 = <built-in method index of list object at 0xffffa8a7a6c0>('notification-service')
+E        +    where <built-in method index of list object at 0xffffa8a7a6c0> = ['notification-service', 'worker-service', 'api-gateway', 'auth-service', 'cache-service'].index
+
+/tests/test_outputs.py:204: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED ../tests/test_outputs.py::test_report_file_exists
+PASSED ../tests/test_outputs.py::test_report_top_level_keys
+PASSED ../tests/test_outputs.py::test_deployment_name
+PASSED ../tests/test_outputs.py::test_all_five_services_present
+PASSED ../tests/test_outputs.py::test_auth_service_healthy
+PASSED ../tests/test_outputs.py::test_api_gateway_healthy
+PASSED ../tests/test_outputs.py::test_cache_service_healthy
+PASSED ../tests/test_outputs.py::test_worker_service_unhealthy
+PASSED ../tests/test_outputs.py::test_notification_service_healthy
+PASSED ../tests/test_outputs.py::test_service_criticality_values
+PASSED ../tests/test_outputs.py::test_readiness_score
+PASSED ../tests/test_outputs.py::test_critical_services_healthy
+PASSED ../tests/test_outputs.py::test_overall_status_degraded
+PASSED ../tests/test_outputs.py::test_startup_order_has_all_services
+FAILED ../tests/test_outputs.py::test_startup_order_auth_before_gateway - Ass...
+FAILED ../tests/test_outputs.py::test_startup_order_cache_before_gateway - As...
+FAILED ../tests/test_outputs.py::test_startup_order_gateway_before_worker - A...
+FAILED ../tests/test_outputs.py::test_startup_order_worker_before_notification
+========================= 4 failed, 14 passed in 0.02s =========================

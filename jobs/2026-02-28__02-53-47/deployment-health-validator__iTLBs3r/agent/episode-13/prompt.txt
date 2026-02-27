@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@f7ccf0afebe9:/app# jobs
+[1]+  Running                 python /app/mock_services.py &
+root@f7ccf0afebe9:/app#

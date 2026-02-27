@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@7490452a299f:/app# python3 --version
+Python 3.12.12
+root@7490452a299f:/app#

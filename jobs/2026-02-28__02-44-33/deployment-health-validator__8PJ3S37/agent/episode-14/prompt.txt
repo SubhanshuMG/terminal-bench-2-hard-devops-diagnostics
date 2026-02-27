@@ -1,0 +1,76 @@
+New Terminal Output:
+
+root@b4674ba3220e:/app# grep -n -A 5 -B 5 'critical_ok' validator.py
+103-      'healthy'   -- critical_services_healthy AND score >= 0.95
+104-      'degraded'  -- critical_services_healthy AND score < 0.95
+105-      'critical'  -- any high-criticality service is unhealthy
+106-      'not_ready' -- score < 0.70
+107-    """
+108:    critical_ok = all(
+109:    critical_ok = all(
+110-        statuses[s["name"]]["status"] == "healthy"
+111-        for s in services
+112-        if s["criticality"] == "high"
+113-    )
+114-        statuses[s["name"]]["status"] == "healthy"
+115:    critical_ok = all(
+116-        statuses[s["name"]]["status"] == "healthy"
+117-        for s in services
+118-        if s["criticality"] == "high"
+119-    )
+120-        for s in services
+121:    critical_ok = all(
+122-        statuses[s["name"]]["status"] == "healthy"
+123-        for s in services
+124-        if s["criticality"] == "high"
+125-    )
+126-    )
+127:    critical_ok = all(
+128-        statuses[s["name"]]["status"] == "healthy"
+129-        for s in services
+130-        if s["criticality"] == "high"
+131-    )
+132-
+133:    critical_ok = all(
+134-        statuses[s["name"]]["status"] == "healthy"
+135-        for s in services
+136-        if s["criticality"] == "high"
+137-    )
+138:    if not critical_ok:
+139:    critical_ok = all(
+140-        statuses[s["name"]]["status"] == "healthy"
+141-        for s in services
+142-        if s["criticality"] == "high"
+143-    )
+144:        return "critical", critical_ok
+145-    if score >= 0.95:
+146:        return "healthy", critical_ok
+147-    if score >= 0.70:
+148:        return "degraded", critical_ok
+149:    return "not_ready", critical_ok
+150-
+151-
+152-# ── main ──────────────────────────────────────────────────────────────────────
+153-
+154-def main():
+--
+171-
+172-    print("Computing readiness score ...")
+173-    score = compute_readiness_score(services, statuses)
+174-    print(f"  score = {score:.4f}")
+175-
+176:    overall_status, critical_ok = determine_status(services, statuses, score)
+177-
+178-    report = {
+179-        "deployment_name":           "production-stack",
+180-        "overall_status":            overall_status,
+181-        "readiness_score":           score,
+182-        "service_statuses":          statuses,
+183-        "startup_order":             startup_order,
+184:        "critical_services_healthy": critical_ok,
+185-        "timestamp":                 datetime.now(timezone.utc).isoformat(),
+186-    }
+187-
+188-    with open(output_path, "w") as f:
+189-        json.dump(report, f, indent=2)
+root@b4674ba3220e:/app#

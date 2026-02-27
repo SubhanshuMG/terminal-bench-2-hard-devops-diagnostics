@@ -1,0 +1,15 @@
+New Terminal Output:
+
+root@d95b9f80757c:/app# python /app/validator.py
+Loading deployment manifest ...
+Checking service health ...
+  metrics-collector         unhealthy  (HTTP 0)
+Computing startup order ...
+  metrics-collector
+Computing readiness score ...
+  score = 0.0000
+
+Report written to /app/deployment_report.json
+Overall status : critical
+Readiness score: 0.0
+root@d95b9f80757c:/app#

@@ -1,0 +1,22 @@
+New Terminal Output:
+
+root@d796365c4a34:/app# python3 /app/validator.py
+Loading deployment manifest ...
+Checking service health ...
+  auth-service              healthy    (HTTP 200)
+  api-gateway               healthy    (HTTP 200)
+  cache-service             healthy    (HTTP 200)
+  worker-service            healthy    (HTTP 200)
+  notification-service      healthy    (HTTP 200)
+Computing startup order ...
+Traceback (most recent call last):
+  File "/app/validator.py", line 167, in <module>
+    main()
+  File "/app/validator.py", line 139, in main
+    startup_order = compute_startup_order(services)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/validator.py", line 64, in compute_startup_order
+    in_degree[dep] += 1
+    ~~~~~~~~~^^^^^
+KeyError: 'cache-service'
+root@d796365c4a34:/app#

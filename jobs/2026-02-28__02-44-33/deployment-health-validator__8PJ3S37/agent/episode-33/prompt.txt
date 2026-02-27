@@ -1,0 +1,9 @@
+New Terminal Output:
+
+root@b4674ba3220e:/app# grep -A 2 -B 2 'critical_services_healthy' /app/deployment_report.json
+    "notification-service"
+  ],
+  "critical_services_healthy": false,
+  "timestamp": "2026-02-27T21:15:34.605132+00:00"
+}
+root@b4674ba3220e:/app#

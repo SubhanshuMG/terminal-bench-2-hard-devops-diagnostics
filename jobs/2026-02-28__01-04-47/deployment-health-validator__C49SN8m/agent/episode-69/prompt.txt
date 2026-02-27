@@ -1,0 +1,19 @@
+New Terminal Output:
+
+root@517c6a54f599:/app# python /app/validator_fixed.py
+Loading deployment manifest ...
+Checking service health ...
+  auth-service              healthy    (HTTP 200)
+  api-gateway               healthy    (HTTP 200)
+  cache-service             healthy    (HTTP 200)
+  worker-service            unhealthy  (HTTP 503)
+  notification-service      healthy    (HTTP 200)
+Computing startup order ...
+  auth-service -> cache-service -> api-gateway -> worker-service -> notification-service
+Computing readiness score ...
+  score = 0.9000
+
+Report written to /app/deployment_report.json
+Overall status : degraded
+Readiness score: 0.9
+root@517c6a54f599:/app#

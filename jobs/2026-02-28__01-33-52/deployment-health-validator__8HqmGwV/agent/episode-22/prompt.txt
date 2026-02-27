@@ -1,0 +1,40 @@
+New Terminal Output:
+
+root@f07828e7747d:/app# cat /app/deployment_report.json
+{
+  "deployment_name": "production-stack",
+  "overall_status": "critical",
+  "readiness_score": 0.9,
+  "service_statuses": {
+    "auth-service": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "high"
+    },
+    "api-gateway": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "high"
+    },
+    "cache-service": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "medium"
+    },
+    "worker-service": {
+      "status": "unhealthy",
+      "http_status": 503,
+      "criticality": "low"
+    },
+    "notification-service": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "low"
+    }
+  },
+  "startup_order": [
+    "notification-service"
+  ],
+  "critical_services_healthy": false,
+  "timestamp": "2026-02-27T20:04:44.232819+00:00"
+}root@f07828e7747d:/app#

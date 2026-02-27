@@ -1,0 +1,10 @@
+{
+  "analysis": "I'm still stuck in a command prompt. Let me try Ctrl+C again to break out of this.",
+  "plan": "I'll use Ctrl+C to cancel whatever process is running and get back to the normal shell prompt.",
+  "commands": [
+    {
+      "keystrokes": "C-c\n",
+      "duration": 0.1
+    }
+  ]
+}

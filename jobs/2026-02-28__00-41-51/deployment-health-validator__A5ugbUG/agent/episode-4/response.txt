@@ -1,0 +1,10 @@
+{
+  "analysis": "The ps command is not available in this environment. Let me examine the mock_services.py script to understand how it works and how to start it, then check if it's already running by trying to access other ports.",
+  "plan": "I'll examine the mock_services.py script to understand its structure, then try to start it if it's not running, and finally test the health endpoints.",
+  "commands": [
+    {
+      "keystrokes": "cat /app/mock_services.py\n",
+      "duration": 0.1
+    }
+  ]
+}

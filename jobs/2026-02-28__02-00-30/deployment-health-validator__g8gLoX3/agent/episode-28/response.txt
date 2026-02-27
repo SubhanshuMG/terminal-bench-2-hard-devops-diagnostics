@@ -1,0 +1,10 @@
+{
+  "analysis": "I found the line that needs to be changed. Let me replace that single line with the proper JSON health checking logic, and also fix the weight_map in the compute_readiness_score function.",
+  "plan": "I'll replace the simple health check with the proper JSON-aware logic, then fix the weights in the compute_readiness_score function.",
+  "commands": [
+    {
+      "keystrokes": "sed -i '60s/.*/        healthy = False\\n        if resp.status_code == 200:\\n            # Check if it\\'s JSON and has status field\\n            try:\\n                json_data = resp.json()\\n                # Check for accepted operational values\\n                if \\'status\\' in json_data and json_data[\\'status\\'] in [\\'ok\\', \\'up\\', \\'healthy\\']:\\n                    healthy = True\\n            except ValueError:\\n                # Not JSON, so just check HTTP status\\n                healthy = True/' /app/validator.py\n",
+      "duration": 0.1
+    }
+  ]
+}

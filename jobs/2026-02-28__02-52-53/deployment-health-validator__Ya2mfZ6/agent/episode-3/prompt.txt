@@ -1,0 +1,171 @@
+New Terminal Output:
+
+root@e5c473fa195b:/app# cat /app/validator.py
+#!/usr/bin/env python3
+"""
+Deployment Health Validator
+===========================
+Reads deployment_manifest.yaml, probes each service's health endpoint,
+computes a weighted readiness score, determines a valid startup ordering,
+and writes a deployment readiness report to /app/deployment_report.json.
+"""
+
+import json
+import yaml
+import requests
+from datetime import datetime, timezone
+from collections import deque
+
+
+# ── 1. Load manifest ──────────────────────────────────────────────────────────
+
+def load_services(manifest_path: str) -> list:
+    """Return the list of service definitions from the manifest."""
+    with open(manifest_path) as f:
+        config = yaml.safe_load(f)
+    # Returns the top-level 'services' list from the manifest.
+    return config["services"]
+
+
+# ── 2. Health check ───────────────────────────────────────────────────────────
+
+def check_health(service: dict) -> dict:
+    """Probe a single service and return its health record."""
+    url = f"http://127.0.0.1:{service['port']}{service['health_endpoint']}"
+    try:
+        resp = requests.get(url, timeout=5)
+        healthy = resp.status_code == 200
+        return {
+            "status": "healthy" if healthy else "unhealthy",
+            "http_status": resp.status_code,
+            "criticality": service["criticality"],
+        }
+    except requests.exceptions.RequestException:
+        return {
+            "status": "unhealthy",
+            "http_status": 0,
+            "criticality": service["criticality"],
+        }
+
+
+# ── 3. Startup ordering ───────────────────────────────────────────────────────
+
+def compute_startup_order(services: list) -> list:
+    """
+    Return a topologically sorted startup order using Kahn's algorithm.
+    Dependencies must start before the services that depend on them.
+    """
+    names = [s["name"] for s in services]
+    deps_map = {s["name"]: s.get("dependencies", []) for s in services}
+
+    graph     = {n: [] for n in names}
+    in_degree = {n: 0 for n in names}
+
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    return order
+
+
+# ── 4. Readiness score ────────────────────────────────────────────────────────
+
+def compute_readiness_score(services: list, statuses: dict) -> float:
+    """
+    Compute the weighted fraction of healthy services.
+    Criticality weights: high=3, medium=2, low=1.
+    """
+    weight_map = {"high": 1, "medium": 1, "low": 1}
+
+    total   = sum(weight_map[s["criticality"]] for s in services)
+    healthy = sum(
+        weight_map[s["criticality"]]
+        for s in services
+        if statuses[s["name"]]["status"] == "healthy"
+    )
+    return round(healthy / total, 4) if total else 0.0
+
+
+# ── 5. Overall status ─────────────────────────────────────────────────────────
+
+def determine_status(services: list, statuses: dict, score: float):
+    """
+    Returns (overall_status, critical_services_healthy).
+
+    Status rules:
+      'healthy'   -- critical_services_healthy AND score >= 0.95
+      'degraded'  -- critical_services_healthy AND score < 0.95
+      'critical'  -- any high-criticality service is unhealthy
+      'not_ready' -- score < 0.70
+    """
+    critical_ok = all(
+        statuses[s["name"]]["status"] == "healthy"
+        for s in services
+    )
+
+    if not critical_ok:
+        return "critical", critical_ok
+    if score >= 0.95:
+        return "healthy", critical_ok
+    if score >= 0.70:
+        return "degraded", critical_ok
+    return "not_ready", critical_ok
+
+
+# ── main ──────────────────────────────────────────────────────────────────────
+
+def main():
+    manifest_path = "/app/deployment_manifest.yaml"
+    output_path   = "/app/deployment_report.json"
+
+    print("Loading deployment manifest ...")
+    services = load_services(manifest_path)
+
+    print("Checking service health ...")
+    statuses = {}
+    for svc in services:
+        result = check_health(svc)
+        statuses[svc["name"]] = result
+        print(f"  {svc['name']:25s} {result['status']:10s} (HTTP {result['http_status']})")
+
+    print("Computing startup order ...")
+    startup_order = compute_startup_order(services)
+    print(f"  {' -> '.join(startup_order)}")
+
+    print("Computing readiness score ...")
+    score = compute_readiness_score(services, statuses)
+    print(f"  score = {score:.4f}")
+
+    overall_status, critical_ok = determine_status(services, statuses, score)
+
+    report = {
+        "deployment_name":           "production-stack",
+        "overall_status":            overall_status,
+        "readiness_score":           score,
+        "service_statuses":          statuses,
+        "startup_order":             startup_order,
+        "critical_services_healthy": critical_ok,
+        "timestamp":                 datetime.now(timezone.utc).isoformat(),
+    }
+
+    with open(output_path, "w") as f:
+        json.dump(report, f, indent=2)
+
+    print(f"\nReport written to {output_path}")
+    print(f"Overall status : {overall_status}")
+    print(f"Readiness score: {score}")
+
+
+if __name__ == "__main__":
+    main()
+root@e5c473fa195b:/app#

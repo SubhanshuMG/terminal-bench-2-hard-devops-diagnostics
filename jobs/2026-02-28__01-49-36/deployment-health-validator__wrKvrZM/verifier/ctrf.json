@@ -1,0 +1,191 @@
+{
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "8.4.1"
+        },
+        "summary": {
+            "tests": 18,
+            "passed": 15,
+            "failed": 3,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1772223633.5846076,
+            "stop": 1772223633.60658
+        },
+        "tests": [
+            {
+                "name": "test_outputs.py::test_report_file_exists",
+                "status": "passed",
+                "duration": 0.00019087500095338328,
+                "start": 1772223633.5937488,
+                "stop": 1772223633.5940962,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_report_top_level_keys",
+                "status": "passed",
+                "duration": 0.00018020900097326376,
+                "start": 1772223633.5941668,
+                "stop": 1772223633.5944438,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_deployment_name",
+                "status": "passed",
+                "duration": 0.0001032090003718622,
+                "start": 1772223633.594508,
+                "stop": 1772223633.5947008,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_all_five_services_present",
+                "status": "passed",
+                "duration": 0.00010775000009743962,
+                "start": 1772223633.5947587,
+                "stop": 1772223633.5949514,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_auth_service_healthy",
+                "status": "passed",
+                "duration": 0.00011199900018254993,
+                "start": 1772223633.5950096,
+                "stop": 1772223633.595211,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_api_gateway_healthy",
+                "status": "passed",
+                "duration": 0.00012595799944392638,
+                "start": 1772223633.595263,
+                "stop": 1772223633.595477,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_cache_service_healthy",
+                "status": "passed",
+                "duration": 0.00011195899969607126,
+                "start": 1772223633.5955644,
+                "stop": 1772223633.5957816,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_worker_service_unhealthy",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 0.0002671669990377268,
+                "start": 1772223633.5958507,
+                "stop": 1772223633.6011431,
+                "retries": 0,
+                "file_path": "test_outputs.py",
+                "trace": "report = {'critical_services_healthy': True, 'deployment_name': 'production-stack', 'overall_status': 'healthy', 'readiness_score': 1.0, ...}\n\n    def test_worker_service_unhealthy(report):\n        \"\"\"worker-service returns HTTP 200 but with status='degraded' in body; must be reported unhealthy.\"\"\"\n        svc = report[\"service_statuses\"][\"worker-service\"]\n>       assert svc[\"status\"] == \"unhealthy\", (\n            \"worker-service reports {'status': 'degraded'} in its JSON body. \"\n            \"Despite HTTP 200, a 'degraded' body status means the service is unhealthy.\"\n        )\nE       AssertionError: worker-service reports {'status': 'degraded'} in its JSON body. Despite HTTP 200, a 'degraded' body status means the service is unhealthy.\nE       assert 'healthy' == 'unhealthy'\nE         \nE         - unhealthy\nE         ? --\nE         + healthy\n\n/tests/test_outputs.py:93: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_outputs.py::test_notification_service_healthy",
+                "status": "passed",
+                "duration": 0.00011733399969671154,
+                "start": 1772223633.6012182,
+                "stop": 1772223633.601428,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_service_criticality_values",
+                "status": "passed",
+                "duration": 0.00010937499973806553,
+                "start": 1772223633.6014907,
+                "stop": 1772223633.6016908,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_readiness_score",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 0.0001562509996801964,
+                "start": 1772223633.6017497,
+                "stop": 1772223633.6031106,
+                "retries": 0,
+                "file_path": "test_outputs.py",
+                "trace": "report = {'critical_services_healthy': True, 'deployment_name': 'production-stack', 'overall_status': 'healthy', 'readiness_score': 1.0, ...}\n\n    def test_readiness_score(report):\n        \"\"\"\n        Weighted score with high=3, medium=2, low=1:\n          healthy:  auth(3) + api-gateway(3) + cache(2) + notification(1) = 9\n          total:    9 + worker(1) = 10\n          score:    9/10 = 0.9\n        \"\"\"\n>       assert abs(report[\"readiness_score\"] - 0.9) < 0.001, (\n            f\"Expected readiness_score ~0.9, got {report['readiness_score']}. \"\n            \"Check criticality weights: high=3, medium=2, low=1.\"\n        )\nE       AssertionError: Expected readiness_score ~0.9, got 1.0. Check criticality weights: high=3, medium=2, low=1.\nE       assert 0.09999999999999998 < 0.001\nE        +  where 0.09999999999999998 = abs((1.0 - 0.9))\n\n/tests/test_outputs.py:132: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_outputs.py::test_critical_services_healthy",
+                "status": "passed",
+                "duration": 0.0001053750002029119,
+                "start": 1772223633.6031742,
+                "stop": 1772223633.6033657,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_overall_status_degraded",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 0.00018600000021251617,
+                "start": 1772223633.6034238,
+                "stop": 1772223633.604843,
+                "retries": 0,
+                "file_path": "test_outputs.py",
+                "trace": "report = {'critical_services_healthy': True, 'deployment_name': 'production-stack', 'overall_status': 'healthy', 'readiness_score': 1.0, ...}\n\n    def test_overall_status_degraded(report):\n        \"\"\"\n        All high-criticality services are healthy but score (0.9) < 0.95,\n        so overall_status must be 'degraded'.\n        \"\"\"\n>       assert report[\"overall_status\"] == \"degraded\", (\n            f\"Expected overall_status='degraded', got '{report['overall_status']}'. \"\n            \"Rules: critical_services_healthy=True + score<0.95 -> 'degraded'.\"\n        )\nE       AssertionError: Expected overall_status='degraded', got 'healthy'. Rules: critical_services_healthy=True + score<0.95 -> 'degraded'.\nE       assert 'healthy' == 'degraded'\nE         \nE         - degraded\nE         + healthy\n\n/tests/test_outputs.py:159: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_has_all_services",
+                "status": "passed",
+                "duration": 0.0001595820003785775,
+                "start": 1772223633.6049342,
+                "stop": 1772223633.605206,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_auth_before_gateway",
+                "status": "passed",
+                "duration": 0.00021770900002593407,
+                "start": 1772223633.605292,
+                "stop": 1772223633.6056514,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_cache_before_gateway",
+                "status": "passed",
+                "duration": 0.0001161660002253484,
+                "start": 1772223633.605721,
+                "stop": 1772223633.6059294,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_gateway_before_worker",
+                "status": "passed",
+                "duration": 0.00011204199927306036,
+                "start": 1772223633.6059904,
+                "stop": 1772223633.6061954,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            },
+            {
+                "name": "test_outputs.py::test_startup_order_worker_before_notification",
+                "status": "passed",
+                "duration": 0.00011870900016219821,
+                "start": 1772223633.606253,
+                "stop": 1772223633.6064513,
+                "retries": 0,
+                "file_path": "test_outputs.py"
+            }
+        ]
+    }
+}

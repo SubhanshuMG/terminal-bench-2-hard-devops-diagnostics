@@ -1,0 +1,10 @@
+{
+  "analysis": "I can see the check_health function ends around line 46. Now I'll replace it with the improved version that properly handles JSON responses. I'll create the improved function and replace the existing one.",
+  "plan": "I'll replace the check_health function with an improved version that properly handles JSON responses by checking the status field in the response body for operational state, while keeping HTTP 200 sufficient for non-JSON responses.",
+  "commands": [
+    {
+      "keystrokes": "cat > /tmp/new_check_health.py << 'EOF'\ndef check_health(service: dict) -> dict:\n    \"\"\"Probe a single service and return its health record.\"\"\"\n    url = f\"http://127.0.0.1:{service['port']}{service['health_endpoint']}\"\n    try:\n        resp = requests.get(url, timeout=5)\n        \n        # For non-200 responses, service is unhealthy\n        if resp.status_code != 200:\n            return {\n                \"status\": \"unhealthy\",\n                \"http_status\": resp.status_code,\n                \"criticality\": service[\"criticality\"],\n            }\n        \n        # Try to parse as JSON\n        try:\n            data = resp.json()\n            # For JSON responses, check if status indicates operational state\n            operational_states = ['ok', 'healthy', 'up', 'running']\n            json_status = data.get('status', '').lower()\n            healthy = json_status in operational_states\n        except (ValueError, json.JSONDecodeError):\n            # For non-JSON responses, HTTP 200 is sufficient\n            healthy = True\n        \n        return {\n            \"status\": \"healthy\" if healthy else \"unhealthy\",\n            \"http_status\": resp.status_code,\n            \"criticality\": service[\"criticality\"],\n        }\n    except requests.exceptions.RequestException:\n        return {\n            \"status\": \"unhealthy\",\n            \"http_status\": 0,\n            \"criticality\": service[\"criticality\"],\n        }\nEOF\n",
+      "duration": 0.1
+    }
+  ]
+}

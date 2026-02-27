@@ -1,0 +1,33 @@
+New Terminal Output:
+
+root@cc33336dcd28:/app# cat >> /app/validator.py << 'EOF'
+>
+> # ── 5. Overall status ─────────────────────────────────────────────────────────
+>
+> def determine_status(services: list, statuses: dict, score: float):
+>     """
+>     Returns (overall_status, critical_services_healthy).
+>
+>     Status rules:
+>       'healthy'   -- critical_services_healthy AND score >= 0.95
+>       'degraded'  -- critical_services_healthy AND score < 0.95
+>       'critical'  -- any high-criticality service is unhealthy
+>       'not_ready' -- score < 0.70
+>     """
+>     # Fix: only check high-criticality services
+>     critical_ok = all(
+>         statuses[s["name"]]["status"] == "healthy"
+>         for s in services
+>         if s["criticality"] == "high"
+>     )
+>
+>     if not critical_ok:
+>         return "critical", critical_ok
+>     if score >= 0.95:
+>         return "healthy", critical_ok
+>     if score >= 0.70:
+>         return "degraded", critical_ok
+>     return "not_ready", critical_ok
+>
+> EOF
+root@cc33336dcd28:/app#

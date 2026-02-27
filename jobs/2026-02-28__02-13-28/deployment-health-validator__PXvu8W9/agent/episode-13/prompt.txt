@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@8c35f8f57c60:/app# curl http://localhost:8081/health
+{"status":"ok","version":"2.1.0"}
+root@8c35f8f57c60:/app#

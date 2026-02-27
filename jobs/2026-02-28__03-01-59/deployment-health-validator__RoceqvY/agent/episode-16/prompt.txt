@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@7f89f043af0c:/app# sed -i '/critical_ok = all(/,/for s in services/ s/for s in services/for s in services\n        if s["criticality"] == "high"/' /app/val
+idator.py
+root@7f89f043af0c:/app#

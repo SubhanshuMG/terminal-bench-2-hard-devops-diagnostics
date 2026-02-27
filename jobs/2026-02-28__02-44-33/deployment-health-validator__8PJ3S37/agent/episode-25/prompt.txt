@@ -1,0 +1,30 @@
+New Terminal Output:
+
+}root@b4674ba3220e:/app# grep -n -A 25 'def compute_startup_order' validator.py
+50:def compute_startup_order(services: list) -> list:
+51-    """
+52-    Return a topologically sorted startup order using Kahn's algorithm.
+53-    Dependencies must start before the services that depend on them.
+54-    """
+55-    names = [s["name"] for s in services]
+56-    deps_map = {s["name"]: s.get("dependencies", []) for s in services}
+57-
+58-    graph     = {n: [] for n in names}
+59-    in_degree = {n: 0 for n in names}
+60-
+61-    for svc, deps in deps_map.items():
+62-        for dep in deps:
+63-            graph[dep].append(svc)
+64-            in_degree[dep] += 1
+65-
+66-    queue = deque(n for n in names if in_degree[n] == 0)
+67-    order = []
+68-    while queue:
+69-        node = queue.popleft()
+70-        order.append(node)
+71-        for neighbor in graph[node]:
+72-            in_degree[neighbor] -= 1
+73-            if in_degree[neighbor] == 0:
+74-                queue.append(neighbor)
+75-    return order
+root@b4674ba3220e:/app#

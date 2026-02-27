@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@22c9b5817594:/app# sed -i 's|url = f"http://127.0.0.1:{service\[\'port\'\]}/health"|url = f"http://127.0.0.1:{service[\'port\']}{service[\'health_endpoint\
+']}"|' /app/validator.py
+>

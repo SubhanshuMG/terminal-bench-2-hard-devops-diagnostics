@@ -1,0 +1,62 @@
+Trial deployment-health-validator__rzReFGR failed: Docker compose command failed for environment deployment-health-validator. Command: docker compose -p deployment-health-validator__rzrefgr --project-directory /Users/subhanshumohangupta/Desktop/git/github/terminal-bench-2-hard-devops-diagnostics/deployment-health-validator/environment -f /Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-base.yaml -f /Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-build.yaml up --detach --wait. Return code: 1. Stdout:  Image hb__deployment-health-validator Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 744B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 930B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim
+#3 DONE 0.5s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 179B done
+#5 DONE 0.0s
+
+#6 [1/6] FROM docker.io/library/python:3.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c
+#6 resolve docker.io/library/python:3.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c done
+#6 DONE 0.0s
+
+#7 [4/6] COPY requirements.txt /app/
+#7 CACHED
+
+#8 [3/6] WORKDIR /app
+#8 CACHED
+
+#9 [5/6] RUN pip install --no-cache-dir flask==3.0.3 requests==2.32.3 pyyaml==6.0.2
+#9 CACHED
+
+#10 [2/6] RUN apt-get update &&     apt-get install -y --no-install-recommends curl &&     rm -rf /var/lib/apt/lists/*
+#10 CACHED
+
+#11 [6/6] COPY * /app/
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 exporting manifest sha256:e4bd4325231aed2c30740c900e29782cca70c1873ad100fd9467d30fbe81fa1b done
+#12 exporting config sha256:b6a4ec29f09a339a7b6bf3dbc454c0a7f60c4df487fe820619bc913c25eaf771 done
+#12 exporting attestation manifest sha256:118a0413427fee09a8130da7131a52b3f5a6a788526c8b31620a5b60e063884d 0.0s done
+#12 exporting manifest list sha256:e1327486c1d837e7b242db5186584e0474ec64605f3b02296b22b51e1b0bc79c done
+#12 naming to docker.io/library/hb__deployment-health-validator:latest done
+#12 unpacking to docker.io/library/hb__deployment-health-validator:latest done
+#12 DONE 0.0s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+ Image hb__deployment-health-validator Built 
+ Network deployment-health-validator__rzrefgr_default Creating 
+ Network deployment-health-validator__rzrefgr_default Created 
+ Container deployment-health-validator__rzrefgr-main-1 Creating 
+ Container deployment-health-validator__rzrefgr-main-1 Created 
+ Container deployment-health-validator__rzrefgr-main-1 Starting 
+ Container deployment-health-validator__rzrefgr-main-1 Started 
+ Container deployment-health-validator__rzrefgr-main-1 Waiting 
+container deployment-health-validator__rzrefgr-main-1 is unhealthy
+. Stderr: None. 
+Not retrying trial because the maximum number of retries has been reached

@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! The generated report exactly matches the expected schema. All fields are correctly populated:\n\n- `deployment_name`: \"production-stack\"\n- `overall_status`: \"degraded\" (correct since all high-criticality services are healthy but score < 0.95)\n- `readiness_score`: 0.9 (correct weighted calculation: (3+3+2+0+1)/(3+3+2+1+1) = 9/10)\n- `service_statuses`: All 5 services with correct status, HTTP status, and criticality\n- `startup_order`: Correct topological order with dependencies first\n- `critical_services_healthy`: true (both high-criticality services are healthy)\n- `timestamp`: Proper ISO format\n\nLet me check why worker-service is showing as unhealthy by testing its endpoint directly.",
+  "plan": "I'll test the worker-service endpoint to understand why it's showing as unhealthy despite returning HTTP 200, and then verify that the validator correctly handles different scenarios.",
+  "commands": [
+    {
+      "keystrokes": "curl http://localhost:8084/status\n",
+      "duration": 1.0
+    }
+  ]
+}

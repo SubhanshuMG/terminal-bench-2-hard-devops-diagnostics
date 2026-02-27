@@ -1,0 +1,35 @@
+New Terminal Output:
+
+root@517c6a54f599:/app# grep -A 30 "for svc, deps in deps_map.items():" validator.py
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    return order
+
+
+# ── 4. Readiness score ────────────────────────────────────────────────────────
+
+def compute_readiness_score(services: list, statuses: dict) -> float:
+    """
+    Compute the weighted fraction of healthy services.
+    Criticality weights: high=3, medium=2, low=1.
+    """
+    weight_map = {"high": 3, "medium": 2, "low": 1}
+
+    total   = sum(weight_map[s["criticality"]] for s in services)
+    healthy = sum(
+        weight_map[s["criticality"]]
+        for s in services if s["criticality"] == "high"
+        if statuses[s["name"]]["status"] == "healthy"
+root@517c6a54f599:/app#

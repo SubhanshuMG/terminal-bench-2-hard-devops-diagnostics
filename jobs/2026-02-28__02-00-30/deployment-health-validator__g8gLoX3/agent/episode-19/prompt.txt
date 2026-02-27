@@ -1,0 +1,27 @@
+New Terminal Output:
+
+root@c08cc3f8e638:/app# cat > /tmp/test_toposort.py << 'EOF'
+> # Let's test the current logic
+> services = [
+>     {"name": "auth-service", "dependencies": []},
+>     {"name": "api-gateway", "dependencies": ["auth-service", "cache-service"]},
+>     {"name": "cache-service", "dependencies": []},
+>     {"name": "worker-service", "dependencies": ["api-gateway", "cache-service"]},
+>     {"name": "notification-service", "dependencies": ["worker-service"]},
+> ]
+>
+> names = [s["name"] for s in services]
+> deps_map = {s["name"]: s.get("dependencies", []) for s in services}
+>
+> print("Dependencies:")
+> for name, deps in deps_map.items():
+>     print(f"  {name} depends on: {deps}")
+> EOF
+root@c08cc3f8e638:/app# python /tmp/test_toposort.py
+Dependencies:
+  auth-service depends on: []
+  api-gateway depends on: ['auth-service', 'cache-service']
+  cache-service depends on: []
+  worker-service depends on: ['api-gateway', 'cache-service']
+  notification-service depends on: ['worker-service']
+root@c08cc3f8e638:/app#

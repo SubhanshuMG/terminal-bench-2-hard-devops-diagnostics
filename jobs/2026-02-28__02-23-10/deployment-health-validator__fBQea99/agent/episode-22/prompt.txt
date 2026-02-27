@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@09c642a4f519:/app# grep -n "json_data\['status'\]" validator.py
+41:                if 'status' in json_data and json_data['status'] != 'healthy':
+root@09c642a4f519:/app#

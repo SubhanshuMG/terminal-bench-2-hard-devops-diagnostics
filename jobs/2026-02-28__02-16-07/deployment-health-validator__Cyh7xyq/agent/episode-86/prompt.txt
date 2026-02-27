@@ -1,0 +1,24 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# sed -n '86,105p' validator.py
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    return order
+
+
+# ── 4. Readiness score ────────────────────────────────────────────────────────
+
+def compute_readiness_score(services: list, statuses: dict) -> float:
+    """
+    Compute the weighted fraction of healthy services.
+    Criticality weights: high=3, medium=2, low=1.
+    """
+    weight_map = {"high": 3, "medium": 2, "low": 1}
+
+    total   = sum(weight_map[s["criticality"]] for s in services if s["criticality"] == "high")
+    healthy = sum(
+root@eb68a1250306:/app#

@@ -1,0 +1,6 @@
+New Terminal Output:
+
+root@517c6a54f599:/app# sed -i "s/url = f\"http:\/\/127\.0\.0\.1:{service\['port'\]}\/health\"/url = f\"http://127.0.0.1:{service['port']}{service['health_endpo
+int']}\"/" validator.py
+sed: -e expression #1, char 76: unknown option to `s'
+root@517c6a54f599:/app#

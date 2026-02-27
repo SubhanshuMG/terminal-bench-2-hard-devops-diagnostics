@@ -1,0 +1,19 @@
+New Terminal Output:
+
+root@2c18ab8ab423:/app# python /app/validator.py
+Loading deployment manifest ...
+Checking service health ...
+  auth-service              healthy    (HTTP 200)
+  api-gateway               healthy    (HTTP 200)
+  cache-service             healthy    (HTTP 200)
+  worker-service            healthy    (HTTP 200)
+  notification-service      healthy    (HTTP 200)
+Computing startup order ...
+  notification-service -> worker-service -> api-gateway -> auth-service -> cache-service
+Computing readiness score ...
+  score = 1.0000
+
+Report written to /app/deployment_report.json
+Overall status : healthy
+Readiness score: 1.0
+root@2c18ab8ab423:/app#

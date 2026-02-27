@@ -1,0 +1,23 @@
+New Terminal Output:
+
+root@cc33336dcd28:/app# cat >> /app/validator.py << 'EOF'
+>
+> # ── 4. Readiness score ────────────────────────────────────────────────────────
+>
+> def compute_readiness_score(services: list, statuses: dict) -> float:
+>     """
+>     Compute the weighted fraction of healthy services.
+>     Criticality weights: high=3, medium=2, low=1.
+>     """
+>     weight_map = {"high": 3, "medium": 2, "low": 1}  # Fixed weights
+>
+>     total   = sum(weight_map[s["criticality"]] for s in services)
+>     healthy = sum(
+>         weight_map[s["criticality"]]
+>         for s in services
+>         if statuses[s["name"]]["status"] == "healthy"
+>     )
+>     return round(healthy / total, 4) if total else 0.0
+>
+> EOF
+root@cc33336dcd28:/app#

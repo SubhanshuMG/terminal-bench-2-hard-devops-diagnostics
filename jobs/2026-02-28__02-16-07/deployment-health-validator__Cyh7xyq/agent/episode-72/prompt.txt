@@ -1,0 +1,20 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# sed -n '40,55p' validator.py
+            }
+
+        # Try to parse as JSON
+        try:
+            data = resp.json()
+            # For JSON responses, check if status indicates operational state
+            operational_states = ['ok', 'healthy', 'up', 'running']
+            json_status = data.get('status', '').lower()
+            healthy = json_status in operational_states
+        except (ValueError, json.decoder.JSONDecodeError, requests.exceptions.JSONDecodeError):
+            # For non-JSON responses, HTTP 200 is sufficient
+            healthy = True
+
+        return {
+            "status": "healthy" if healthy else "unhealthy",
+            "http_status": resp.status_code,
+root@eb68a1250306:/app#

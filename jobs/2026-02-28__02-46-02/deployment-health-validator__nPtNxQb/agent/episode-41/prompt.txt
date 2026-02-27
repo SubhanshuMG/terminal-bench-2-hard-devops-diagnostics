@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@2c18ab8ab423:/app# sed -i 's/total   = sum(weight_map\[s\["criticality"\]\] for s in services if s\["criticality"\] == "high")/total   = sum(weight_map[s["
+criticality"]] for s in services)/' /app/validator.py
+root@2c18ab8ab423:/app#

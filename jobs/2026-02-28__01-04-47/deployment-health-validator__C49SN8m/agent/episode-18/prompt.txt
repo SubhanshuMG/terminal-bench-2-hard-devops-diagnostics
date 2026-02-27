@@ -1,0 +1,10 @@
+New Terminal Output:
+
+root@517c6a54f599:/app# grep -A 5 "def check_health" validator.py
+def check_health(service: dict) -> dict:
+    """
+    Probe a single service and return its health record.
+    HTTP 200 -> healthy; anything else -> unhealthy.
+    """
+    url = f"http://127.0.0.1:{service['port']}{service['health_endpoint']}"
+root@517c6a54f599:/app#

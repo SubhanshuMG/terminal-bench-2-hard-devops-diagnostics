@@ -1,0 +1,190 @@
+New Terminal Output:
+
+root@b64f4c940325:/app# python3 -c "
+> import os
+> with open('/app/validator.py', 'w') as f:
+>     f.write('''#!/usr/bin/env python3
+> \"\"\"
+> Deployment Health Validator
+> ===========================
+> Reads deployment_manifest.yaml, probes each service'"'"'s health endpoint,
+  File "<string>", line 4
+    f.write('''#!/usr/bin/env python3
+            ^
+SyntaxError: unterminated triple-quoted string literal (detected at line 8)
+root@b64f4c940325:/app# computes a weighted readiness score, determines a valid startup ordering,
+bash: computes: command not found
+root@b64f4c940325:/app# and writes a deployment readiness report to /app/deployment_report.json.
+bash: and: command not found
+root@b64f4c940325:/app# \"\"\"
+rmat(),bash: """: command not found
+root@b64f4c940325:/app#
+root@b64f4c940325:/app# import json
+bash: import: command not found
+root@b64f4c940325:/app# import yaml
+bash: import: command not found
+root@b64f4c940325:/app# import requests
+ut_path, \"w\") bash: import: command not found
+root@b64f4c940325:/app# from datetime import datetime, timezone
+, indenbash: from: command not found
+root@b64f4c940325:/app# from collections import deque
+bash: from: command not found
+root@b64f4c940325:/app#
+iroot@b64f4c940325:/app#
+root@b64f4c940325:/app# def load_services(manifest_path: str) -> list:
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     \"\"\"Return the list of service definitions from the manifest.\"\"\"
+bash: """Return: command not found
+root@b64f4c940325:/app#     with open(manifest_path) as f:
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#         config = yaml.safe_load(f)
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     return config[\"deployment\"][\"services\"]
+bash: return: config["deployment"]["services"]: numeric argument required
+bash: return: can only `return' from a function or sourced script
+root@b64f4c940325:/app#
+root@b64f4c940325:/app# def check_health(service: dict) -> dict:
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     \"\"\"Probe a single service and return its health record.\"\"\"
+bash: """Probe: command not found
+root@b64f4c940325:/app#     url = f\"http://127.0.0.1:{service['port']}{service['health_endpoint']}\"
+bash: url: command not found
+root@b64f4c940325:/app#     try:
+bash: try:: command not found
+root@b64f4c940325:/app#         resp = requests.get(url, timeout=5)
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#         if resp.status_code != 200:
+>             return {\"status\": \"unhealthy\", \"http_status\": resp.status_code, \"criticality\": service[\"criticality\"]}
+>         try:
+>             json_data = resp.json()
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#             if 'status' in json_data:
+>                 operational = json_data['status'].lower() in ['operational', 'healthy', 'up', 'ok']
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#                 return {\"status\": \"healthy\" if operational else \"unhealthy\", \"http_status\": resp.status_code, \"criticality\": s
+ervice[\"criticality\"]}
+bash: return: {"status":: numeric argument required
+bash: return: can only `return' from a function or sourced script
+root@b64f4c940325:/app#         except (json.JSONDecodeError, ValueError):
+bash: syntax error near unexpected token `json.JSONDecodeError,'
+root@b64f4c940325:/app#             pass
+bash: pass: command not found
+root@b64f4c940325:/app#         return {\"status\": \"healthy\", \"http_status\": resp.status_code, \"criticality\": service[\"criticality\"]}
+bash: return: {"status":: numeric argument required
+bash: return: can only `return' from a function or sourced script
+root@b64f4c940325:/app#     except requests.exceptions.RequestException:
+bash: except: command not found
+root@b64f4c940325:/app#         return {\"status\": \"unhealthy\", \"http_status\": 0, \"criticality\": service[\"criticality\"]}
+bash: return: {"status":: numeric argument required
+bash: return: can only `return' from a function or sourced script
+root@b64f4c940325:/app#
+root@b64f4c940325:/app# def compute_startup_order(services: list) -> list:
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     names = [s[\"name\"] for s in services]
+bash: names: command not found
+root@b64f4c940325:/app#     deps_map = {s[\"name\"]: s.get(\"dependencies\", []) for s in services}
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     graph = {n: [] for n in names}
+bash: graph: command not found
+root@b64f4c940325:/app#     in_degree = {n: 0 for n in names}
+bash: in_degree: command not found
+root@b64f4c940325:/app#     for svc, deps in deps_map.items():
+bash: syntax error near unexpected token `deps'
+root@b64f4c940325:/app#         for dep in deps:
+>             graph[dep].append(svc)
+bash: syntax error near unexpected token `graph[dep].append'
+root@b64f4c940325:/app#             in_degree
+[... output limited to 10000 bytes; 69 interior bytes omitted ...]
+325:/app#
+root@b64f4c940325:/app# def compute_readiness_score(services: list, statuses: dict) -> float:
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     weight_map = {\"high\": 3, \"medium\": 2, \"low\": 1}
+bash: weight_map: command not found
+root@b64f4c940325:/app#     total = sum(weight_map[s[\"criticality\"]] for s in services)
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     healthy = sum(weight_map[s[\"criticality\"]] for s in services if statuses[s[\"name\"]][\"status\"] == \"healthy\")
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     return round(healthy / total, 4) if total else 0.0
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#
+root@b64f4c940325:/app# def determine_status(services: list, statuses: dict, score: float):
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     critical_ok = all(statuses[s[\"name\"]][\"status\"] == \"healthy\" for s in services if s[\"criticality\"] == \"high\")
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     if not critical_ok:
+>         return \"critical\", critical_ok
+>     if score >= 0.95:
+>         return \"healthy\", critical_ok
+>     if score >= 0.70:
+>         return \"degraded\", critical_ok
+>     return \"not_ready\", critical_ok
+>
+> def main():
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     manifest_path = \"/app/deployment_manifest.yaml\"
+bash: manifest_path: command not found
+root@b64f4c940325:/app#     output_path = \"/app/deployment_report.json\"
+bash: output_path: command not found
+root@b64f4c940325:/app#     print(\"Loading deployment manifest ...\")
+bash: syntax error near unexpected token `\"Loading'
+root@b64f4c940325:/app#     services = load_services(manifest_path)
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     print(\"Checking service health ...\")
+bash: syntax error near unexpected token `\"Checking'
+root@b64f4c940325:/app#     statuses = {}
+bash: statuses: command not found
+root@b64f4c940325:/app#     for svc in services:
+>         result = check_health(svc)
+bash: syntax error near unexpected token `result'
+root@b64f4c940325:/app#         statuses[svc[\"name\"]] = result
+bash: statuses[svc["name"]]: command not found
+root@b64f4c940325:/app#         print(f\"  {svc['name']:25s} {result['status']:10s} (HTTP {result['http_status']})\")
+bash: syntax error near unexpected token `f\"'
+root@b64f4c940325:/app#     print(\"Computing startup order ...\")
+bash: syntax error near unexpected token `\"Computing'
+root@b64f4c940325:/app#     startup_order = compute_startup_order(services)
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     print(f\"  {' -> '.join(startup_order)}\")
+bash: syntax error near unexpected token `f\"'
+root@b64f4c940325:/app#     print(\"Computing readiness score ...\")
+bash: syntax error near unexpected token `\"Computing'
+root@b64f4c940325:/app#     score = compute_readiness_score(services, statuses)
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     print(f\"  score = {score:.4f}\")
+bash: syntax error near unexpected token `f\"'
+root@b64f4c940325:/app#     overall_status, critical_ok = determine_status(services, statuses, score)
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     report = {
+bash: report: command not found
+root@b64f4c940325:/app#         \"deployment_name\": \"production-stack\",
+bash: "deployment_name":: command not found
+root@b64f4c940325:/app#         \"overall_status\": overall_status,
+bash: "overall_status":: command not found
+root@b64f4c940325:/app#         \"readiness_score\": score,
+bash: "readiness_score":: command not found
+root@b64f4c940325:/app#         \"service_statuses\": statuses,
+bash: "service_statuses":: command not found
+root@b64f4c940325:/app#         \"startup_order\": startup_order,
+bash: "startup_order":: command not found
+root@b64f4c940325:/app#         \"critical_services_healthy\": critical_ok,
+bash: "critical_services_healthy":: command not found
+root@b64f4c940325:/app#         \"timestamp\": datetime.now(timezone.utc).isoformat(),
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     }
+bash: syntax error near unexpected token `}'
+root@b64f4c940325:/app#     with open(output_path, \"w\") as f:
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#         json.dump(report, f, indent=2)
+bash: syntax error near unexpected token `report,'
+root@b64f4c940325:/app#     print(f\"\\nReport written to {output_path}\")
+bash: syntax error near unexpected token `f\"\\nReport'
+root@b64f4c940325:/app#     print(f\"Overall status : {overall_status}\")
+bash: syntax error near unexpected token `f\"Overall'
+root@b64f4c940325:/app#     print(f\"Readiness score: {score}\")
+bash: syntax error near unexpected token `f\"Readiness'
+root@b64f4c940325:/app#
+root@b64f4c940325:/app# if __name__ == \"__main__\":
+>     main()
+> ''')
+> "
+>

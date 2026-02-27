@@ -1,0 +1,10 @@
+{
+  "analysis": "The `ps` command is not available. Let me check what ports are listening using `netstat` or `ss`, and also try to run the mock_services.py script to start the services.",
+  "plan": "I'll check for listening ports using available tools, and then start the mock services if they're not running. Let me also run the current validator to see what it produces.",
+  "commands": [
+    {
+      "keystrokes": "netstat -tlnp 2>/dev/null || ss -tlnp 2>/dev/null\n",
+      "duration": 0.1
+    }
+  ]
+}

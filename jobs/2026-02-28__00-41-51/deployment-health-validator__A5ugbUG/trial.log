@@ -1,0 +1,33 @@
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Unknown Error in LLM interaction: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `moonshotai/kimi-k2-instruct-0905` in organization `org_01kjg6je54ee6r9k3b3pepswss` service tier `on_demand` on tokens per minute (TPM): Limit 10000, Used 4511, Requested 6817. Please try again in 7.968s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Unknown Error in LLM interaction: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Request too large for model `moonshotai/kimi-k2-instruct-0905` in organization `org_01kjg6je54ee6r9k3b3pepswss` service tier `on_demand` on tokens per minute (TPM): Limit 10000, Requested 10236, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+Unknown Error in LLM interaction: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Request too large for model `moonshotai/kimi-k2-instruct-0905` in organization `org_01kjg6je54ee6r9k3b3pepswss` service tier `on_demand` on tokens per minute (TPM): Limit 10000, Requested 10236, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+Unknown Error in LLM interaction: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Request too large for model `moonshotai/kimi-k2-instruct-0905` in organization `org_01kjg6je54ee6r9k3b3pepswss` service tier `on_demand` on tokens per minute (TPM): Limit 10000, Requested 10236, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+Trajectory dumped to jobs/2026-02-28__00-41-51/deployment-health-validator__A5ugbUG/agent/trajectory.json
+Trial deployment-health-validator__A5ugbUG failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Request too large for model `moonshotai/kimi-k2-instruct-0905` in organization `org_01kjg6je54ee6r9k3b3pepswss` service tier `on_demand` on tokens per minute (TPM): Limit 10000, Requested 10236, please reduce your message size and try again. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+

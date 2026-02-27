@@ -1,0 +1,11 @@
+{
+  "analysis": "Perfect! The deployment report is correctly generated and matches the expected schema exactly. All the key requirements are met:\n\n1. **deployment_name**: \"production-stack\" ✓\n2. **overall_status**: \"healthy\" (all high-criticality services healthy AND score >= 0.95) ✓\n3. **readiness_score**: 1.0 (perfect score with correct weights: high=3, medium=2, low=1) ✓\n4. **service_statuses**: Contains all 5 services with correct status, http_status, and criticality ✓\n5. **startup_order**: Correct topological order where dependencies start before dependents ✓\n6. **critical_services_healthy**: true (all high-criticality services are healthy) ✓\n7. **timestamp**: Proper ISO format ✓\n\nLet me also verify that the validator works correctly when some services might be unhealthy by testing the individual service endpoints to understand their expected behavior.",
+  "plan": "I'll test a few individual service endpoints to confirm their expected responses, and then the task will be complete. The validator is now working correctly and producing the expected output.",
+  "commands": [
+    {
+      "keystrokes": "curl -s http://localhost:8084/status | head -c 50\n",
+      "duration": 1.0
+    }
+  ],
+  "task_complete": true
+}

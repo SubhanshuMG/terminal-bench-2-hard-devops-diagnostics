@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@c08cc3f8e638:/app# sed -i '/critical_ok = all(/,/)/{/for s in services,/if s\["criticality"\] == "high"/}' /app/validator.py
+sed: -e expression #1, char 0: unmatched `{'
+root@c08cc3f8e638:/app#

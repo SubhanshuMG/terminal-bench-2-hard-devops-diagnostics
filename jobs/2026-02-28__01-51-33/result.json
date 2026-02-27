@@ -1,0 +1,29 @@
+{
+    "id": "6862ba47-b3c0-41ec-88d2-496ee8119204",
+    "started_at": "2026-02-28T01:51:33.868016",
+    "finished_at": "2026-02-28T01:52:40.894444",
+    "n_total_trials": 1,
+    "stats": {
+        "n_trials": 1,
+        "n_errors": 0,
+        "evals": {
+            "terminus-2__moonshotai-kimi-k2-instruct-0905__adhoc": {
+                "n_trials": 1,
+                "n_errors": 0,
+                "metrics": [
+                    {
+                        "mean": 0.0
+                    }
+                ],
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "deployment-health-validator__e2FbGh6"
+                        ]
+                    }
+                },
+                "exception_stats": {}
+            }
+        }
+    }
+}

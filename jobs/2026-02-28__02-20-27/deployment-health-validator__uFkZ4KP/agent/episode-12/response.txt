@@ -1,0 +1,10 @@
+{
+  "analysis": "The ps command is not available. Let me try a different approach to check if the mock services are running and start them if needed.",
+  "plan": "I'll try to start the mock_services.py script directly to get the services running, then test the validator again.",
+  "commands": [
+    {
+      "keystrokes": "python /app/mock_services.py &\n",
+      "duration": 2.0
+    }
+  ]
+}

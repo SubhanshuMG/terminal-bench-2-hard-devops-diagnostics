@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@7490452a299f:/app# ss -tlnp | grep :808
+bash: ss: command not found
+root@7490452a299f:/app#

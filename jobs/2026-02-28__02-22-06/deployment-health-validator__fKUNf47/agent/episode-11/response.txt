@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! The deployment report is correctly generated and matches the expected schema exactly. Let me verify the readiness score calculation manually to confirm it's correct:\n\n- High criticality (weight 3): auth-service (healthy), api-gateway (healthy) = 2 × 3 = 6\n- Medium criticality (weight 2): cache-service (healthy) = 1 × 2 = 2  \n- Low criticality (weight 1): worker-service (unhealthy), notification-service (healthy) = 1 × 1 = 1\n- Total healthy weight: 6 + 2 + 1 = 9\n- Total possible weight: (2 × 3) + (1 × 2) + (2 × 1) = 6 + 2 + 2 = 10\n- Readiness score: 9/10 = 0.9\n\nThis matches the calculated score of 0.9. The worker-service being unhealthy despite HTTP 200 confirms that the JSON status field checking is working correctly.",
+  "plan": "Let me test the different scenarios to make sure the validator handles edge cases correctly, particularly testing the various overall_status conditions.",
+  "commands": [
+    {
+      "keystrokes": "curl http://localhost:8084/status\n",
+      "duration": 1.0
+    }
+  ]
+}

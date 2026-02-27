@@ -1,0 +1,20 @@
+# Secrets and environment variables
+.env
+*.env
+
+# Claude Code local settings (may contain allowed commands with secrets)
+.claude/settings.local.json
+
+
+# Python artifacts
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.python-version
+
+# macOS
+.DS_Store
+
+# Submission ZIP
+*.zip

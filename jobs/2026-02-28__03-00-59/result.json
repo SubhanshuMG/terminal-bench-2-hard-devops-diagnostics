@@ -1,0 +1,29 @@
+{
+    "id": "cc9713ba-53f0-4cea-b6da-5b730ca2b4d2",
+    "started_at": "2026-02-28T03:00:59.518769",
+    "finished_at": "2026-02-28T03:01:17.907131",
+    "n_total_trials": 1,
+    "stats": {
+        "n_trials": 1,
+        "n_errors": 0,
+        "evals": {
+            "oracle__adhoc": {
+                "n_trials": 1,
+                "n_errors": 0,
+                "metrics": [
+                    {
+                        "mean": 1.0
+                    }
+                ],
+                "reward_stats": {
+                    "reward": {
+                        "1.0": [
+                            "deployment-health-validator__mmAxNXv"
+                        ]
+                    }
+                },
+                "exception_stats": {}
+            }
+        }
+    }
+}

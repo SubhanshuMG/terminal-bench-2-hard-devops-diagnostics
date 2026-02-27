@@ -1,0 +1,12 @@
+New Terminal Output:
+
+root@1969c273b758:/app# grep -A 3 "weight_map" validator.py
+    weight_map = {"high": 3, "medium": 2, "low": 1}
+
+    total   = sum(weight_map[s["criticality"]] for s in services)
+    healthy = sum(
+        weight_map[s["criticality"]]
+        for s in services
+        if statuses[s["name"]]["status"] == "healthy"
+    )
+root@1969c273b758:/app#

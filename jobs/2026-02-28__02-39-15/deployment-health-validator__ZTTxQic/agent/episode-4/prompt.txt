@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@9681c98c04e7:/app# ps aux | grep python
+bash: ps: command not found
+root@9681c98c04e7:/app#

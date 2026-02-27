@@ -1,0 +1,10 @@
+{
+  "analysis": "I think there's an issue with the startup order logic in my compute_startup_order function. Looking at the dependencies:\n- api-gateway depends on auth-service and cache-service (should start after them)\n- worker-service depends on api-gateway and cache-service\n- notification-service depends on worker-service\n\nBut the current order shows notification-service first, which doesn't make sense. Let me check the topological sort logic - I think I have the graph edges reversed.",
+  "plan": "I need to fix the compute_startup_order function. Currently I'm adding edges from service to dependency, but for topological sort where dependencies must come first, I should add edges from dependency to service.",
+  "commands": [
+    {
+      "keystrokes": "cat > /tmp/test_toposort.py << 'EOF'\n# Let's test the current logic\nservices = [\n    {\"name\": \"auth-service\", \"dependencies\": []},\n    {\"name\": \"api-gateway\", \"dependencies\": [\"auth-service\", \"cache-service\"]},\n    {\"name\": \"cache-service\", \"dependencies\": []},\n    {\"name\": \"worker-service\", \"dependencies\": [\"api-gateway\", \"cache-service\"]},\n    {\"name\": \"notification-service\", \"dependencies\": [\"worker-service\"]},\n]\n\nnames = [s[\"name\"] for s in services]\ndeps_map = {s[\"name\"]: s.get(\"dependencies\", []) for s in services}\n\nprint(\"Dependencies:\")\nfor name, deps in deps_map.items():\n    print(f\"  {name} depends on: {deps}\")\nEOF\npython /tmp/test_toposort.py\n",
+      "duration": 1.0
+    }
+  ]
+}

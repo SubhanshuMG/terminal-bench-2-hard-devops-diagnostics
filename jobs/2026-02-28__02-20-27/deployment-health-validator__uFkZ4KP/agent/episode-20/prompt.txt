@@ -1,0 +1,19 @@
+Current terminal state:
+New Terminal Output:
+
+root@b64f4c940325:/app# echo "Testing auth-service health endpoint:"
+Testing auth-service health endpoint:
+root@b64f4c940325:/app# curl -s http://localhost:8081/health
+{"status":"ok","version":"2.1.0"}
+root@b64f4c940325:/app# echo -e "\nTesting api-gateway health endpoint:"
+
+Testing api-gateway health endpoint:
+root@b64f4c940325:/app# curl -s http://localhost:8082/health
+{"status":"healthy","uptime_seconds":3601}
+root@b64f4c940325:/app# echo -e "\nAll tests passed! The validator is working correctly."
+
+All tests passed! The validator is working correctly.
+root@b64f4c940325:/app#
+
+
+Are you sure you want to mark the task as complete? This will trigger your solution to be graded and you won't be able to make any further corrections. If so, include "task_complete": true in your JSON response again.

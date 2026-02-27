@@ -1,0 +1,7 @@
+New Terminal Output:
+
+root@517c6a54f599:/app# grep -A 2 "weight_map = {" validator.py
+    weight_map = {"high": 3, "medium": 2, "low": 1}
+
+    total   = sum(weight_map[s["criticality"]] for s in services if s["criticality"] == "high")
+root@517c6a54f599:/app#

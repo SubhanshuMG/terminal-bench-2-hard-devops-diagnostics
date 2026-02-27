@@ -1,0 +1,10 @@
+{
+  "analysis": "Good, I've fixed the load_services function. Now I need to fix the check_health function to properly handle JSON responses. Let me replace the entire check_health function with the corrected version.",
+  "plan": "I'll replace the check_health function with one that properly checks JSON responses for accepted operational values ('ok', 'up', 'healthy').",
+  "commands": [
+    {
+      "keystrokes": "cat > /tmp/new_check_health.py << 'EOF'\ndef check_health(service: dict) -> dict:\n    \"\"\"Probe a single service and return its health record.\"\"\"\n    url = f\"http://127.0.0.1:{service['port']}{service['health_endpoint']}\"\n    try:\n        resp = requests.get(url, timeout=5)\n        healthy = False\n        if resp.status_code == 200:\n            # Check if it's JSON and has status field\n            try:\n                json_data = resp.json()\n                # Check for accepted operational values\n                if 'status' in json_data and json_data['status'] in ['ok', 'up', 'healthy']:\n                    healthy = True\n            except ValueError:\n                # Not JSON, so just check HTTP status\n                healthy = True\n        return {\n            \"status\": \"healthy\" if healthy else \"unhealthy\",\n            \"http_status\": resp.status_code,\n            \"criticality\": service[\"criticality\"],\n        }\n    except requests.exceptions.RequestException:\n        return {\n            \"status\": \"unhealthy\",\n            \"http_status\": 0,\n            \"criticality\": service[\"criticality\"],\n        }\nEOF\n",
+      "duration": 0.1
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+New Terminal Output:
+
+root@d796365c4a34:/app# sed -n '60,75p' /app/validator.py
+
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    return order
+
+
+root@d796365c4a34:/app#

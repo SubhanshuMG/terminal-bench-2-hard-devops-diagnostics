@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! The deployment report is correctly formatted and matches the expected schema exactly. All the fields are present with correct values: deployment_name, overall_status ('degraded'), readiness_score (0.9), service_statuses with all 5 services showing correct health status (worker-service correctly marked as unhealthy), startup_order is topologically sorted, critical_services_healthy is true (both high-criticality services are healthy), and timestamp is properly formatted. Let me verify the readiness score calculation manually to confirm it's correct.",
+  "plan": "Let me manually verify the readiness score calculation to ensure it's correct. The weights are: high=3, medium=2, low=1. We have 4 healthy services and 1 unhealthy (worker-service, low criticality).",
+  "commands": [
+    {
+      "keystrokes": "echo \"Manual verification:\"\necho \"Total weights: auth(3) + api(3) + cache(2) + worker(1) + notification(1) = 10\"\necho \"Healthy weights: auth(3) + api(3) + cache(2) + notification(1) = 9\"\necho \"Readiness score: 9/10 = 0.9\"\necho \"Matches calculated score: ✓\"\n",
+      "duration": 0.1
+    }
+  ]
+}

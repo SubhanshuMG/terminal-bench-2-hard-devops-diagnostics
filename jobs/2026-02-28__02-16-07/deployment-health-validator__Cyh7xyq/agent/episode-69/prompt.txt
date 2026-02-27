@@ -1,0 +1,15 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# grep -A 10 "except.*JSONDecodeError" validator.py
+        except (ValueError, json.decoder.JSONDecodeError):
+            # For non-JSON responses, HTTP 200 is sufficient
+            healthy = True
+
+        return {
+            "status": "healthy" if healthy else "unhealthy",
+            "http_status": resp.status_code,
+            "criticality": service["criticality"],
+        }
+    except requests.exceptions.RequestException:
+        return {
+root@eb68a1250306:/app#

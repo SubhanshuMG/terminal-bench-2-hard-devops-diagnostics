@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@517c6a54f599:/app# sed -i 's/in_degree\[dep\] += 1/in_degree[svc] += 1/' validator.py
+root@517c6a54f599:/app#

@@ -1,0 +1,29 @@
+New Terminal Output:
+
+root@f07828e7747d:/app# python3 -c "
+> services = [
+>     {'name': 'auth-service', 'criticality': 'high'},
+>     {'name': 'api-gateway', 'criticality': 'high'},
+>     {'name': 'cache-service', 'criticality': 'medium'},
+>     {'name': 'worker-service', 'criticality': 'low'},
+>     {'name': 'notification-service', 'criticality': 'low'}
+> ]
+> statuses = {
+>     'auth-service': {'status': 'healthy'},
+>     'api-gateway': {'status': 'healthy'},
+>     'cache-service': {'status': 'healthy'},
+>     'worker-service': {'status': 'unhealthy'},
+>     'notification-service': {'status': 'healthy'}
+> }
+>
+> weight_map = {'high': 3, 'medium': 2, 'low': 1}
+> total = sum(weight_map[s['criticality']] for s in services)
+> healthy = sum(weight_map[s['criticality']] for s in services if statuses[s['name']]['status'] == 'healthy')
+> print(f'Total weights: {total}')
+> print(f'Healthy weights: {healthy}')
+> print(f'Score: {healthy/total}')
+> "
+Total weights: 10
+Healthy weights: 9
+Score: 0.9
+root@f07828e7747d:/app#

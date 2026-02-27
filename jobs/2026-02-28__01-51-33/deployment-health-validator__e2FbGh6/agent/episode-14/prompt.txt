@@ -1,0 +1,15 @@
+New Terminal Output:
+
+}root@0b746025887e:/app# echo "Verifying startup order logic:"
+Verifying startup order logic:
+root@0b746025887e:/app# echo "auth-service (no deps) -> cache-service (no deps) -> api-gateway (depends on auth, cache) -> worker-service (depends on api, cache
+) -> notification-service (depends on worker)"
+auth-service (no deps) -> cache-service (no deps) -> api-gateway (depends on auth, cache) -> worker-service (depends on api, cache) -> notification-service (dep
+ends on worker)
+root@0b746025887e:/app# echo "Expected order should be: auth-service, cache-service, api-gateway, worker-service, notification-service"
+Expected order should be: auth-service, cache-service, api-gateway, worker-service, notification-service
+root@0b746025887e:/app# echo "Actual order from report: auth-service, cache-service, api-gateway, worker-service, notification-service"
+Actual order from report: auth-service, cache-service, api-gateway, worker-service, notification-service
+root@0b746025887e:/app# echo "✓ Startup order is correct"
+✓ Startup order is correct
+root@0b746025887e:/app#

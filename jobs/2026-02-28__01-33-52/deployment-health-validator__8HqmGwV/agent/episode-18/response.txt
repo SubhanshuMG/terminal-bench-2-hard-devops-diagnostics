@@ -1,0 +1,10 @@
+{
+  "analysis": "Good! Now I need to fix the startup order logic. The current implementation has the graph building backwards. It's adding dependencies as if they depend on the service, but it should be the other way around - dependencies should come before dependents. The current logic `graph[svc].append(dep)` means 'svc depends on dep', but it should mean 'dep depends on svc' for proper topological sorting.",
+  "plan": "I'll fix the graph building logic in compute_startup_order() to properly represent the dependency relationships for topological sorting.",
+  "commands": [
+    {
+      "keystrokes": "sed -i 's/graph\\[svc\\].append(dep)/graph[dep].append(svc)/' validator.py\n",
+      "duration": 0.1
+    }
+  ]
+}

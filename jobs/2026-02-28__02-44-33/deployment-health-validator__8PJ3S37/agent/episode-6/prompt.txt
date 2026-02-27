@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@b4674ba3220e:/app# netstat -tlnp 2>/dev/null || ss -tlnp 2>/dev/null
+root@b4674ba3220e:/app#

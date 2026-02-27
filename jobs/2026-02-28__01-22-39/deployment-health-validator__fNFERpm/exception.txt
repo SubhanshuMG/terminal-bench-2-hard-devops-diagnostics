@@ -1,0 +1,99 @@
+Traceback (most recent call last):
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/trial/trial.py", line 483, in run
+    await self._execute_agent()
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/trial/trial.py", line 259, in _execute_agent
+    await asyncio.wait_for(
+  File "/Users/subhanshumohangupta/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py", line 1504, in run
+    await self._run_agent_loop(
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py", line 1216, in _run_agent_loop
+    ) = await self._handle_llm_interaction(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py", line 1091, in _handle_llm_interaction
+    llm_response = await self._query_llm(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 193, in async_wrapped
+    return await copy(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 112, in __call__
+    do = await self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 157, in iter
+    result = await action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/_utils.py", line 111, in inner
+    return call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 116, in __call__
+    result = await fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py", line 1081, in _query_llm
+    raise e
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/agents/terminus_2/terminus_2.py", line 914, in _query_llm
+    llm_response = await chat.chat(
+                   ^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/llms/chat.py", line 78, in chat
+    llm_response: LLMResponse = await self._model.call(
+                                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 193, in async_wrapped
+    return await copy(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 112, in __call__
+    do = await self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 157, in iter
+    result = await action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/_utils.py", line 111, in inner
+    return call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 116, in __call__
+    result = await fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/llms/lite_llm.py", line 396, in call
+    self._handle_litellm_error(e)
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/llms/lite_llm.py", line 594, in _handle_litellm_error
+    raise e
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/llms/lite_llm.py", line 394, in call
+    raise e
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/harbor/llms/lite_llm.py", line 360, in call
+    response = await litellm.acompletion(**completion_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/utils.py", line 2041, in wrapper_async
+    raise e
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/utils.py", line 1862, in wrapper_async
+    result = await original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/main.py", line 567, in acompletion
+    _, custom_llm_provider, _, _ = get_llm_provider(
+                                   ^^^^^^^^^^^^^^^^^
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/litellm_core_utils/get_llm_provider_logic.py", line 476, in get_llm_provider
+    raise e
+  File "/Users/subhanshumohangupta/.local/share/uv/tools/harbor/lib/python3.12/site-packages/litellm/litellm_core_utils/get_llm_provider_logic.py", line 457, in get_llm_provider
+    raise litellm.exceptions.BadRequestError(  # type: ignore
+litellm.exceptions.BadRequestError: litellm.BadRequestError: LLM Provider NOT provided. Pass in the LLM provider you are trying to call. You passed model=moonshotai/kimi-k2-instruct-0905
+ Pass model as E.g. For 'Huggingface' inference endpoints pass in `completion(model='huggingface/starcoder',..)` Learn more: https://docs.litellm.ai/docs/providers

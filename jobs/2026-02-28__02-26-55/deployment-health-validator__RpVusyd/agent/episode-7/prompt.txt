@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@91437e632e62:/app# netstat -tlnp 2>/dev/null | head -20
+root@91437e632e62:/app#

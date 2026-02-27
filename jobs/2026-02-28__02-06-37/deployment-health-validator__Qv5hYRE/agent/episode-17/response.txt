@@ -1,0 +1,10 @@
+{
+  "analysis": "I've added the corrected compute_startup_order function that fixes the dependency graph direction. Now I need to add the corrected readiness score function with the proper weights.",
+  "plan": "I'll add the corrected compute_readiness_score function that uses the proper weights (high=3, medium=2, low=1) instead of all weights being 1.",
+  "commands": [
+    {
+      "keystrokes": "cat >> /app/validator.py << 'EOF'\n\n# ── 4. Readiness score ────────────────────────────────────────────────────────\n\ndef compute_readiness_score(services: list, statuses: dict) -> float:\n    \"\"\"\n    Compute the weighted fraction of healthy services.\n    Criticality weights: high=3, medium=2, low=1.\n    \"\"\"\n    weight_map = {\"high\": 3, \"medium\": 2, \"low\": 1}  # Fixed weights\n\n    total   = sum(weight_map[s[\"criticality\"]] for s in services)\n    healthy = sum(\n        weight_map[s[\"criticality\"]]\n        for s in services\n        if statuses[s[\"name\"]][\"status\"] == \"healthy\"\n    )\n    return round(healthy / total, 4) if total else 0.0\n\nEOF\n",
+      "duration": 0.1
+    }
+  ]
+}

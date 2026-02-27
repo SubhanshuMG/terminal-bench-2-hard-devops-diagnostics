@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@d95b9f80757c:/app# curl -s http://localhost:8085/health
+{"pending_notifications":0,"status":"ok"}
+root@d95b9f80757c:/app#

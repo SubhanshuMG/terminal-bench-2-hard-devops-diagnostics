@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@d796365c4a34:/app# sed -i '65,66d' /app/validator.py
+root@d796365c4a34:/app#

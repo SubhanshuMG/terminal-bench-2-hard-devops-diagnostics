@@ -1,0 +1,6 @@
+New Terminal Output:
+
+ * Debug mode: off
+curl http://127.0.0.1:8081/health
+{"status":"ok","version":"2.1.0"}
+root@4644636b2f01:/app#

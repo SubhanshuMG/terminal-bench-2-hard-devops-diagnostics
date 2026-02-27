@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@c08cc3f8e638:/app# curl -s http://localhost:8081/health
+root@c08cc3f8e638:/app#

@@ -1,0 +1,20 @@
+New Terminal Output:
+
+root@bd161ee59ef2:/app# cat /app/deployment_report.json
+{
+  "deployment_name": "production-stack",
+  "overall_status": "critical",
+  "readiness_score": 0.0,
+  "service_statuses": {
+    "metrics-collector": {
+      "status": "unhealthy",
+      "http_status": 0,
+      "criticality": "low"
+    }
+  },
+  "startup_order": [
+    "metrics-collector"
+  ],
+  "critical_services_healthy": false,
+  "timestamp": "2026-02-27T20:27:22.760623+00:00"
+}root@bd161ee59ef2:/app#

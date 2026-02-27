@@ -1,0 +1,10 @@
+{
+  "analysis": "I can see the issue clearly now. The startup_order only contains 'notification-service' instead of all 5 services in the correct dependency order. The problem is in the topological sort algorithm. Let me examine the compute_startup_order function more carefully and fix it.",
+  "plan": "I need to fix the topological sort algorithm. Looking at the dependencies from the manifest: auth-service and cache-service have no dependencies, api-gateway depends on auth-service and cache-service, worker-service depends on api-gateway and cache-service, and notification-service depends on worker-service. The correct order should be: auth-service, cache-service, api-gateway, worker-service, notification-service.",
+  "commands": [
+    {
+      "keystrokes": "grep -n -A 25 'def compute_startup_order' validator.py\n",
+      "duration": 0.1
+    }
+  ]
+}

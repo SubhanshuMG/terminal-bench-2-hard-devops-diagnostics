@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@2c18ab8ab423:/app# sed -i 's/critical_ok = all(/critical_ok = all(/' /app/validator.py
+root@2c18ab8ab423:/app#

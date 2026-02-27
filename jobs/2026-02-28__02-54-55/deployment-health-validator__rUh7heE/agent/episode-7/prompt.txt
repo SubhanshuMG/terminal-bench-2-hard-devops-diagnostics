@@ -1,0 +1,19 @@
+New Terminal Output:
+
+root@c6a5824279b0:/app# python /app/validator.py
+Loading deployment manifest ...
+Checking service health ...
+  auth-service              unhealthy  (HTTP 0)
+  api-gateway               unhealthy  (HTTP 0)
+  cache-service             unhealthy  (HTTP 0)
+  worker-service            unhealthy  (HTTP 0)
+  notification-service      unhealthy  (HTTP 0)
+Computing startup order ...
+  auth-service -> cache-service -> api-gateway -> worker-service -> notification-service
+Computing readiness score ...
+  score = 0.0000
+
+Report written to /app/deployment_report.json
+Overall status : critical
+Readiness score: 0.0
+root@c6a5824279b0:/app#

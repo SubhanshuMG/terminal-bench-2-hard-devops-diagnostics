@@ -1,0 +1,10 @@
+{
+  "analysis": "pkill is not available. Let me try a different approach to stop the mock services and test different scenarios. I'll use the process ID or try to interrupt the running process.",
+  "plan": "I'll try to stop the mock services using the process ID I saw earlier (649) or use Ctrl+C to interrupt the process, then test different failure scenarios.",
+  "commands": [
+    {
+      "keystrokes": "kill 649 2>/dev/null || echo \"Process not found\"\n",
+      "duration": 0.1
+    }
+  ]
+}

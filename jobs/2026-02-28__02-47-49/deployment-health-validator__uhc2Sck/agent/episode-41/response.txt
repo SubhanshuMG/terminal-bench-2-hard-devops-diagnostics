@@ -1,0 +1,10 @@
+{
+  "analysis": "I can see the startup order is still showing notification-service first, which seems backwards for the dependencies. Let me analyze this more carefully. According to the manifest: auth-service and cache-service have no dependencies, api-gateway depends on both auth-service and cache-service, worker-service depends on api-gateway and cache-service, and notification-service depends on worker-service. So the correct order should be: auth-service and cache-service first (they can start in parallel), then api-gateway, then worker-service, then notification-service. The current order looks reversed.",
+  "plan": "I need to examine the compute_startup_order function more carefully. The issue might be in how I'm interpreting the dependency graph or the topological sorting algorithm. Let me check if the logic is correct.",
+  "commands": [
+    {
+      "keystrokes": "grep -A 25 'def compute_startup_order' /app/validator.py\n",
+      "duration": 0.1
+    }
+  ]
+}

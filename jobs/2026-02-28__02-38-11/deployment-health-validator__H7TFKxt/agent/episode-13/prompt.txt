@@ -1,0 +1,25 @@
+New Terminal Output:
+
+root@c7949bce9f95:/app# cat >> validator.py << 'EOF'
+>
+> def compute_startup_order(services: list) -> list:
+>     names = [s["name"] for s in services]
+>     deps_map = {s["name"]: s.get("dependencies", []) for s in services}
+>     graph = {n: [] for n in names}
+>     in_degree = {n: 0 for n in names}
+>     for svc, deps in deps_map.items():
+>         for dep in deps:
+>             graph[dep].append(svc)
+>             in_degree[svc] += 1
+>     queue = deque(n for n in names if in_degree[n] == 0)
+>     order = []
+>     while queue:
+>         node = queue.popleft()
+>         order.append(node)
+>         for neighbor in graph[node]:
+>             in_degree[neighbor] -= 1
+>             if in_degree[neighbor] == 0:
+>                 queue.append(neighbor)
+>     return order
+> EOF
+root@c7949bce9f95:/app#

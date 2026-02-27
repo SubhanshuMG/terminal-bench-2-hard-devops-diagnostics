@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@d796365c4a34:/app# sed -i 's/for s in services/for s in services if s["criticality"] == "high"/' /app/validator.py
+root@d796365c4a34:/app#

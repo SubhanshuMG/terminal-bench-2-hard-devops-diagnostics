@@ -1,0 +1,81 @@
+New Terminal Output:
+
+root@c08cc3f8e638:/app# cat >> /app/validator.py << 'EOF'
+>
+>
+> # ── 3. Startup ordering ───────────────────────────────────────────────────────
+>
+> def compute_startup_order(services: list) -> list:
+>     """
+>     Return a topologically sorted startup order using Kahn's algorithm.
+>     Dependencies must start before the services that depend on them.
+>     """
+>     names = [s["name"] for s in services]
+>     deps_map = {s["name"]: s.get("dependencies", []) for s in services}
+>
+>     graph     = {n: [] for n in names}
+>     in_degree = {n: 0 for n in names}
+>
+>     for svc, deps in deps_map.items():
+>         for dep in deps:
+>             graph[svc].append(dep)
+>             in_degree[dep] += 1
+>
+>     queue = deque(n for n in names if in_degree[n] == 0)
+>     order = []
+>     while queue:
+>         node = queue.popleft()
+>         order.append(node)
+>         for neighbor in graph[node]:
+>             in_degree[neighbor] -= 1
+>             if in_degree[neighbor] == 0:
+>                 queue.append(neighbor)
+>     return order
+>
+>
+> # ── 4. Readiness score ────────────────────────────────────────────────────────
+>
+> def compute_readiness_score(services: list, statuses: dict) -> float:
+>     """
+>     Compute the weighted fraction of healthy services.
+>     Criticality weights: high=3, medium=2, low=1.
+>     """
+>     weight_map = {"high": 3, "medium": 2, "low": 1}
+>
+>     total   = sum(weight_map[s["criticality"]] for s in services)
+>     healthy = sum(
+>         weight_map[s["criticality"]]
+>         for s in services
+>         if statuses[s["name"]]["status"] == "healthy"
+>     )
+>     return round(healthy / total, 4) if total else 0.0
+>
+>
+> # ── 5. Overall status ─────────────────────────────────────────────────────────
+>
+> def determine_status(services: list, statuses: dict, score: float):
+>     """
+>     Returns (overall_status, critical_services_healthy).
+>
+>     Status rules:
+>       'healthy'   -- critical_services_healthy AND score >= 0.95
+>       'degraded'  -- critical_services_healthy AND score < 0.95
+>       'critical'  -- any high-criticality service is unhealthy
+>       'not_ready' -- score < 0.70
+>     """
+>     critical_ok = all(
+>         statuses[s["name"]]["status"] == "healthy"
+>         for s in services
+>         if s["criticality"] == "high"
+>     )
+>
+>     if not critical_ok:
+>         return "critical", critical_ok
+>     if score >= 0.95:
+>         return "healthy", critical_ok
+>     if score >= 0.70:
+>         return "degraded", critical_ok
+>     return "not_ready", critical_ok
+>
+> EOF
+root@c08cc3f8e638:/app#

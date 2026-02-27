@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@7f535f315d6d:/app# sed -i "s|/health"|{service['health_endpoint']}|" /app/validator.py
+>

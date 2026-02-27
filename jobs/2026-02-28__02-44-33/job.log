@@ -1,0 +1,78 @@
+Installing: tmux, asciinema
+Detected system: {'os': 'debian-based', 'package_manager': 'apt-get', 'update_command': None}
+Installing tools using apt-get: DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y tmux asciinema
+Starting recording.
+Sending keys: ['asciinema rec --stdin /logs/agent/recording.cast', 'Enter'] min_timeout_sec: 1.0 max_timeout_sec: 180.0
+Sending keys: ['clear', 'Enter'] min_timeout_sec: 0.0 max_timeout_sec: 180.0
+Sending keys: ['ls -la\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['cat deployment_manifest.yaml\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['cat validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['curl -s http://localhost:8081/health\n'] min_timeout_sec: 1.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['ps aux | grep mock\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['netstat -tlnp 2>/dev/null || ss -tlnp 2>/dev/null\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['python /app/mock_services.py &\n'] min_timeout_sec: 1.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['curl -s http://localhost:8081/health\n'] min_timeout_sec: 1.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['python /app/validator.py\n'] min_timeout_sec: 3.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['cp validator.py validator.py.backup\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['sed -i \'s/config\\["services"\\]/config["deployment"]["services"]/g\' validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['sed -i \'s/weight_map = {"high": 1, "medium": 1, "low": 1}/weight_map = {"high": 3, "medium": 2, "low": 1}/g\' validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['sed -i \'/critical_ok = all(/,/critical_ok/a\\    critical_ok = all(\\n        statuses[s["name"]]["status"] == "healthy"\\n        for s in services\\n        if s["criticality"] == "high"\\n    )\' validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ["grep -n -A 5 -B 5 'critical_ok' validator.py\n"] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['cp validator.py.backup validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['sed -i \'s/config\\["services"\\]/config["deployment"]["services"]/g\' validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['sed -i \'s/weight_map = {"high": 1, "medium": 1, "low": 1}/weight_map = {"high": 3, "medium": 2, "low": 1}/g\' validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ["grep -n 'critical_ok = all(' validator.py\n"] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ["sed -n '105,115p' validator.py\n"] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['sed -i \'108,110s/for s in services/for s in services if s["criticality"] == "high"/\' validator.py\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ["grep -n -A 15 'def compute_startup_order' validator.py\n"] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ["sed -i '63s/graph\\[svc\\].append(dep)/graph[dep].append(svc)/' validator.py\n"] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['python /app/validator.py\n'] min_timeout_sec: 3.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['cat /app/deployment_report.json\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ["grep -n -A 25 'def compute_startup_order' validator.py\n"] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ["sed -i '64s/in_degree\\[dep\\] += 1/in_degree[svc] += 1/' validator.py\n"] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['python /app/validator.py\n'] min_timeout_sec: 3.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['cat /app/deployment_report.json\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['pkill -f mock_services\n'] min_timeout_sec: 1.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['kill 649 2>/dev/null || echo "Process not found"\n'] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['python /app/validator.py\n'] min_timeout_sec: 3.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ["grep -A 2 -B 2 'critical_services_healthy' /app/deployment_report.json\n"] min_timeout_sec: 0.1 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['python /app/mock_services.py &\n'] min_timeout_sec: 1.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Sending keys: ['python /app/validator.py\n'] min_timeout_sec: 3.0 max_timeout_sec: 180.0
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json
+Trajectory dumped to jobs/2026-02-28__02-44-33/deployment-health-validator__8PJ3S37/agent/trajectory.json

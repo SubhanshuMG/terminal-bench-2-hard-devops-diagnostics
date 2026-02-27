@@ -1,0 +1,6 @@
+New Terminal Output:
+
+All mock services running. Ctrl-C to stop.
+curl http://localhost:8081/health
+{"status":"ok","version":"2.1.0"}
+root@ef2cbd2744f1:/app#

@@ -1,0 +1,147 @@
+New Terminal Output:
+
+> cat > /app/validator.py << 'ENDFILE'
+> #!/usr/bin/env python3
+>
+> import json
+> import yaml
+> import requests
+> from datetime import datetime, timezone
+> from collections import deque
+>
+> def load_services(manifest_path: str) -> list:
+>     with open(manifest_path) as f:
+>         config = yaml.safe_load(f)
+>     return config["deployment"]["services"]
+>
+> def check_health(service: dict) -> dict:
+>     url = f"http://127.0.0.1:{service['port']}{service['health_endpoint']}"
+>     try:
+>         resp = requests.get(url, timeout=5)
+>         if resp.status_code != 200:
+>             return {"status": "unhealthy", "http_status": resp.status_code, "criticality": service["criticality"]}
+>         try:
+>             json_data = resp.json()
+>             if 'status' in json_data:
+>                 operational = json_data['status'].lower() in ['operational', 'healthy', 'up', 'ok']
+>                 return {"status": "healthy" if operational else "unhealthy", "http_status": resp.status_code, "criticality": service["criticality"]}
+>         except (json.JSONDecodeError, ValueError):
+>             pass
+>         return {"status": "healthy", "http_status": resp.status_code, "criticality": service["criticality"]}
+>     except requests.exceptions.RequestException:
+>         return {"status": "unhealthy", "http_status": 0, "criticality": service["criticality"]}
+>
+> def compute_startup_order(services: list) -> list:
+>     names = [s["name"] for s in services]
+>     deps_map = {s["name"]: s.get("dependencies", []) for s in services}
+>     graph = {n: [] for n in names}
+>     in_degree = {n: 0 for n in names}
+>     for svc, deps in deps_map.items():
+>         for dep in deps:
+>             graph[dep].append(svc)
+>             in_degree[svc] += 1
+>     queue = deque(n for n in names if in_degree[n] == 0)
+>     order = []
+>     while queue:
+>         node = queue.popleft()
+>         order.append(node)
+>         for neighbor in graph[node]:
+>             in_degree[neighbor] -= 1
+>             if in_degree[neighbor] == 0:
+>                 queue.append(neighbor)
+>     return order
+>
+> def compute_readiness_score(services: list, statuses: dict) -> float:
+>     weight_map = {"high": 3, "medium": 2, "low": 1}
+>     total = sum(weight_map[s["criticality"]] for s in services)
+>     healthy = sum(weight_map[s["criticality"]] for s in services if statuses[s["name"]]["status"] == "healthy")
+>     return round(healthy / total, 4) if total else 0.0
+>
+> def determine_status(services: list, statuses: dict, score: float):
+>     critical_ok = all(statuses[s["name"]]["status"] == "healthy" for s in services if s["criticality"] == "high")
+>     if not critical_ok:
+>         return "critical", critical_ok
+>     if score >= 0.95:
+>         return "healthy", critical_ok
+>     if score >= 0.70:
+>         return "degraded", critical_ok
+>     return "not_ready", critical_ok
+>
+> def main():
+>     manifest_path = "/app/deployment_manifest.yaml"
+>     output_path = "/app/deployment_report.json"
+>     print("Loading deployment manifest ...")
+>     services = load_services(manifest_path)
+>     print("Checking service health ...")
+>     statuses = {}
+>     for svc in services:
+>         result = check_health(svc)
+>         statuses[svc["name"]] = result
+>         print(f"  {svc['name']:25s} {result['status']:10s} (HTTP {result['http_status']})")
+>     print("Computing startup order ...")
+>     startup_order = compute_startup_order(services)
+>     print(f"  {' -> '.join(startup_order)}")
+bash: syntax error near unexpected token `$'\'\'\')\n"\ncat > /app/validator.py << \'ENDFILE\'\n#!/usr/bin/env python3\n\nimport json\nimport yaml\nimport reque
+sts\nfrom datetime import datetime, timezone\nfrom collections import deque\n\ndef load_services(manifest_path: str) -> list:\n    with open(manifest_path) as f
+:\n        config = yaml.safe_load(f)\n    return config["deployment"]["services"]\n\ndef check_health(service: dict) -> dict:\n    url = f"http://127.0.0.1:{se
+rvice[\'port\']}{service[\'health_endpoint\']}"\n    try:\n        resp = requests.get(url, timeout=5)\n        if resp.status_code != 200:\n            return
+{"status": "unhealthy", "http_status": resp.status_code, "criticality": service["criticality"]}\n        try:\n            json_data = resp.json()\n
+if \'status\' in json_data:\n                operational = json_data[\'status\'].lower() in [\'operational\', \'healthy\', \'up\', \'ok\']\n                retu
+rn {"status": "healthy" if operational else "unhealthy", "http_status": resp.status_code, "criticality": service["criticality"]}\n        except (json.JSONDecod
+eError, ValueError):\n            pass\n        return {"status": "healthy", "http_status": resp.status_code, "criticality": service["criticality"]}\n    except
+ requests.exceptions.RequestException:\n        return {"status": "unhealthy", "http_status": 0, "criticality": service["criticality"]}\n\ndef compute_startup_o
+rder(services: list) -> list:\n    names = [s["name"] for s in services]\n    deps_map = {s["name"]: s.get("dependencies", []) for s in services}\n    graph = {
+n: [] for n in names}\n    in_degree = {n: 0 for n in names}\n    for svc, deps in deps_map.items():\n        for dep in deps:\n            graph[dep].append(sv
+c)\n            in_degree[svc] += 1\n    queue = deque(n for n in names if in_degree[n] == 0)\n    order = []\n    while queue:\n        node = queue.popleft()\
+n        order.append(node)\n        for neighbor in graph[node]:\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n
+   queue.append(neighbor)\n    return order\n\ndef compute_readiness_score(services: list, statuses: dict) -> float:\n    weight_map = {"high": 3, "medium": 2,
+"low": 1}\n    total = sum(weight_map[s["criticality"]] for s in services)\n    healthy = sum(weight_map[s["criticality"]] for s in services if statuses[s["name
+"]]["status"] == "healthy")\n    return round(healthy / total, 4) if total else 0.0\n\ndef determine_status(services: list, statuses: dict, score: float):\n
+critical_ok = all(statuses[s["name"]]["status"] == "healthy" for s in services if s["criticality"] == "high")\n    if not critical_ok:\n        return "critical
+", critical_ok\n    if score >= 0.95:\n        return "healthy", critical_ok\n    if score >= 0.70:\n        return "degraded", critical_ok\n    return "not_rea
+dy", critical_ok\n\ndef main():\n    manifest_path = "/app/deployment_manifest.yaml"\n    output_path = "/app/deployment_report.json"\n    print("Loading deploy
+ment manifest ...")\n    services = load_services(manifest_path)\n    print("Checking service health ...")\n    statuses = {}\n    for svc in services:\n
+ result = check_health(svc)\n        statuses[svc["name"]] = result\n        print(f"  {svc[\'name\']:25s} {result[\'status\']:10s} (HTTP {result[\'http_status\
+']})")\n    print("Computing startup order ...")\n    startup_order = compute_startup_order(services)\n    print(f"  {\'''
+root@b64f4c940325:/app#     print("Computing readiness score ...")
+bash: syntax error near unexpected token `"Computing readiness score ..."'
+root@b64f4c940325:/app#     score = compute_readiness_score(services, statuses)
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     print(f"  score = {score:.4f}")
+bash: syntax error near unexpected token `f"  score = {score:.4f}"'
+root@b64f4c940325:/app#     overall_status, critical_ok = determine_status(services, statuses, score)
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     report = {
+bash: report: command not found
+root@b64f4c940325:/app#         "deployment_name": "production-stack",
+bash: deployment_name:: command not found
+root@b64f4c940325:/app#         "overall_status": overall_status,
+bash: overall_status:: command not found
+root@b64f4c940325:/app#         "readiness_score": score,
+bash: readiness_score:: command not found
+root@b64f4c940325:/app#         "service_statuses": statuses,
+bash: service_statuses:: command not found
+root@b64f4c940325:/app#         "startup_order": startup_order,
+bash: startup_order:: command not found
+root@b64f4c940325:/app#         "critical_services_healthy": critical_ok,
+bash: critical_services_healthy:: command not found
+root@b64f4c940325:/app#         "timestamp": datetime.now(timezone.utc).isoformat(),
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#     }
+bash: syntax error near unexpected token `}'
+root@b64f4c940325:/app#     with open(output_path, "w") as f:
+bash: syntax error near unexpected token `('
+root@b64f4c940325:/app#         json.dump(report, f, indent=2)
+bash: syntax error near unexpected token `report,'
+root@b64f4c940325:/app#     print(f"\nReport written to {output_path}")
+bash: syntax error near unexpected token `f"\nReport written to {output_path}"'
+root@b64f4c940325:/app#     print(f"Overall status : {overall_status}")
+bash: syntax error near unexpected token `f"Overall status : {overall_status}"'
+root@b64f4c940325:/app#     print(f"Readiness score: {score}")
+bash: syntax error near unexpected token `f"Readiness score: {score}"'
+root@b64f4c940325:/app#
+root@b64f4c940325:/app# if __name__ == "__main__":
+>     main()
+> ENDFILE
+bash: syntax error near unexpected token `ENDFILE'
+root@b64f4c940325:/app#

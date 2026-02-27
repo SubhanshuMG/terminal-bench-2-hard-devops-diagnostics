@@ -1,0 +1,670 @@
+[?2004hroot@d796365c4a34:/app# asciinema rec --stdin /logs/agent/recording.cast
+[?2004l[0;32masciinema: recording asciicast to /logs/agent/recording.cast[0m
+[0;32masciinema: press <ctrl-d> or type "exit" when you're done[0m
+[?2004hroot@d796365c4a34:/app# clear
+[?2004l[H[J[3J[?2004hroot@d796365c4a34:/app# ls -la
+[?2004ltotal 32
+drwxr-xr-x 1 root root 4096 Feb 27 20:15 .
+drwxr-xr-x 1 root root 4096 Feb 27 21:18 ..
+-rw-r--r-- 1 root root  698 Feb 27 19:10 Dockerfile
+-rw-r--r-- 1 root root 2068 Feb 27 19:22 deployment_manifest.yaml
+-rw-r--r-- 1 root root 3183 Feb 27 20:15 mock_services.py
+-rw-r--r-- 1 root root   44 Feb 27 18:53 requirements.txt
+-rw-r--r-- 1 root root 6119 Feb 27 20:15 validator.py
+[?2004hroot@d796365c4a34:/app# cat /app/deployment_manifest.yaml
+[?2004l# ─────────────────────────────────────────────────────────────────────────────
+# deployment_manifest.yaml
+#
+# Deployment descriptor for the production stack.
+#
+# Schema notes:
+#   • The top-level 'services' block is a legacy v1 monitoring registry read
+#     by the external health-dashboard and alert-manager sidecar.  It is NOT
+#     the authoritative list for deployment ordering or health validation.
+#   • The authoritative service definitions live under 'deployment.services'.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Legacy monitoring-registry endpoint  (consumed by alert-manager, not by the validator)
+services:
+  - name: "metrics-collector"
+    port: 9091
+    health_endpoint: "/metrics"
+    dependencies: []
+    criticality: "low"
+
+# ── Authoritative deployment configuration ────────────────────────────────────
+deployment:
+  name: "production-stack"
+
+  services:
+    - name: "auth-service"
+      port: 8081
+      health_endpoint: "/health"
+      dependencies: []
+      criticality: "high"
+
+    - name: "api-gateway"
+      port: 8082
+      health_endpoint: "/health"
+      dependencies:
+        - "auth-service"
+        - "cache-service"
+      criticality: "high"
+
+    - name: "cache-service"
+      port: 8083
+      health_endpoint: "/ping"
+      dependencies: []
+      criticality: "medium"
+
+    - name: "worker-service"
+      port: 8084
+      health_endpoint: "/status"
+      dependencies:
+        - "api-gateway"
+        - "cache-service"
+      criticality: "low"
+
+    - name: "notification-service"
+      port: 8085
+      health_endpoint: "/health"
+      dependencies:
+        - "worker-service"
+      criticality: "low"
+[?2004hroot@d796365c4a34:/app# curl -s http://localhost:8081/health
+[?2004l[?2004hroot@d796365c4a34:/app# ps aux | grep mock
+[?2004lbash: ps: command not found
+[?2004hroot@d796365c4a34:/app# curl -s http://localhost:8082/health
+[?2004l[?2004hroot@d796365c4a34:/app# pgrep python
+[?2004lbash: pgrep: command not found
+[?2004hroot@d796365c4a34:/app# cat /app/validator.py
+[?2004l#!/usr/bin/env python3
+"""
+Deployment Health Validator
+===========================
+Reads deployment_manifest.yaml, probes each service's health endpoint,
+computes a weighted readiness score, determines a valid startup ordering,
+and writes a deployment readiness report to /app/deployment_report.json.
+"""
+
+import json
+import yaml
+import requests
+from datetime import datetime, timezone
+from collections import deque
+
+
+# ── 1. Load manifest ──────────────────────────────────────────────────────────
+
+def load_services(manifest_path: str) -> list:
+    """Return the list of service definitions from the manifest."""
+    with open(manifest_path) as f:
+        config = yaml.safe_load(f)
+    # Returns the top-level 'services' list from the manifest.
+    return config["services"]
+
+
+# ── 2. Health check ───────────────────────────────────────────────────────────
+
+def check_health(service: dict) -> dict:
+    """Probe a single service and return its health record."""
+    url = f"http://127.0.0.1:{service['port']}{service['health_endpoint']}"
+    try:
+        resp = requests.get(url, timeout=5)
+        healthy = resp.status_code == 200
+        return {
+            "status": "healthy" if healthy else "unhealthy",
+            "http_status": resp.status_code,
+            "criticality": service["criticality"],
+        }
+    except requests.exceptions.RequestException:
+        return {
+            "status": "unhealthy",
+            "http_status": 0,
+            "criticality": service["criticality"],
+        }
+
+
+# ── 3. Startup ordering ───────────────────────────────────────────────────────
+
+def compute_startup_order(services: list) -> list:
+    """
+    Return a topologically sorted startup order using Kahn's algorithm.
+    Dependencies must start before the services that depend on them.
+    """
+    names = [s["name"] for s in services]
+    deps_map = {s["name"]: s.get("dependencies", []) for s in services}
+
+    graph     = {n: [] for n in names}
+    in_degree = {n: 0 for n in names}
+
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    return order
+
+
+# ── 4. Readiness score ────────────────────────────────────────────────────────
+
+def compute_readiness_score(services: list, statuses: dict) -> float:
+    """
+    Compute the weighted fraction of healthy services.
+    Criticality weights: high=3, medium=2, low=1.
+    """
+    weight_map = {"high": 1, "medium": 1, "low": 1}
+
+    total   = sum(weight_map[s["criticality"]] for s in services)
+    healthy = sum(
+        weight_map[s["criticality"]]
+        for s in services
+        if statuses[s["name"]]["status"] == "healthy"
+    )
+    return round(healthy / total, 4) if total else 0.0
+
+
+# ── 5. Overall status ─────────────────────────────────────────────────────────
+
+def determine_status(services: list, statuses: dict, score: float):
+    """
+    Returns (overall_status, critical_services_healthy).
+
+    Status rules:
+      'healthy'   -- critical_services_healthy AND score >= 0.95
+      'degraded'  -- critical_services_healthy AND score < 0.95
+      'critical'  -- any high-criticality service is unhealthy
+      'not_ready' -- score < 0.70
+    """
+    critical_ok = all(
+        statuses[s["name"]]["status"] == "healthy"
+        for s in services
+    )
+
+    if not critical_ok:
+        return "critical", critical_ok
+    if score >= 0.95:
+        return "healthy", critical_ok
+    if score >= 0.70:
+        return "degraded", critical_ok
+    return "not_ready", critical_ok
+
+
+# ── main ──────────────────────────────────────────────────────────────────────
+
+def main():
+    manifest_path = "/app/deployment_manifest.yaml"
+    output_path   = "/app/deployment_report.json"
+
+    print("Loading deployment manifest ...")
+    services = load_services(manifest_path)
+
+    print("Checking service health ...")
+    statuses = {}
+    for svc in services:
+        result = check_health(svc)
+        statuses[svc["name"]] = result
+        print(f"  {svc['name']:25s} {result['status']:10s} (HTTP {result['http_status']})")
+
+    print("Computing startup order ...")
+    startup_order = compute_startup_order(services)
+    print(f"  {' -> '.join(startup_order)}")
+
+    print("Computing readiness score ...")
+    score = compute_readiness_score(services, statuses)
+    print(f"  score = {score:.4f}")
+
+    overall_status, critical_ok = determine_status(services, statuses, score)
+
+    report = {
+        "deployment_name":           "production-stack",
+        "overall_status":            overall_status,
+        "readiness_score":           score,
+        "service_statuses":          statuses,
+        "startup_order":             startup_order,
+        "critical_services_healthy": critical_ok,
+        "timestamp":                 datetime.now(timezone.utc).isoformat(),
+    }
+
+    with open(output_path, "w") as f:
+        json.dump(report, f, indent=2)
+
+    print(f"\nReport written to {output_path}")
+    print(f"Overall status : {overall_status}")
+    print(f"Readiness score: {score}")
+
+
+if __name__ == "__main__":
+    main()
+[?2004hroot@d796365c4a34:/app# python3 /app/mock_services.py &
+[?2004l[1] 667
+[?2004hroot@d796365c4a34:/app#   started  auth-service         /health  -> http://0.0.0.0:8081
+ * Serving Flask app 'auth-service'
+ * Debug mode: off
+  started  api-gateway          /health  -> http://0.0.0.0:8082
+ * Serving Flask app 'api-gateway'
+  started  cache-service        /ping    -> http://0.0.0.0:8083
+ * Debug mode: off
+  started  worker-service       /status  -> http://0.0.0.0:8084
+ * Serving Flask app 'cache-service'
+ * Debug mode: off
+ * Serving Flask app 'worker-service'
+ * Serving Flask app 'notification-service'
+  started  notification-service /health  -> http://0.0.0.0:8085
+All mock services running. Ctrl-C to stop.
+ * Debug mode: off
+ * Debug mode: off
+curl -s http://localhost:8081/health
+[?2004l{"status":"ok","version":"2.1.0"}
+[?2004hroot@d796365c4a34:/app# cp /app/validator.py /app/validator.py.backup
+[?2004l[?2004hroot@d796365c4a34:/app# sed -i 's/return config\["services"\]/return config["deployment"]["services"]/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -i 's/weight_map = {"high": 1, "medium": 1, "low": 1}/weight_map = {"high": 3, "medium": 2, "low": 1}/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -i 's/critical_ok = all(/critical_ok = all(/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -i 's/for s in services/for s in services if s["criticality"] == "high"/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# grep -A 10 'def determine_status' /app/validator.py
+[?2004ldef determine_status(services: list, statuses: dict, score: float):
+    """
+    Returns (overall_status, critical_services_healthy).
+
+    Status rules:
+      'healthy'   -- critical_services_healthy AND score >= 0.95
+      'degraded'  -- critical_services_healthy AND score < 0.95
+      'critical'  -- any high-criticality service is unhealthy
+      'not_ready' -- score < 0.70
+    """
+    critical_ok = all(
+[?2004hroot@d796365c4a34:/app# grep -A 15 'critical_ok = all(' /app/validator.py
+[?2004l    critical_ok = all(
+        statuses[s["name"]]["status"] == "healthy"
+        for s in services if s["criticality"] == "high"
+    )
+
+    if not critical_ok:
+        return "critical", critical_ok
+    if score >= 0.95:
+        return "healthy", critical_ok
+    if score >= 0.70:
+        return "degraded", critical_ok
+    return "not_ready", critical_ok
+
+
+# ── main ──────────────────────────────────────────────────────────────────────
+
+[?2004hroot@d796365c4a34:/app# python3 /app/validator.py
+[?2004lLoading deployment manifest ...
+Checking service health ...
+  auth-service              healthy    (HTTP 200)
+  api-gateway               healthy    (HTTP 200)
+  cache-service             healthy    (HTTP 200)
+  worker-service            healthy    (HTTP 200)
+  notification-service      healthy    (HTTP 200)
+Computing startup order ...
+Traceback (most recent call last):
+  File "/app/validator.py", line 167, in <module>
+    main()
+  File "/app/validator.py", line 139, in main
+    startup_order = compute_startup_order(services)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/validator.py", line 64, in compute_startup_order
+    in_degree[dep] += 1
+    ~~~~~~~~~^^^^^
+KeyError: 'cache-service'
+[?2004hroot@d796365c4a34:/app# sed -n '45,70p' /app/validator.py
+[?2004l        }
+
+
+# ── 3. Startup ordering ───────────────────────────────────────────────────────
+
+def compute_startup_order(services: list) -> list:
+    """
+    Return a topologically sorted startup order using Kahn's algorithm.
+    Dependencies must start before the services that depend on them.
+    """
+    names = [s["name"] for s in services if s["criticality"] == "high"]
+    deps_map = {s["name"]: s.get("dependencies", []) for s in services if s["criticality"] == "high"}
+
+    graph     = {n: [] for n in names}
+    in_degree = {n: 0 for n in names}
+
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+[?2004hroot@d796365c4a34:/app# sed -i 's/names = \[s\["name"\] for s in services if s\["criticality"\] == "high"\]/names = [s["name"] for s in services]/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -i 's/deps_map = {s\["name"\]: s.get("dependencies", \[\]) for s in services if s\["criticality"\] == "high"}/deps_map = {s["name"]: s.get("dependencies", []) for s in services}/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -i 's/graph\[svc\].append(dep); in_degree\[dep\] += 1/graph[dep].append(svc); in_degree[svc] += 1/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -n '50,75p' /app/validator.py
+[?2004ldef compute_startup_order(services: list) -> list:
+    """
+    Return a topologically sorted startup order using Kahn's algorithm.
+    Dependencies must start before the services that depend on them.
+    """
+    names = [s["name"] for s in services]
+    deps_map = {s["name"]: s.get("dependencies", []) for s in services}
+
+    graph     = {n: [] for n in names}
+    in_degree = {n: 0 for n in names}
+
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    return order
+[?2004hroot@d796365c4a34:/app# sed -i '65,66c\            graph[dep].append(svc)\n            in_degree[svc] += 1' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -n '60,70p' /app/validator.py
+[?2004l
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+            graph[dep].append(svc)
+            in_degree[svc] += 1
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+[?2004hroot@d796365c4a34:/app# sed -i '65,66d' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -n '60,70p' /app/validator.py
+[?2004l
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+[?2004hroot@d796365c4a34:/app# sed -n '60,75p' /app/validator.py
+[?2004l
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    return order
+
+
+[?2004hroot@d796365c4a34:/app# sed -i '65,66c\            graph[dep].append(svc)\n            in_degree[svc] += 1' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -n '60,70p' /app/validator.py
+[?2004l
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+            graph[dep].append(svc)
+            in_degree[svc] += 1
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+[?2004hroot@d796365c4a34:/app# cp /app/validator.py.backup /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -i 's/return config\["services"\]/return config["deployment"]["services"]/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -i 's/weight_map = {"high": 1, "medium": 1, "low": 1}/weight_map = {"high": 3, "medium": 2, "low": 1}/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -i 's/for s in services/for s in services if s["criticality"] == "high"/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -i 's/names = \[s\["name"\] for s in services if s\["criticality"\] == "high"\]/names = [s["name"] for s in services]/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -i 's/deps_map = {s\["name"\]: s.get("dependencies", \[\]) for s in services if s\["criticality"\] == "high"}/deps_map = {s["name"]: s.get("dependencies", []) for s in services}/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -i 's/graph\[svc\].append(dep); in_degree\[dep\] += 1/graph[dep].append(svc); in_degree[svc] += 1/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# python3 /app/validator.py
+[?2004lLoading deployment manifest ...
+Checking service health ...
+  auth-service              healthy    (HTTP 200)
+  api-gateway               healthy    (HTTP 200)
+  cache-service             healthy    (HTTP 200)
+  worker-service            healthy    (HTTP 200)
+  notification-service      healthy    (HTTP 200)
+Computing startup order ...
+  notification-service -> worker-service -> api-gateway -> auth-service -> cache-service
+Computing readiness score ...
+  score = 1.0000
+
+Report written to /app/deployment_report.json
+Overall status : healthy
+Readiness score: 1.0
+[?2004hroot@d796365c4a34:/app# cat /app/deployment_report.json
+[?2004l{
+  "deployment_name": "production-stack",
+  "overall_status": "healthy",
+  "readiness_score": 1.0,
+  "service_statuses": {
+    "auth-service": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "high"
+    },
+    "api-gateway": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "high"
+    },
+    "cache-service": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "medium"
+    },
+    "worker-service": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "low"
+    },
+    "notification-service": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "low"
+    }
+  },
+  "startup_order": [
+    "notification-service",
+    "worker-service",
+    "api-gateway",
+    "auth-service",
+    "cache-service"
+  ],
+  "critical_services_healthy": true,
+  "timestamp": "2026-02-27T21:18:49.690570+00:00"
+}[?2004hroot@d796365c4a34:/app# python3 /app/validator.py | grep 'Computing startup order'
+[?2004lComputing startup order ...
+[?2004hroot@d796365c4a34:/app# python3 /app/validator.py | grep -A 1 'Computing startup order'
+[?2004lComputing startup order ...
+  notification-service -> worker-service -> api-gateway -> auth-service -> cache-service
+[?2004hroot@d796365c4a34:/app# grep -A 25 'def compute_startup_order' /app/validator.py
+[?2004ldef compute_startup_order(services: list) -> list:
+    """
+    Return a topologically sorted startup order using Kahn's algorithm.
+    Dependencies must start before the services that depend on them.
+    """
+    names = [s["name"] for s in services]
+    deps_map = {s["name"]: s.get("dependencies", []) for s in services}
+
+    graph     = {n: [] for n in names}
+    in_degree = {n: 0 for n in names}
+
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    return order
+[?2004hroot@d796365c4a34:/app# sed -i 's/graph\[svc\].append(dep); in_degree\[dep\] += 1/graph[dep].append(svc); in_degree[svc] += 1/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# python3 /app/validator.py | grep -A 1 'Computing startup order'
+[?2004lComputing startup order ...
+  notification-service -> worker-service -> api-gateway -> auth-service -> cache-service
+[?2004hroot@d796365c4a34:/app# sed -n '62,68p' /app/validator.py
+[?2004l        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+[?2004hroot@d796365c4a34:/app# sed -i '64s/graph\[svc\].append(dep)/graph[dep].append(svc)/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -i '65s/in_degree\[dep\] += 1/in_degree[svc] += 1/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -n '62,68p' /app/validator.py
+[?2004l        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[dep] += 1
+
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+[?2004hroot@d796365c4a34:/app# sed -i '64,65c\            graph[dep].append(svc)\n            in_degree[svc] += 1' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -n '62,68p' /app/validator.py
+[?2004l        for dep in deps:
+            graph[svc].append(dep)
+            graph[dep].append(svc)
+            in_degree[svc] += 1
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+[?2004hroot@d796365c4a34:/app# sed -i '64d' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -n '62,68p' /app/validator.py
+[?2004l        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[svc] += 1
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+        node = queue.popleft()
+[?2004hroot@d796365c4a34:/app# sed -n '60,70p' /app/validator.py
+[?2004l
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[svc] += 1
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+[?2004hroot@d796365c4a34:/app# sed -i '65s/graph\[svc\].append(dep)/graph[dep].append(svc)/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -n '60,70p' /app/validator.py
+[?2004l
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[svc].append(dep)
+            in_degree[svc] += 1
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+[?2004hroot@d796365c4a34:/app# grep -n 'graph\[svc\]' /app/validator.py
+[?2004l63:            graph[svc].append(dep)
+[?2004hroot@d796365c4a34:/app# sed -i '63s/graph\[svc\].append(dep)/graph[dep].append(svc)/' /app/validator.py
+[?2004l[?2004hroot@d796365c4a34:/app# sed -n '60,70p' /app/validator.py
+[?2004l
+    for svc, deps in deps_map.items():
+        for dep in deps:
+            graph[dep].append(svc)
+            in_degree[svc] += 1
+    queue = deque(n for n in names if in_degree[n] == 0)
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+[?2004hroot@d796365c4a34:/app# python3 /app/validator.py | grep -A 1 'Computing startup order'
+[?2004lComputing startup order ...
+  auth-service -> cache-service -> api-gateway -> worker-service -> notification-service
+[?2004hroot@d796365c4a34:/app# python3 /app/validator.py
+[?2004lLoading deployment manifest ...
+Checking service health ...
+  auth-service              healthy    (HTTP 200)
+  api-gateway               healthy    (HTTP 200)
+  cache-service             healthy    (HTTP 200)
+  worker-service            healthy    (HTTP 200)
+  notification-service      healthy    (HTTP 200)
+Computing startup order ...
+  auth-service -> cache-service -> api-gateway -> worker-service -> notification-service
+Computing readiness score ...
+  score = 1.0000
+
+Report written to /app/deployment_report.json
+Overall status : healthy
+Readiness score: 1.0
+[?2004hroot@d796365c4a34:/app# cat /app/deployment_report.json
+[?2004l{
+  "deployment_name": "production-stack",
+  "overall_status": "healthy",
+  "readiness_score": 1.0,
+  "service_statuses": {
+    "auth-service": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "high"
+    },
+    "api-gateway": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "high"
+    },
+    "cache-service": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "medium"
+    },
+    "worker-service": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "low"
+    },
+    "notification-service": {
+      "status": "healthy",
+      "http_status": 200,
+      "criticality": "low"
+    }
+  },
+  "startup_order": [
+    "auth-service",
+    "cache-service",
+    "api-gateway",
+    "worker-service",
+    "notification-service"
+  ],
+  "critical_services_healthy": true,
+  "timestamp": "2026-02-27T21:19:38.297848+00:00"
+}[?2004hroot@d796365c4a34:/app# 

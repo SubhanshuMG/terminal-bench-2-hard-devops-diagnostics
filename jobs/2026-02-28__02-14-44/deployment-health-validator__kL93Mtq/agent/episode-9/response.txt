@@ -1,0 +1,10 @@
+{
+  "analysis": "The ps command is not available. Let me try to test the mock services directly by checking their endpoints with curl to see if they're responding.",
+  "plan": "I'll test a few of the service endpoints manually with curl to see if the mock services are actually running and responding.",
+  "commands": [
+    {
+      "keystrokes": "curl -v http://localhost:8081/health\n",
+      "duration": 2.0
+    }
+  ]
+}

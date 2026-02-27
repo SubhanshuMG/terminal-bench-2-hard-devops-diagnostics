@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! The validator is now working correctly and generating the exact report format expected. Let me verify the key aspects:\n\n1. **All required fields are present**: deployment_name, overall_status, readiness_score, service_statuses, startup_order, critical_services_healthy, timestamp\n2. **Correct overall_status**: 'degraded' because all high-criticality services (auth-service, api-gateway) are healthy, but readiness_score (0.9) < 0.95\n3. **Correct readiness_score**: 0.9 calculated as (3+3+2)/(3+3+2+1+1) = 8/10 = 0.8, but let me verify this\n4. **Correct startup_order**: Topological sort with dependencies respected\n5. **critical_services_healthy**: true because all high-criticality services are healthy\n6. **JSON health checking**: Working correctly - worker-service shows unhealthy despite HTTP 200 because its JSON status field indicates non-operational state\n\nLet me verify the readiness score calculation manually.",
+  "plan": "I'll test a few individual service endpoints to understand why worker-service is unhealthy, and verify the readiness score calculation is correct.",
+  "commands": [
+    {
+      "keystrokes": "curl -s http://localhost:8084/status | head -20\n",
+      "duration": 1.0
+    }
+  ]
+}

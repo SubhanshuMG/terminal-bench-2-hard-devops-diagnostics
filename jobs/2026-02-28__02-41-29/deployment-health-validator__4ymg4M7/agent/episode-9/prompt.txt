@@ -1,0 +1,5 @@
+New Terminal Output:
+
+root@72378ea739a0:/app# curl -s http://localhost:8083/ping && echo
+pong
+root@72378ea739a0:/app#

@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! The deployment report is correctly generated and matches the expected schema. All the key requirements are met:\n\n- ✅ All 5 services are loaded and validated\n- ✅ Service statuses show healthy/unhealthy correctly\n- ✅ HTTP status codes are captured\n- ✅ Criticality levels are preserved\n- ✅ Readiness score is calculated correctly (1.0 with all services healthy)\n- ✅ Overall status is 'healthy' (all high-criticality services healthy AND score >= 0.95)\n- ✅ Startup order is topologically correct\n- ✅ Critical_services_healthy is true\n- ✅ All required fields are present\n\nLet me also test edge cases to ensure the validator handles different scenarios correctly.",
+  "plan": "I'll test a few edge cases to ensure the validator works correctly in different scenarios. First, let me check what happens when we manually test the worker-service to see if it should actually be considered healthy or unhealthy.",
+  "commands": [
+    {
+      "keystrokes": "curl -s http://localhost:8084/status\n",
+      "duration": 1.0
+    }
+  ]
+}

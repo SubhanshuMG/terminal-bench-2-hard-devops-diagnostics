@@ -1,0 +1,10 @@
+{
+  "analysis": "Perfect! The deployment report is correctly generated and matches the expected schema exactly. All services are healthy, the readiness score is 1.0, the overall status is 'healthy', the startup order is correct (dependencies before dependents), and critical_services_healthy is true. Let me also verify that the readiness score calculation is working correctly by testing with different scenarios.",
+  "plan": "Let me test the validator with a more complex scenario. I'll stop one of the services to see if the validator correctly handles unhealthy services and recalculates the readiness score and overall status appropriately.",
+  "commands": [
+    {
+      "keystrokes": "curl http://localhost:8084/status\n",
+      "duration": 1.0
+    }
+  ]
+}

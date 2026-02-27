@@ -1,0 +1,9 @@
+New Terminal Output:
+
+root@2c18ab8ab423:/app# grep -A 2 -B 2 "return config" /app/validator.py
+        config = yaml.safe_load(f)
+    # Returns the top-level 'services' list from the manifest.
+    return config["deployment"]["services"]
+
+
+root@2c18ab8ab423:/app#

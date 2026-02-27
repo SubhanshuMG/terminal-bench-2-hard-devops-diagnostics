@@ -1,0 +1,5 @@
+New Terminal Output:
+
+}root@b64f4c940325:/app# curl -s http://localhost:8084/status | head -20
+{"queue_depth":1482,"status":"degraded"}
+root@b64f4c940325:/app#

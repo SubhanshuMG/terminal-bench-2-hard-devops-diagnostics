@@ -1,0 +1,13 @@
+New Terminal Output:
+
+}root@f07828e7747d:/app# echo 'Healthy services: auth-service(high=3), api-gateway(high=3), cache-service(medium=2)'
+Healthy services: auth-service(high=3), api-gateway(high=3), cache-service(medium=2)
+root@f07828e7747d:/app# echo 'Total weights: 3+3+2+1+1 = 10'
+Total weights: 3+3+2+1+1 = 10
+root@f07828e7747d:/app# echo 'Healthy weights: 3+3+2 = 8'
+Healthy weights: 3+3+2 = 8
+root@f07828e7747d:/app# echo 'Score: 8/10 = 0.8'
+Score: 8/10 = 0.8
+root@f07828e7747d:/app# echo 'But we got 0.9, let me check...'
+But we got 0.9, let me check...
+root@f07828e7747d:/app#

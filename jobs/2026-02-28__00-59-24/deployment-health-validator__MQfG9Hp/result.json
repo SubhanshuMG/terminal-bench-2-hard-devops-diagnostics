@@ -1,0 +1,123 @@
+{
+    "id": "a2290af2-6353-4259-8130-fbf1fb387586",
+    "task_name": "deployment-health-validator",
+    "trial_name": "deployment-health-validator__MQfG9Hp",
+    "trial_uri": "file:///Users/subhanshumohangupta/Desktop/git/github/terminal-bench-2-hard-devops-diagnostics/jobs/2026-02-28__00-59-24/deployment-health-validator__MQfG9Hp",
+    "task_id": {
+        "path": "deployment-health-validator"
+    },
+    "source": null,
+    "task_checksum": "df63f446c867bc1b8f51ca9c10a944ccb100f389b5dc592ddd4d121ce84ecc8d",
+    "config": {
+        "task": {
+            "path": "deployment-health-validator",
+            "git_url": null,
+            "git_commit_id": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": null
+        },
+        "trial_name": "deployment-health-validator__MQfG9Hp",
+        "trials_dir": "jobs/2026-02-28__00-59-24",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "terminus-2",
+            "import_path": null,
+            "model_name": "groq/moonshotai/kimi-k2-instruct-0905",
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {}
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "disable": false
+        },
+        "artifacts": [],
+        "job_id": "4f4f7a46-ab3c-4c8c-9163-34afdfb98771"
+    },
+    "agent_info": {
+        "name": "terminus-2",
+        "version": "2.0.0",
+        "model_info": {
+            "name": "moonshotai/kimi-k2-instruct-0905",
+            "provider": "groq"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 164754,
+        "n_cache_tokens": 141568,
+        "n_output_tokens": 6761,
+        "cost_usd": 0.11425300000000002,
+        "rollout_details": [],
+        "metadata": {
+            "n_episodes": 21,
+            "api_request_times_msec": [
+                887.627124786377,
+                740.6578063964844,
+                975.0669002532959,
+                1574.0728378295898,
+                744.0648078918457,
+                943.6421394348145,
+                847.9950428009033,
+                773.9582061767578,
+                646.1179256439209,
+                4373.902797698975,
+                1004.871129989624,
+                1189.1939640045166,
+                1175.9920120239258,
+                1402.540683746338,
+                1107.499599456787,
+                6959.312915802002,
+                1450.7088661193848,
+                964.3712043762207,
+                1891.4780616760254,
+                2495.5248832702637,
+                2423.3038425445557
+            ],
+            "summarization_count": 0
+        }
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 1.0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-02-27T19:29:24.478874Z",
+    "finished_at": "2026-02-27T19:30:43.420302Z",
+    "environment_setup": {
+        "started_at": "2026-02-27T19:29:24.480585Z",
+        "finished_at": "2026-02-27T19:29:27.969816Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-02-27T19:29:27.969865Z",
+        "finished_at": "2026-02-27T19:29:43.960653Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-02-27T19:29:43.960845Z",
+        "finished_at": "2026-02-27T19:30:38.355278Z"
+    },
+    "verifier": {
+        "started_at": "2026-02-27T19:30:38.355509Z",
+        "finished_at": "2026-02-27T19:30:41.889227Z"
+    }
+}

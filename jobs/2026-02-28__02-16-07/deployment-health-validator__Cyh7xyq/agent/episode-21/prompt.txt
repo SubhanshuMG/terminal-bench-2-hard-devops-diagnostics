@@ -1,0 +1,13 @@
+New Terminal Output:
+
+root@eb68a1250306:/app# sed -i '30,48c\ndef check_health(service: dict) -> dict:\n    """Probe a single service and return its health record."""\n    url = f"ht
+tp://127.0.0.1:{service[\'port\']}{service[\'health_endpoint\']}"\n    try:\n        resp = requests.get(url, timeout=5)\n        \n        # For non-200 respon
+ses, service is unhealthy\n        if resp.status_code != 200:\n            return {\n                "status": "unhealthy",\n                "http_status": res
+p.status_code,\n                "criticality": service["criticality"],\n            }\n        \n        # Try to parse as JSON\n        try:\n            data
+= resp.json()\n            # For JSON responses, check if status indicates operational state\n            # Common operational states: \'ok\', \'healthy\', \'up
+\', \'running\'\n            operational_states = [\'ok\', \'healthy\', \'up\', \'running\']\n            json_status = data.get(\'status\', \'\').lower()\n
+        healthy = json_status in operational_states\n        except (ValueError, json.JSONDecodeError):\n            # For non-JSON responses, HTTP 200 is suffi
+cient\n            healthy = True\n        \n        return {\n            "status": "healthy" if healthy else "unhealthy",\n            "http_status": resp.sta
+tus_code,\n            "criticality": service["criticality"],\n        }\n    except requests.exceptions.RequestException:\n        return {\n            "statu
+s": "unhealthy",\n            "http_status": 0,\n            "criticality": service["criticality"],\n        }' validator.py
+>

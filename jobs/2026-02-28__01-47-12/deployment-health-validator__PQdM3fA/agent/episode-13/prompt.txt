@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@f2aeb2d60bea:/app# cp /app/validator.py /app/validator_broken.py
+root@f2aeb2d60bea:/app#

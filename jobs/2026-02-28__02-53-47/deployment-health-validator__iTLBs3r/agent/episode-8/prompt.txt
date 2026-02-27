@@ -1,0 +1,4 @@
+New Terminal Output:
+
+root@f7ccf0afebe9:/app# cp /app/validator.py /app/validator.py.backup
+root@f7ccf0afebe9:/app#

@@ -1,0 +1,10 @@
+{
+  "analysis": "The pkill command isn't available, but it looks like the mock services process finished. Let me check what processes are running and use a different approach to clean up the ports.",
+  "plan": "I'll use ps to see what's running, then use kill to stop any processes using the ports. After that, I'll restart the mock services cleanly.",
+  "commands": [
+    {
+      "keystrokes": "ps aux | grep mock\n",
+      "duration": 0.1
+    }
+  ]
+}

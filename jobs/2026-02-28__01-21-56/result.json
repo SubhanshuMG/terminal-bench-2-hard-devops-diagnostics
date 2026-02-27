@@ -1,0 +1,27 @@
+{
+    "id": "ef770d75-ebf9-43eb-975d-4f09822a4285",
+    "started_at": "2026-02-28T01:21:56.736345",
+    "finished_at": "2026-02-28T01:22:33.483324",
+    "n_total_trials": 1,
+    "stats": {
+        "n_trials": 1,
+        "n_errors": 1,
+        "evals": {
+            "terminus-2__kimi-k2-instruct-0905__adhoc": {
+                "n_trials": 0,
+                "n_errors": 1,
+                "metrics": [
+                    {
+                        "mean": 0.0
+                    }
+                ],
+                "reward_stats": {},
+                "exception_stats": {
+                    "BadRequestError": [
+                        "deployment-health-validator__ibUQPNc"
+                    ]
+                }
+            }
+        }
+    }
+}

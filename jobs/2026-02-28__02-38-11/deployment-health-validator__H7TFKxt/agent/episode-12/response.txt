@@ -1,0 +1,10 @@
+{
+  "analysis": "Good, the check_health function is added. Now I need to add the compute_startup_order function with the fixed topological sort logic where dependencies point to dependents.",
+  "plan": "I'll add the compute_startup_order function with the corrected logic for topological sorting, then continue with the other functions.",
+  "commands": [
+    {
+      "keystrokes": "cat >> validator.py << 'EOF'\n\ndef compute_startup_order(services: list) -> list:\n    names = [s[\"name\"] for s in services]\n    deps_map = {s[\"name\"]: s.get(\"dependencies\", []) for s in services}\n    graph = {n: [] for n in names}\n    in_degree = {n: 0 for n in names}\n    for svc, deps in deps_map.items():\n        for dep in deps:\n            graph[dep].append(svc)\n            in_degree[svc] += 1\n    queue = deque(n for n in names if in_degree[n] == 0)\n    order = []\n    while queue:\n        node = queue.popleft()\n        order.append(node)\n        for neighbor in graph[node]:\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n                queue.append(neighbor)\n    return order\nEOF\n",
+      "duration": 0.1
+    }
+  ]
+}
