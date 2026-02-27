@@ -1,4 +1,4 @@
-# Terminal Bench 2.0 — Hard DevOps Task Submission
+# Terminal Bench 2.0 : Hard DevOps Task Submission
 
 **Task**: Deployment Health Validator
 **Difficulty**: Hard
@@ -29,7 +29,7 @@ deployment-health-validator/
 ├── solution/
 │   └── solve.sh                    # Oracle solution — fixes all 5 bugs
 └── tests/
-    └── test_outputs.py             # 18 pytest assertions verifying the JSON report
+    └── test_outputs.py             # 19 pytest assertions verifying the JSON report
 ```
 
 ---
@@ -230,13 +230,14 @@ Getting the agent success rate into the "hard" range (> 0% and ≤ 70%) required
 
 ---
 
-## Test Suite (18 tests)
+## Test Suite (19 tests)
 
 ```
 tests/test_outputs.py
 ├── test_report_file_exists
 ├── test_report_top_level_keys
 ├── test_deployment_name
+├── test_timestamp_format                  ← validates ISO 8601 UTC format
 ├── test_all_five_services_present
 ├── test_auth_service_healthy
 ├── test_api_gateway_healthy
@@ -255,12 +256,3 @@ tests/test_outputs.py
 ```
 
 ---
-
-## Submission
-
-```bash
-cd /path/to/terminal-bench-2-hard-devops-diagnostics
-zip -r deployment-health-validator.zip deployment-health-validator/
-```
-
-Submit at: https://forms.gle/jJfsy546UKWJb9276
