@@ -189,8 +189,11 @@ harbor run -p ./deployment-health-validator -a oracle -q
 export GROQ_API_KEY=<your-key>
 harbor run -p ./deployment-health-validator \
     -a terminus-2 \
-    -m groq/moonshotai/kimi-k2-instruct-0905
+    -m groq/moonshotai/kimi-k2-instruct-0905 \
+    -k 10
 ```
+
+> **Note**: `-k` sets the number of trial attempts (k=10 is required to meet difficulty calibration). `-n` is for concurrent threads across those k attempts.
 
 ### Test the solution manually
 
